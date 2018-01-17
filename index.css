@@ -1,0 +1,1373 @@
+body {
+  background: #332532;
+  height: 100vh;
+  overflow: hidden;
+}
+
+img { position: absolute; left: 10%; top: 5%; height: 80%; width: 80%}
+
+#ui {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+#ui .cover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 380px;
+  height: 380px;
+  background: #332532;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+  box-shadow: 0 0 50px 10px rgba(255, 171, 79, 0.5);
+}
+#ui .sun {
+  position: absolute;
+  width: 1000px;
+  height: 1000px;
+  transform: translate(-50%, -50%);
+  background: #4b3649;
+  filter: blur(10px) contrast(15);
+}
+#ui .sun_border {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  border: 15px solid #eb40ad;
+  border-radius: 100%;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+}
+#ui .sun_fire {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+}
+#ui .sun_fire_inner {
+  box-sizing: border-box;
+}
+#ui .sun_fire:nth-child(1) {
+  animation: sunFire 5529ms infinite linear;
+}
+#ui .sun_fire:nth-child(1) .sun_fire_inner {
+  width: 71px;
+  height: 71px;
+  border-top: 6px solid #284787;
+  border-right: 8px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 41% 31% 39% 60%;
+  animation: sunFireInner 3619ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(2) {
+  animation: sunFire 10111ms infinite linear;
+}
+#ui .sun_fire:nth-child(2) .sun_fire_inner {
+  width: 126px;
+  height: 126px;
+  border-top: 8px solid #284787;
+  border-right: 11px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 61% 28% 41% 19%;
+  animation: sunFireInner 2369ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(3) {
+  animation: sunFire 7419ms infinite linear;
+}
+#ui .sun_fire:nth-child(3) .sun_fire_inner {
+  width: 100px;
+  height: 100px;
+  border-top: 11px solid #284787;
+  border-right: 11px solid #284787;
+  border-bottom: 14px solid #284787;
+  border-left: 9px solid #284787;
+  border-radius: 78% 44% 32% 31%;
+  animation: sunFireInner 3942ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(4) {
+  animation: sunFire 9695ms infinite linear;
+}
+#ui .sun_fire:nth-child(4) .sun_fire_inner {
+  width: 140px;
+  height: 140px;
+  border-top: 12px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 7px solid #284787;
+  border-left: 15px solid #284787;
+  border-radius: 18% 78% 69% 11%;
+  animation: sunFireInner 3221ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(5) {
+  animation: sunFire 10535ms infinite linear;
+}
+#ui .sun_fire:nth-child(5) .sun_fire_inner {
+  width: 113px;
+  height: 113px;
+  border-top: 11px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 8px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 37% 17% 16% 76%;
+  animation: sunFireInner 3759ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(6) {
+  animation: sunFire 11595ms infinite linear;
+}
+#ui .sun_fire:nth-child(6) .sun_fire_inner {
+  width: 70px;
+  height: 70px;
+  border-top: 13px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 15px solid #284787;
+  border-radius: 68% 24% 80% 41%;
+  animation: sunFireInner 3780ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(7) {
+  animation: sunFire 13699ms infinite linear;
+}
+#ui .sun_fire:nth-child(7) .sun_fire_inner {
+  width: 46px;
+  height: 46px;
+  border-top: 14px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 52% 43% 14% 14%;
+  animation: sunFireInner 4447ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(8) {
+  animation: sunFire 8311ms infinite linear;
+}
+#ui .sun_fire:nth-child(8) .sun_fire_inner {
+  width: 91px;
+  height: 91px;
+  border-top: 9px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 70% 37% 41% 18%;
+  animation: sunFireInner 4536ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(9) {
+  animation: sunFire 13922ms infinite linear;
+}
+#ui .sun_fire:nth-child(9) .sun_fire_inner {
+  width: 129px;
+  height: 129px;
+  border-top: 11px solid #284787;
+  border-right: 14px solid #284787;
+  border-bottom: 9px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 34% 34% 77% 26%;
+  animation: sunFireInner 3614ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(10) {
+  animation: sunFire 5749ms infinite linear;
+}
+#ui .sun_fire:nth-child(10) .sun_fire_inner {
+  width: 99px;
+  height: 99px;
+  border-top: 8px solid #284787;
+  border-right: 11px solid #284787;
+  border-bottom: 7px solid #284787;
+  border-left: 12px solid #284787;
+  border-radius: 51% 71% 63% 47%;
+  animation: sunFireInner 4521ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(11) {
+  animation: sunFire 13675ms infinite linear;
+}
+#ui .sun_fire:nth-child(11) .sun_fire_inner {
+  width: 116px;
+  height: 116px;
+  border-top: 6px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 6px solid #284787;
+  border-radius: 17% 27% 55% 76%;
+  animation: sunFireInner 2104ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(12) {
+  animation: sunFire 6255ms infinite linear;
+}
+#ui .sun_fire:nth-child(12) .sun_fire_inner {
+  width: 60px;
+  height: 60px;
+  border-top: 12px solid #284787;
+  border-right: 14px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 23% 13% 77% 53%;
+  animation: sunFireInner 3249ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(13) {
+  animation: sunFire 6942ms infinite linear;
+}
+#ui .sun_fire:nth-child(13) .sun_fire_inner {
+  width: 56px;
+  height: 56px;
+  border-top: 13px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 12px solid #284787;
+  border-radius: 29% 30% 21% 16%;
+  animation: sunFireInner 2417ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(14) {
+  animation: sunFire 5348ms infinite linear;
+}
+#ui .sun_fire:nth-child(14) .sun_fire_inner {
+  width: 103px;
+  height: 103px;
+  border-top: 7px solid #284787;
+  border-right: 11px solid #284787;
+  border-bottom: 13px solid #284787;
+  border-left: 13px solid #284787;
+  border-radius: 75% 72% 56% 59%;
+  animation: sunFireInner 2327ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(15) {
+  animation: sunFire 14204ms infinite linear;
+}
+#ui .sun_fire:nth-child(15) .sun_fire_inner {
+  width: 136px;
+  height: 136px;
+  border-top: 11px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 14px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 28% 18% 60% 56%;
+  animation: sunFireInner 3198ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(16) {
+  animation: sunFire 9971ms infinite linear;
+}
+#ui .sun_fire:nth-child(16) .sun_fire_inner {
+  width: 94px;
+  height: 94px;
+  border-top: 14px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 9px solid #284787;
+  border-radius: 23% 49% 67% 31%;
+  animation: sunFireInner 2431ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(17) {
+  animation: sunFire 8692ms infinite linear;
+}
+#ui .sun_fire:nth-child(17) .sun_fire_inner {
+  width: 52px;
+  height: 52px;
+  border-top: 13px solid #284787;
+  border-right: 14px solid #284787;
+  border-bottom: 6px solid #284787;
+  border-left: 13px solid #284787;
+  border-radius: 77% 31% 16% 28%;
+  animation: sunFireInner 2999ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(18) {
+  animation: sunFire 7819ms infinite linear;
+}
+#ui .sun_fire:nth-child(18) .sun_fire_inner {
+  width: 75px;
+  height: 75px;
+  border-top: 8px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 30% 26% 77% 60%;
+  animation: sunFireInner 2742ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(19) {
+  animation: sunFire 8243ms infinite linear;
+}
+#ui .sun_fire:nth-child(19) .sun_fire_inner {
+  width: 140px;
+  height: 140px;
+  border-top: 10px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 15px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 39% 27% 75% 16%;
+  animation: sunFireInner 2554ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(20) {
+  animation: sunFire 12744ms infinite linear;
+}
+#ui .sun_fire:nth-child(20) .sun_fire_inner {
+  width: 97px;
+  height: 97px;
+  border-top: 8px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 14px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 18% 71% 31% 62%;
+  animation: sunFireInner 3576ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(21) {
+  animation: sunFire 12787ms infinite linear;
+}
+#ui .sun_fire:nth-child(21) .sun_fire_inner {
+  width: 105px;
+  height: 105px;
+  border-top: 12px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 8px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 73% 63% 74% 59%;
+  animation: sunFireInner 3669ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(22) {
+  animation: sunFire 11500ms infinite linear;
+}
+#ui .sun_fire:nth-child(22) .sun_fire_inner {
+  width: 85px;
+  height: 85px;
+  border-top: 6px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 8px solid #284787;
+  border-left: 12px solid #284787;
+  border-radius: 64% 71% 43% 12%;
+  animation: sunFireInner 4210ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(23) {
+  animation: sunFire 7520ms infinite linear;
+}
+#ui .sun_fire:nth-child(23) .sun_fire_inner {
+  width: 58px;
+  height: 58px;
+  border-top: 14px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 49% 13% 68% 53%;
+  animation: sunFireInner 4026ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(24) {
+  animation: sunFire 13216ms infinite linear;
+}
+#ui .sun_fire:nth-child(24) .sun_fire_inner {
+  width: 46px;
+  height: 46px;
+  border-top: 6px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 7px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 41% 78% 40% 56%;
+  animation: sunFireInner 2372ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(25) {
+  animation: sunFire 9112ms infinite linear;
+}
+#ui .sun_fire:nth-child(25) .sun_fire_inner {
+  width: 111px;
+  height: 111px;
+  border-top: 11px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 15px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 58% 74% 16% 79%;
+  animation: sunFireInner 4994ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(26) {
+  animation: sunFire 11191ms infinite linear;
+}
+#ui .sun_fire:nth-child(26) .sun_fire_inner {
+  width: 45px;
+  height: 45px;
+  border-top: 11px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 8px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 78% 73% 79% 34%;
+  animation: sunFireInner 4110ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(27) {
+  animation: sunFire 13782ms infinite linear;
+}
+#ui .sun_fire:nth-child(27) .sun_fire_inner {
+  width: 117px;
+  height: 117px;
+  border-top: 13px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 13% 69% 30% 62%;
+  animation: sunFireInner 4101ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(28) {
+  animation: sunFire 12968ms infinite linear;
+}
+#ui .sun_fire:nth-child(28) .sun_fire_inner {
+  width: 134px;
+  height: 134px;
+  border-top: 12px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 14px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 78% 25% 76% 29%;
+  animation: sunFireInner 3696ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(29) {
+  animation: sunFire 14037ms infinite linear;
+}
+#ui .sun_fire:nth-child(29) .sun_fire_inner {
+  width: 87px;
+  height: 87px;
+  border-top: 15px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 76% 32% 49% 39%;
+  animation: sunFireInner 2905ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(30) {
+  animation: sunFire 6916ms infinite linear;
+}
+#ui .sun_fire:nth-child(30) .sun_fire_inner {
+  width: 114px;
+  height: 114px;
+  border-top: 6px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 54% 77% 32% 31%;
+  animation: sunFireInner 4122ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(31) {
+  animation: sunFire 14644ms infinite linear;
+}
+#ui .sun_fire:nth-child(31) .sun_fire_inner {
+  width: 74px;
+  height: 74px;
+  border-top: 7px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 15px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 47% 57% 75% 61%;
+  animation: sunFireInner 3276ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(32) {
+  animation: sunFire 13220ms infinite linear;
+}
+#ui .sun_fire:nth-child(32) .sun_fire_inner {
+  width: 72px;
+  height: 72px;
+  border-top: 6px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 13px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 26% 50% 66% 16%;
+  animation: sunFireInner 4039ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(33) {
+  animation: sunFire 14525ms infinite linear;
+}
+#ui .sun_fire:nth-child(33) .sun_fire_inner {
+  width: 97px;
+  height: 97px;
+  border-top: 13px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 13px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 74% 35% 50% 35%;
+  animation: sunFireInner 4906ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(34) {
+  animation: sunFire 5607ms infinite linear;
+}
+#ui .sun_fire:nth-child(34) .sun_fire_inner {
+  width: 87px;
+  height: 87px;
+  border-top: 10px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 6px solid #284787;
+  border-radius: 80% 32% 55% 62%;
+  animation: sunFireInner 4262ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(35) {
+  animation: sunFire 10664ms infinite linear;
+}
+#ui .sun_fire:nth-child(35) .sun_fire_inner {
+  width: 46px;
+  height: 46px;
+  border-top: 7px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 55% 70% 32% 51%;
+  animation: sunFireInner 3974ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(36) {
+  animation: sunFire 10907ms infinite linear;
+}
+#ui .sun_fire:nth-child(36) .sun_fire_inner {
+  width: 41px;
+  height: 41px;
+  border-top: 7px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 11% 41% 30% 14%;
+  animation: sunFireInner 4022ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(37) {
+  animation: sunFire 9031ms infinite linear;
+}
+#ui .sun_fire:nth-child(37) .sun_fire_inner {
+  width: 62px;
+  height: 62px;
+  border-top: 14px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 6px solid #284787;
+  border-left: 9px solid #284787;
+  border-radius: 41% 79% 68% 75%;
+  animation: sunFireInner 3629ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(38) {
+  animation: sunFire 10744ms infinite linear;
+}
+#ui .sun_fire:nth-child(38) .sun_fire_inner {
+  width: 89px;
+  height: 89px;
+  border-top: 6px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 9px solid #284787;
+  border-left: 15px solid #284787;
+  border-radius: 54% 49% 26% 55%;
+  animation: sunFireInner 2718ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(39) {
+  animation: sunFire 13020ms infinite linear;
+}
+#ui .sun_fire:nth-child(39) .sun_fire_inner {
+  width: 51px;
+  height: 51px;
+  border-top: 6px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 40% 72% 57% 77%;
+  animation: sunFireInner 2533ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(40) {
+  animation: sunFire 5709ms infinite linear;
+}
+#ui .sun_fire:nth-child(40) .sun_fire_inner {
+  width: 104px;
+  height: 104px;
+  border-top: 15px solid #284787;
+  border-right: 11px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 9px solid #284787;
+  border-radius: 22% 13% 67% 23%;
+  animation: sunFireInner 2740ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(41) {
+  animation: sunFire 9622ms infinite linear;
+}
+#ui .sun_fire:nth-child(41) .sun_fire_inner {
+  width: 61px;
+  height: 61px;
+  border-top: 11px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 12px solid #284787;
+  border-radius: 57% 51% 78% 31%;
+  animation: sunFireInner 3472ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(42) {
+  animation: sunFire 11306ms infinite linear;
+}
+#ui .sun_fire:nth-child(42) .sun_fire_inner {
+  width: 81px;
+  height: 81px;
+  border-top: 6px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 6px solid #284787;
+  border-radius: 72% 58% 24% 25%;
+  animation: sunFireInner 4038ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(43) {
+  animation: sunFire 12746ms infinite linear;
+}
+#ui .sun_fire:nth-child(43) .sun_fire_inner {
+  width: 127px;
+  height: 127px;
+  border-top: 7px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 7px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 66% 61% 54% 55%;
+  animation: sunFireInner 3612ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(44) {
+  animation: sunFire 13332ms infinite linear;
+}
+#ui .sun_fire:nth-child(44) .sun_fire_inner {
+  width: 84px;
+  height: 84px;
+  border-top: 6px solid #284787;
+  border-right: 8px solid #284787;
+  border-bottom: 8px solid #284787;
+  border-left: 15px solid #284787;
+  border-radius: 14% 75% 48% 33%;
+  animation: sunFireInner 4010ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(45) {
+  animation: sunFire 14514ms infinite linear;
+}
+#ui .sun_fire:nth-child(45) .sun_fire_inner {
+  width: 90px;
+  height: 90px;
+  border-top: 6px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 13px solid #284787;
+  border-radius: 43% 47% 12% 66%;
+  animation: sunFireInner 3894ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(46) {
+  animation: sunFire 6954ms infinite linear;
+}
+#ui .sun_fire:nth-child(46) .sun_fire_inner {
+  width: 89px;
+  height: 89px;
+  border-top: 14px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 14px solid #284787;
+  border-left: 12px solid #284787;
+  border-radius: 74% 24% 40% 55%;
+  animation: sunFireInner 2326ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(47) {
+  animation: sunFire 12505ms infinite linear;
+}
+#ui .sun_fire:nth-child(47) .sun_fire_inner {
+  width: 128px;
+  height: 128px;
+  border-top: 15px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 12px solid #284787;
+  border-radius: 69% 35% 39% 25%;
+  animation: sunFireInner 2683ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(48) {
+  animation: sunFire 10873ms infinite linear;
+}
+#ui .sun_fire:nth-child(48) .sun_fire_inner {
+  width: 123px;
+  height: 123px;
+  border-top: 8px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 14px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 20% 77% 33% 54%;
+  animation: sunFireInner 4064ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(49) {
+  animation: sunFire 14538ms infinite linear;
+}
+#ui .sun_fire:nth-child(49) .sun_fire_inner {
+  width: 80px;
+  height: 80px;
+  border-top: 13px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 37% 13% 45% 38%;
+  animation: sunFireInner 2942ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(50) {
+  animation: sunFire 7215ms infinite linear;
+}
+#ui .sun_fire:nth-child(50) .sun_fire_inner {
+  width: 136px;
+  height: 136px;
+  border-top: 12px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 6px solid #284787;
+  border-radius: 34% 29% 29% 20%;
+  animation: sunFireInner 3450ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(51) {
+  animation: sunFire 12594ms infinite linear;
+}
+#ui .sun_fire:nth-child(51) .sun_fire_inner {
+  width: 48px;
+  height: 48px;
+  border-top: 8px solid #284787;
+  border-right: 14px solid #284787;
+  border-bottom: 13px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 40% 66% 37% 37%;
+  animation: sunFireInner 3311ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(52) {
+  animation: sunFire 8273ms infinite linear;
+}
+#ui .sun_fire:nth-child(52) .sun_fire_inner {
+  width: 134px;
+  height: 134px;
+  border-top: 9px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 6px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 57% 45% 39% 52%;
+  animation: sunFireInner 4456ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(53) {
+  animation: sunFire 11750ms infinite linear;
+}
+#ui .sun_fire:nth-child(53) .sun_fire_inner {
+  width: 44px;
+  height: 44px;
+  border-top: 13px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 9px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 57% 43% 58% 48%;
+  animation: sunFireInner 4346ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(54) {
+  animation: sunFire 10196ms infinite linear;
+}
+#ui .sun_fire:nth-child(54) .sun_fire_inner {
+  width: 134px;
+  height: 134px;
+  border-top: 9px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 6px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 78% 78% 59% 21%;
+  animation: sunFireInner 4418ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(55) {
+  animation: sunFire 7415ms infinite linear;
+}
+#ui .sun_fire:nth-child(55) .sun_fire_inner {
+  width: 65px;
+  height: 65px;
+  border-top: 12px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 8px solid #284787;
+  border-left: 15px solid #284787;
+  border-radius: 42% 23% 59% 41%;
+  animation: sunFireInner 4350ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(56) {
+  animation: sunFire 13015ms infinite linear;
+}
+#ui .sun_fire:nth-child(56) .sun_fire_inner {
+  width: 79px;
+  height: 79px;
+  border-top: 13px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 6px solid #284787;
+  border-radius: 76% 72% 56% 17%;
+  animation: sunFireInner 4807ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(57) {
+  animation: sunFire 9552ms infinite linear;
+}
+#ui .sun_fire:nth-child(57) .sun_fire_inner {
+  width: 107px;
+  height: 107px;
+  border-top: 7px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 14px solid #284787;
+  border-left: 9px solid #284787;
+  border-radius: 50% 25% 67% 36%;
+  animation: sunFireInner 4047ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(58) {
+  animation: sunFire 6052ms infinite linear;
+}
+#ui .sun_fire:nth-child(58) .sun_fire_inner {
+  width: 107px;
+  height: 107px;
+  border-top: 10px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 15px solid #284787;
+  border-radius: 51% 41% 38% 70%;
+  animation: sunFireInner 3602ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(59) {
+  animation: sunFire 11383ms infinite linear;
+}
+#ui .sun_fire:nth-child(59) .sun_fire_inner {
+  width: 49px;
+  height: 49px;
+  border-top: 7px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 49% 48% 31% 38%;
+  animation: sunFireInner 3188ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(60) {
+  animation: sunFire 13166ms infinite linear;
+}
+#ui .sun_fire:nth-child(60) .sun_fire_inner {
+  width: 90px;
+  height: 90px;
+  border-top: 7px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 8px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 74% 67% 12% 43%;
+  animation: sunFireInner 2746ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(61) {
+  animation: sunFire 5845ms infinite linear;
+}
+#ui .sun_fire:nth-child(61) .sun_fire_inner {
+  width: 136px;
+  height: 136px;
+  border-top: 11px solid #284787;
+  border-right: 11px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 15% 34% 26% 74%;
+  animation: sunFireInner 3581ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(62) {
+  animation: sunFire 8658ms infinite linear;
+}
+#ui .sun_fire:nth-child(62) .sun_fire_inner {
+  width: 108px;
+  height: 108px;
+  border-top: 8px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 6px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 25% 16% 73% 53%;
+  animation: sunFireInner 2590ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(63) {
+  animation: sunFire 14560ms infinite linear;
+}
+#ui .sun_fire:nth-child(63) .sun_fire_inner {
+  width: 81px;
+  height: 81px;
+  border-top: 8px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 14px solid #284787;
+  border-left: 12px solid #284787;
+  border-radius: 39% 22% 17% 24%;
+  animation: sunFireInner 2394ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(64) {
+  animation: sunFire 9313ms infinite linear;
+}
+#ui .sun_fire:nth-child(64) .sun_fire_inner {
+  width: 66px;
+  height: 66px;
+  border-top: 10px solid #284787;
+  border-right: 14px solid #284787;
+  border-bottom: 9px solid #284787;
+  border-left: 6px solid #284787;
+  border-radius: 48% 11% 57% 78%;
+  animation: sunFireInner 4752ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(65) {
+  animation: sunFire 5071ms infinite linear;
+}
+#ui .sun_fire:nth-child(65) .sun_fire_inner {
+  width: 84px;
+  height: 84px;
+  border-top: 6px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 13px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 32% 41% 44% 67%;
+  animation: sunFireInner 2895ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(66) {
+  animation: sunFire 11426ms infinite linear;
+}
+#ui .sun_fire:nth-child(66) .sun_fire_inner {
+  width: 58px;
+  height: 58px;
+  border-top: 8px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 13px solid #284787;
+  border-radius: 60% 15% 43% 44%;
+  animation: sunFireInner 2743ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(67) {
+  animation: sunFire 9110ms infinite linear;
+}
+#ui .sun_fire:nth-child(67) .sun_fire_inner {
+  width: 70px;
+  height: 70px;
+  border-top: 15px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 7px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 46% 16% 14% 68%;
+  animation: sunFireInner 4137ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(68) {
+  animation: sunFire 11572ms infinite linear;
+}
+#ui .sun_fire:nth-child(68) .sun_fire_inner {
+  width: 79px;
+  height: 79px;
+  border-top: 14px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 9px solid #284787;
+  border-left: 13px solid #284787;
+  border-radius: 45% 25% 79% 73%;
+  animation: sunFireInner 3693ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(69) {
+  animation: sunFire 14625ms infinite linear;
+}
+#ui .sun_fire:nth-child(69) .sun_fire_inner {
+  width: 70px;
+  height: 70px;
+  border-top: 10px solid #284787;
+  border-right: 14px solid #284787;
+  border-bottom: 15px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 46% 25% 18% 78%;
+  animation: sunFireInner 2069ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(70) {
+  animation: sunFire 10760ms infinite linear;
+}
+#ui .sun_fire:nth-child(70) .sun_fire_inner {
+  width: 51px;
+  height: 51px;
+  border-top: 7px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 9px solid #284787;
+  border-left: 15px solid #284787;
+  border-radius: 19% 17% 14% 67%;
+  animation: sunFireInner 4682ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(71) {
+  animation: sunFire 5430ms infinite linear;
+}
+#ui .sun_fire:nth-child(71) .sun_fire_inner {
+  width: 125px;
+  height: 125px;
+  border-top: 8px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 45% 32% 27% 41%;
+  animation: sunFireInner 4801ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(72) {
+  animation: sunFire 10724ms infinite linear;
+}
+#ui .sun_fire:nth-child(72) .sun_fire_inner {
+  width: 100px;
+  height: 100px;
+  border-top: 8px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 6px solid #284787;
+  border-left: 13px solid #284787;
+  border-radius: 61% 14% 53% 80%;
+  animation: sunFireInner 4708ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(73) {
+  animation: sunFire 6753ms infinite linear;
+}
+#ui .sun_fire:nth-child(73) .sun_fire_inner {
+  width: 140px;
+  height: 140px;
+  border-top: 11px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 7px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 22% 52% 19% 11%;
+  animation: sunFireInner 4581ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(74) {
+  animation: sunFire 10655ms infinite linear;
+}
+#ui .sun_fire:nth-child(74) .sun_fire_inner {
+  width: 103px;
+  height: 103px;
+  border-top: 15px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 13px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 61% 58% 17% 21%;
+  animation: sunFireInner 2093ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(75) {
+  animation: sunFire 8488ms infinite linear;
+}
+#ui .sun_fire:nth-child(75) .sun_fire_inner {
+  width: 127px;
+  height: 127px;
+  border-top: 12px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 42% 76% 70% 77%;
+  animation: sunFireInner 4312ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(76) {
+  animation: sunFire 10127ms infinite linear;
+}
+#ui .sun_fire:nth-child(76) .sun_fire_inner {
+  width: 42px;
+  height: 42px;
+  border-top: 11px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 15px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 75% 28% 38% 60%;
+  animation: sunFireInner 4700ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(77) {
+  animation: sunFire 8744ms infinite linear;
+}
+#ui .sun_fire:nth-child(77) .sun_fire_inner {
+  width: 57px;
+  height: 57px;
+  border-top: 15px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 6px solid #284787;
+  border-left: 6px solid #284787;
+  border-radius: 63% 55% 38% 73%;
+  animation: sunFireInner 4912ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(78) {
+  animation: sunFire 6318ms infinite linear;
+}
+#ui .sun_fire:nth-child(78) .sun_fire_inner {
+  width: 99px;
+  height: 99px;
+  border-top: 12px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 64% 32% 34% 65%;
+  animation: sunFireInner 2019ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(79) {
+  animation: sunFire 12097ms infinite linear;
+}
+#ui .sun_fire:nth-child(79) .sun_fire_inner {
+  width: 134px;
+  height: 134px;
+  border-top: 12px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 8px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 70% 29% 24% 26%;
+  animation: sunFireInner 3490ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(80) {
+  animation: sunFire 6711ms infinite linear;
+}
+#ui .sun_fire:nth-child(80) .sun_fire_inner {
+  width: 71px;
+  height: 71px;
+  border-top: 6px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 11px solid #284787;
+  border-left: 7px solid #284787;
+  border-radius: 67% 66% 67% 25%;
+  animation: sunFireInner 3649ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(81) {
+  animation: sunFire 12666ms infinite linear;
+}
+#ui .sun_fire:nth-child(81) .sun_fire_inner {
+  width: 82px;
+  height: 82px;
+  border-top: 8px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 8px solid #284787;
+  border-left: 15px solid #284787;
+  border-radius: 23% 36% 65% 70%;
+  animation: sunFireInner 3392ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(82) {
+  animation: sunFire 9517ms infinite linear;
+}
+#ui .sun_fire:nth-child(82) .sun_fire_inner {
+  width: 87px;
+  height: 87px;
+  border-top: 8px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 42% 44% 77% 38%;
+  animation: sunFireInner 3348ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(83) {
+  animation: sunFire 6196ms infinite linear;
+}
+#ui .sun_fire:nth-child(83) .sun_fire_inner {
+  width: 47px;
+  height: 47px;
+  border-top: 15px solid #284787;
+  border-right: 9px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 8px solid #284787;
+  border-radius: 79% 73% 67% 39%;
+  animation: sunFireInner 4171ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(84) {
+  animation: sunFire 5410ms infinite linear;
+}
+#ui .sun_fire:nth-child(84) .sun_fire_inner {
+  width: 115px;
+  height: 115px;
+  border-top: 9px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 9px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 77% 80% 19% 48%;
+  animation: sunFireInner 2253ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(85) {
+  animation: sunFire 9428ms infinite linear;
+}
+#ui .sun_fire:nth-child(85) .sun_fire_inner {
+  width: 80px;
+  height: 80px;
+  border-top: 11px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 9px solid #284787;
+  border-left: 13px solid #284787;
+  border-radius: 58% 14% 44% 71%;
+  animation: sunFireInner 2364ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(86) {
+  animation: sunFire 7808ms infinite linear;
+}
+#ui .sun_fire:nth-child(86) .sun_fire_inner {
+  width: 60px;
+  height: 60px;
+  border-top: 7px solid #284787;
+  border-right: 12px solid #284787;
+  border-bottom: 6px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 51% 24% 34% 65%;
+  animation: sunFireInner 3291ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(87) {
+  animation: sunFire 12443ms infinite linear;
+}
+#ui .sun_fire:nth-child(87) .sun_fire_inner {
+  width: 64px;
+  height: 64px;
+  border-top: 13px solid #284787;
+  border-right: 11px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 80% 63% 73% 52%;
+  animation: sunFireInner 4056ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(88) {
+  animation: sunFire 11330ms infinite linear;
+}
+#ui .sun_fire:nth-child(88) .sun_fire_inner {
+  width: 76px;
+  height: 76px;
+  border-top: 15px solid #284787;
+  border-right: 14px solid #284787;
+  border-bottom: 15px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 21% 30% 33% 27%;
+  animation: sunFireInner 3590ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(89) {
+  animation: sunFire 5412ms infinite linear;
+}
+#ui .sun_fire:nth-child(89) .sun_fire_inner {
+  width: 48px;
+  height: 48px;
+  border-top: 10px solid #284787;
+  border-right: 15px solid #284787;
+  border-bottom: 7px solid #284787;
+  border-left: 15px solid #284787;
+  border-radius: 38% 67% 78% 65%;
+  animation: sunFireInner 4426ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(90) {
+  animation: sunFire 8423ms infinite linear;
+}
+#ui .sun_fire:nth-child(90) .sun_fire_inner {
+  width: 130px;
+  height: 130px;
+  border-top: 12px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 10px solid #284787;
+  border-radius: 33% 43% 53% 64%;
+  animation: sunFireInner 4218ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(91) {
+  animation: sunFire 9736ms infinite linear;
+}
+#ui .sun_fire:nth-child(91) .sun_fire_inner {
+  width: 88px;
+  height: 88px;
+  border-top: 7px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 9px solid #284787;
+  border-radius: 34% 56% 70% 49%;
+  animation: sunFireInner 3478ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(92) {
+  animation: sunFire 5981ms infinite linear;
+}
+#ui .sun_fire:nth-child(92) .sun_fire_inner {
+  width: 63px;
+  height: 63px;
+  border-top: 7px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 15px solid #284787;
+  border-left: 12px solid #284787;
+  border-radius: 43% 38% 44% 28%;
+  animation: sunFireInner 4914ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(93) {
+  animation: sunFire 5394ms infinite linear;
+}
+#ui .sun_fire:nth-child(93) .sun_fire_inner {
+  width: 72px;
+  height: 72px;
+  border-top: 6px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 15px solid #284787;
+  border-left: 6px solid #284787;
+  border-radius: 20% 24% 24% 29%;
+  animation: sunFireInner 2438ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(94) {
+  animation: sunFire 7046ms infinite linear;
+}
+#ui .sun_fire:nth-child(94) .sun_fire_inner {
+  width: 129px;
+  height: 129px;
+  border-top: 10px solid #284787;
+  border-right: 11px solid #284787;
+  border-bottom: 7px solid #284787;
+  border-left: 13px solid #284787;
+  border-radius: 44% 66% 34% 49%;
+  animation: sunFireInner 4812ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(95) {
+  animation: sunFire 8440ms infinite linear;
+}
+#ui .sun_fire:nth-child(95) .sun_fire_inner {
+  width: 108px;
+  height: 108px;
+  border-top: 12px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 14px solid #284787;
+  border-radius: 60% 15% 72% 39%;
+  animation: sunFireInner 3804ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(96) {
+  animation: sunFire 14262ms infinite linear;
+}
+#ui .sun_fire:nth-child(96) .sun_fire_inner {
+  width: 121px;
+  height: 121px;
+  border-top: 11px solid #284787;
+  border-right: 6px solid #284787;
+  border-bottom: 6px solid #284787;
+  border-left: 12px solid #284787;
+  border-radius: 40% 38% 12% 30%;
+  animation: sunFireInner 2718ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(97) {
+  animation: sunFire 7579ms infinite linear;
+}
+#ui .sun_fire:nth-child(97) .sun_fire_inner {
+  width: 106px;
+  height: 106px;
+  border-top: 8px solid #284787;
+  border-right: 7px solid #284787;
+  border-bottom: 12px solid #284787;
+  border-left: 9px solid #284787;
+  border-radius: 38% 22% 15% 77%;
+  animation: sunFireInner 3280ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(98) {
+  animation: sunFire 10502ms infinite linear;
+}
+#ui .sun_fire:nth-child(98) .sun_fire_inner {
+  width: 53px;
+  height: 53px;
+  border-top: 8px solid #284787;
+  border-right: 14px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 9px solid #284787;
+  border-radius: 48% 70% 46% 17%;
+  animation: sunFireInner 3646ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(99) {
+  animation: sunFire 9677ms infinite linear;
+}
+#ui .sun_fire:nth-child(99) .sun_fire_inner {
+  width: 78px;
+  height: 78px;
+  border-top: 15px solid #284787;
+  border-right: 13px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 11px solid #284787;
+  border-radius: 53% 32% 25% 26%;
+  animation: sunFireInner 2683ms infinite alternate linear;
+}
+#ui .sun_fire:nth-child(100) {
+  animation: sunFire 11926ms infinite linear;
+}
+#ui .sun_fire:nth-child(100) .sun_fire_inner {
+  width: 125px;
+  height: 125px;
+  border-top: 9px solid #284787;
+  border-right: 10px solid #284787;
+  border-bottom: 10px solid #284787;
+  border-left: 13px solid #284787;
+  border-radius: 76% 55% 74% 38%;
+  animation: sunFireInner 2338ms infinite alternate linear;
+}
+
+@keyframes sunFire {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+@keyframes sunFireInner {
+  0% {
+    transform: translate(90px, -50%) rotateZ(0deg);
+  }
+  50% {
+    transform: translate(140px, -50%) rotateZ(180deg);
+  }
+  100% {
+    transform: translate(90px, -50%) rotateZ(360deg);
+  }
+}
+
