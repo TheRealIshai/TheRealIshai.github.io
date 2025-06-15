@@ -13,12 +13,16 @@ const Index = () => {
           <span className="font-semibold text-[#6dd4ff] ml-0.5 animate-[fade-in_1s_100ms_ease-out]">Water</span>
           <span className="font-light text-white ml-3 animate-[fade-in_1s_200ms_ease-out]">games studio</span>
         </h1>
-        <div className="my-12">
-          {/* Animated Logo */}
+        <div className="my-12 relative flex items-center justify-center">
+          {/* Animated Blue Flames Overlay */}
+          <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-10">
+            <div className="blue-flames" />
+          </div>
+          {/* Center Logo */}
           <img
-            src="/lovable-uploads/9b6836c0-ec9c-4ebb-b771-9cd8afd0251c.png"
+            src="/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png"
             alt="fireWater games studio logo"
-            className="w-[200px] md:w-[280px] h-auto drop-shadow-2xl animate-logo-pulse"
+            className="w-[200px] md:w-[280px] h-auto drop-shadow-2xl z-20"
             draggable={false}
             style={{ userSelect: "none" }}
           />

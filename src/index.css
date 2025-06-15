@@ -9,6 +9,94 @@
     animation: logo-pulse 2.6s cubic-bezier(0.6, 0, 0.6, 1) infinite;
   }
 }
+
+/* ----------- Animated Blue Flames ------------- */
+.blue-flames {
+  position: absolute;
+  bottom: -8%;
+  left: 50%;
+  width: 90%;
+  height: 60%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+  /* Give some visual blur for glowing effect */
+  filter: blur(6px) brightness(1.1) saturate(1.5);
+}
+.blue-flames::before,
+.blue-flames::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 70%;
+  height: 100%;
+  background: radial-gradient(ellipse at 50% 80%, #6dd4ff77 0%, #369cff44 60%, transparent 100%);
+  opacity: 0.65;
+  transform: translateX(-50%) scaleY(1) skewY(-5deg);
+  animation: blue-flame-main 2s infinite cubic-bezier(.4,0,.3,1.2) alternate;
+}
+
+.blue-flames::after {
+  background: radial-gradient(ellipse at 50% 90%, #8be7ff77 0%, #288acdcc 56%, transparent 100%);
+  left: 55%;
+  width: 60%;
+  opacity: 0.4;
+  animation: blue-flame-secondary 1.4s infinite cubic-bezier(.52,.1,.67,1.6) alternate-reverse;
+}
+
+/* Flickering-upward blue flame animation */
+@keyframes blue-flame-main {
+  0% {
+    opacity: 0.5;
+    height: 48%;
+    filter: blur(8px);
+    transform: translateX(-50%) scaleY(1) skewY(-5deg);
+  }
+  45% {
+    opacity: 0.85;
+    transform: translateX(-51%) scaleY(1.28) skewY(-4deg);
+  }
+  65% {
+    opacity: 0.9;
+    transform: translateX(-49%) scaleY(1.36) skewY(-8deg);
+  }
+  90% {
+    opacity: 0.56;
+    filter: blur(8px);
+    height: 90%;
+    transform: translateX(-52%) scaleY(1.01) skewY(-7deg);
+  }
+  100% {
+    opacity: 0.5;
+    height: 58%;
+    filter: blur(11px);
+    transform: translateX(-50%) scaleY(1.15) skewY(-10deg);
+  }
+}
+@keyframes blue-flame-secondary {
+  0% {
+    opacity: 0.2;
+    height: 30%;
+    filter: blur(13px);
+    transform: translateX(-43%) scaleY(1) skewY(-8deg);
+  }
+  50% {
+    opacity: 0.55;
+    filter: blur(7px);
+    height: 50%;
+    transform: translateX(-40%) scaleY(1.25) skewY(-6deg);
+  }
+  100% {
+    opacity: 0.2;
+    height: 36%;
+    filter: blur(10px);
+    transform: translateX(-44%) scaleY(1.03) skewY(-10deg);
+  }
+}
+/* -------------------------------------------- */
+
+/* Logo Pulse remains for reference. */
 @keyframes logo-pulse {
   0% {
     transform: scale(1) rotate(-2deg);
