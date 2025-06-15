@@ -11,6 +11,7 @@
 }
 
 /* ----------- Animated Blue Flames (Upwards, Codepen-inspired) ------------- */
+/* Reproduction of https://codepen.io/RebelJess/pen/BaZVGLq flame effect */
 .blue-flames {
   position: absolute;
   left: 50%;
@@ -22,7 +23,6 @@
   z-index: 10;
   contain: strict;
   overflow: visible;
-  /* For hi-res screens, allow scaling */
 }
 
 .blue-flame {
@@ -35,123 +35,64 @@
   filter: blur(3px) brightness(1.14) saturate(1.45);
   transform: translateX(-50%) scaleY(1.04);
   pointer-events: none;
+  background: none !important; /* Prevents unwanted background from Tailwind resets */
 }
 
-.blue-flame.f1 {
-  left: 30px;
-  width: 38px;
-  animation: blueFlameUp1 2.3s -.7s cubic-bezier(.6,0,.4,1.0) infinite;
-  opacity: 0.7;
+/* Individual flame flickers */
+.blue-flame.f1 { left: 30px; width: 38px; animation: flameAnim1 1.6s -.7s infinite cubic-bezier(.7, 0, .5, 1.0); opacity: 0.80; }
+.blue-flame.f2 { left: 64px; width: 50px; animation: flameAnim2 1.2s -.5s infinite cubic-bezier(.5, 0, .7, 1.0); opacity: 0.62; }
+.blue-flame.f3 { left: 106px; width: 44px; animation: flameAnim3 1.5s -.25s infinite cubic-bezier(.6, 0, .8, 1.0); opacity: 0.80; }
+.blue-flame.f4 { left: 154px; width: 34px; animation: flameAnim1 2.1s -.7s infinite cubic-bezier(.7,0,.6,1); opacity: 0.49;}
+.blue-flame.f5 { left: 180px; width: 28px; animation: flameAnim2 1.8s -.2s infinite cubic-bezier(.7,0,.7,1); opacity: .33;}
+
+/* Main layered flame (curve flickers upwards) */
+@keyframes flameAnim1 {
+  0%   { opacity: .7; filter: blur(4.5px) brightness(1.22); transform: translateX(-50%) scaleY(1.04) translateY(0) skewX(-1deg);}
+  15%  { opacity: 1; filter: blur(3.5px) brightness(1.27);}
+  23%  { transform: translateX(-53%) scaleY(1.09) scaleX(1.07) translateY(-12px) skewX(-2deg);}
+  35%  { filter: blur(2.2px); opacity: .82;}
+  55%  {opacity: 1;filter:blur(2px);}
+  76%  {filter: blur(1.2px) brightness(1.09);}
+  100% { opacity: .15; filter: blur(5.5px) brightness(1.07); transform: translateX(-50%) scaleY(1.01) scaleX(1.0) translateY(-38px);}
 }
-.blue-flame.f2 {
-  left: 64px;
-  width: 50px;
-  animation: blueFlameUp2 2s -.45s cubic-bezier(.5,0,.6,1.0) infinite;
-  opacity: 0.56;
+@keyframes flameAnim2 {
+  0%   { opacity: .37; filter:blur(7px); }
+  7%   { opacity: .77; filter:blur(3.5px);}
+  18%  { transform:translateX(-51%) scaleY(1.05) translateY(-13px) skewX(3deg);}
+  36%  { opacity:.68;  }
+  67%  { opacity:.95;  }
+  88%  { filter:blur(1.3px) brightness(1.21);}
+  100% { opacity:.09; filter:blur(7.2px); transform:translateX(-50%) scaleY(1.00) scaleX(1) translateY(-28px);}
 }
-.blue-flame.f3 {
-  left: 106px;
-  width: 44px;
-  animation: blueFlameUp3 1.8s -.32s cubic-bezier(.5,0,.4,1.0) infinite;
-  opacity: 0.7;
-}
-.blue-flame.f4 {
-  left: 154px;
-  width: 34px;
-  animation: blueFlameUp1 2.1s -.9s cubic-bezier(.6,0,.7,1.0) infinite;
-  opacity: 0.45;
-}
-.blue-flame.f5 {
-  left: 180px;
-  width: 28px;
-  animation: blueFlameUp2 2.4s -.2s cubic-bezier(.7,0,.6,1.0) infinite;
-  opacity: 0.37;
+@keyframes flameAnim3 {
+  0%   { opacity: .23; filter: blur(8px);}
+  5%   {opacity:.71; filter: blur(5px);}
+  16%  {filter:blur(3.1px) brightness(1.18);}
+  39%  {opacity:.83;}
+  52%  {filter:blur(2.2px);}
+  74%  {opacity:1.0;}
+  88%  {filter:blur(1.5px) brightness(1.31);}
+  100% { opacity:.05; filter:blur(6px); transform:translateX(-50%) scaleY(1) scaleX(1.0) translateY(-32px);}
 }
 
-/* Upward Wavy Motion Keyframes */
-@keyframes blueFlameUp1 {
-  0% {
-    transform: translateX(-50%) scaleY(1.03) scaleX(1) translateY(0);
-    opacity: 0.3;
-    filter: blur(4px) brightness(1.08);
-  }
-  12% {
-    opacity: 0.94;
-    filter: blur(2px) brightness(1.19);
-  }
-  23% {
-    transform: translateX(-53%) scaleY(1.16) scaleX(1.03) translateY(-20px) skewX(-3deg);
-  }
-  50% {
-    opacity: 0.8;
-    filter: blur(2px);
-    transform: translateX(-48%) scaleY(1.18) scaleX(0.98) translateY(-37px) skewX(2deg);
-  }
-  65% {
-    opacity: 0.99;
-    filter: blur(1.4px) brightness(1.24);
-    transform: translateX(-51%) scaleY(1.23) scaleX(1.01) translateY(-50px) skewX(-2deg);
-  }
-  100% {
-    opacity: 0.05;
-    filter: blur(5.5px) brightness(1.1);
-    transform: translateX(-50%) scaleY(1) scaleX(1) translateY(-70px);
-  }
+/* Fade + bounce in heading */
+@keyframes fade-in_1s_ease-out {
+  0% { opacity: 0; transform: translateY(14px); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; }
+}
+@keyframes fade-in_1s_100ms_ease-out {
+  0% { opacity: 0; transform: translateY(12px); }
+  10% { opacity: 0; }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in_1s_200ms_ease-out {
+  0% { opacity: 0; transform: translateY(20px); }
+  20% { opacity: 0; }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes blueFlameUp2 {
-  0% {
-    opacity: 0.2;
-    filter: blur(6px);
-    transform: translateX(-50%) scaleY(1) scaleX(1) translateY(0);
-  }
-  15% {
-    opacity: 0.7;
-    filter: blur(2.5px) brightness(1.1);
-    transform: translateX(-51%) scaleY(1.13) translateY(-13px) skewX(3deg);
-  }
-  40% {
-    opacity: 0.58;
-    transform: translateX(-49%) scaleY(1.31) scaleX(1.07) translateY(-32px) skewX(-2deg);
-  }
-  70% {
-    opacity: 0.9;
-    filter: blur(1.5px) brightness(1.16);
-    transform: translateX(-54%) scaleY(1.38) scaleX(0.95) translateY(-54px) skewX(0deg);
-  }
-  100% {
-    opacity: 0.02;
-    filter: blur(8px);
-    transform: translateX(-50%) scaleY(1) scaleX(1) translateY(-74px);
-  }
-}
-
-@keyframes blueFlameUp3 {
-  0% {
-    opacity: 0.2;
-    filter: blur(6px);
-    transform: translateX(-50%) scaleY(1) scaleX(1) translateY(0);
-  }
-  10% {
-    opacity: 0.85;
-    filter: blur(2.5px) brightness(1.18);
-    transform: translateX(-52%) scaleY(1.18) scaleX(1.06) translateY(-11px) skewX(-2deg);
-  }
-  30% {
-    opacity: 0.65;
-    transform: translateX(-53%) scaleY(1.18) scaleX(0.99) translateY(-25px) skewX(2deg);
-  }
-  62% {
-    opacity: 0.92;
-    transform: translateX(-47%) scaleY(1.34) scaleX(1.04) translateY(-53px) skewX(1deg);
-  }
-  100% {
-    opacity: 0.01;
-    filter: blur(7px);
-    transform: translateX(-50%) scaleY(1) scaleX(1) translateY(-68px);
-  }
-}
-/* Logo pulse for reference */
+/* Pulse logo for reference (unchanged) */
 @keyframes logo-pulse {
   0% {
     transform: scale(1) rotate(-2deg);
@@ -173,23 +114,6 @@
     transform: scale(1) rotate(-2deg);
     filter: drop-shadow(0 2px 32px #ff673799) drop-shadow(0 2px 32px #6dd4ff99);
   }
-}
-
-/* Heading fade-in animation */
-@keyframes fade-in_1s_ease-out {
-  0% { opacity: 0; transform: translateY(14px); }
-  90% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 1; }
-}
-@keyframes fade-in_1s_100ms_ease-out {
-  0% { opacity: 0; transform: translateY(12px); }
-  10% { opacity: 0; }
-  100% { opacity: 1; transform: translateY(0); }
-}
-@keyframes fade-in_1s_200ms_ease-out {
-  0% { opacity: 0; transform: translateY(20px); }
-  20% { opacity: 0; }
-  100% { opacity: 1; transform: translateY(0); }
 }
 
 /* ... keep existing code (the rest, if any) the same ... */
