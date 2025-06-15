@@ -14,10 +14,26 @@ const Index = () => {
           <span className="font-light text-white ml-3">games studio</span>
         </h1>
         <div className="my-12 relative flex items-center justify-center">
+          {/* Halo effect */}
+          <div
+            className="logo-halo"
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "290px",    // slightly wider than 280px logo for glow
+              height: "290px",
+              zIndex: 10,
+              pointerEvents: "none",
+              borderRadius: "50%",
+            }}
+          />
           <img
             src="/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png"
             alt="fireWater games studio logo"
-            className="w-[200px] md:w-[280px] h-auto drop-shadow-2xl z-20"
+            className="w-[200px] md:w-[280px] h-auto z-20"
             draggable={false}
             style={{ userSelect: "none" }}
           />
