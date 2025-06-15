@@ -9,20 +9,11 @@ const Index = () => {
       <div className="flex flex-1 flex-col items-center justify-center">
         {/* Logo & Heading */}
         <h1 className="text-5xl md:text-7xl font-semibold mb-8 mt-16 text-white select-none leading-tight">
-          <span className="font-semibold text-[#ff6737] animate-[fade-in_1s_ease-out]">fire</span>
-          <span className="font-semibold text-[#6dd4ff] ml-0.5 animate-[fade-in_1s_100ms_ease-out]">Water</span>
-          <span className="font-light text-white ml-3 animate-[fade-in_1s_200ms_ease-out]">games studio</span>
+          <span className="font-semibold text-[#ff6737]">fire</span>
+          <span className="font-semibold text-[#6dd4ff] ml-0.5">Water</span>
+          <span className="font-light text-white ml-3">games studio</span>
         </h1>
         <div className="my-12 relative flex items-center justify-center">
-          {/* Blue Flame Animation: Reference Copy */}
-          <div className="flame-box" aria-hidden>
-            <div className="flame flame1"></div>
-            <div className="flame flame2"></div>
-            <div className="flame flame3"></div>
-            <div className="flame flame4"></div>
-            <div className="flame flame5"></div>
-          </div>
-          {/* Center Logo */}
           <img
             src="/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png"
             alt="fireWater games studio logo"
@@ -36,7 +27,7 @@ const Index = () => {
       <footer className="w-full pb-12 flex justify-center">
         <Button 
           size="lg"
-          className="rounded-full px-8 py-4 text-lg font-semibold bg-[#262e44] text-white hover:bg-[#2e3857] shadow-lg transition-all flex gap-2 items-center animate-[fade-in_1s_200ms_ease-out]"
+          className="rounded-full px-8 py-4 text-lg font-semibold bg-[#262e44] text-white hover:bg-[#2e3857] shadow-lg transition-all flex gap-2 items-center"
         >
           <Contact className="w-5 h-5 mr-2" />
           Contact Us

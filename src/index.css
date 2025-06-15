@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -163,5 +162,3 @@
     filter: drop-shadow(0 2px 32px #ff673799) drop-shadow(0 2px 32px #6dd4ff99);
   }
 }
-
-/* ... keep existing code (the rest, if any) the same ... */
