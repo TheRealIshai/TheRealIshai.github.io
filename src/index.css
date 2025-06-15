@@ -1,164 +1,46 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Design system additions for fireWater branding */
-@layer components {
-  .animate-logo-pulse {
-    animation: logo-pulse 2.6s cubic-bezier(0.6, 0, 0.6, 1) infinite;
-  }
+.logo-glow-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* === BEGIN: Blue Flame Effect (from CodePen https://codepen.io/RebelJess/pen/BaZVGLq) === */
-/* Positioned absolutely under the logo */
-.flame-box {
+.logo-glow-container::before {
+  content: '';
   position: absolute;
-  left: 50%;
-  bottom: -20px;
-  transform: translateX(-50%);
-  width: 140px;
-  height: 120px;
-  z-index: 15;
-  pointer-events: none;
-  contain: strict;
+  z-index: -1; /* Places the glow behind the image */
+  inset: -4px; /* Creates the glow effect around the image by making the pseudo-element larger */
+  
+  /* A rotating gradient using the brand's fire and water colors */
+  background: conic-gradient(
+    from 180deg at 50% 50%, 
+    #6dd4ff 0deg, 
+    #ff6737 180deg, 
+    #6dd4ff 360deg
+  );
+  animation: rotate 4s linear infinite;
+
+  /* Use the logo image as a mask to shape the glow */
+  -webkit-mask-image: url('/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png');
+  mask-image: url('/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
-/* Common Properties for all flames */
-.flame {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 32px;
-  height: 92px;
-  background: radial-gradient(ellipse 15px 40px at 50% 80%, #6dcbfa 75%, #2738a3 100%);
-  border-radius: 48% 52% 42% 58% / 55% 35% 65% 45%;
-  opacity: 0.8;
-  filter: blur(0.5px) brightness(1.25) drop-shadow(0 -3px 9px #7ed9ff88);
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-/* Flame layering, size, blur, and animation timing as per the reference */
-.flame1 {
-  left: 21px;
-  width: 34px;
-  height: 87px;
-  background: radial-gradient(ellipse 15px 38px at 60% 80%, #6dcbfa 67%, #1b4b84 98%);
-  opacity: 0.82;
-  filter: blur(1.8px) brightness(1.19) drop-shadow(0 -4px 13px #22bfff77);
-  animation: blueflame-anim1 1.8s -0.5s infinite cubic-bezier(.74,0,.86,1.0);
-}
-
-.flame2 {
-  left: 49px;
-  width: 47px;
-  height: 108px;
-  background: radial-gradient(ellipse 14px 46px at 56% 75%, #b1e8f9 67%, #2bc9ff 98%);
-  opacity: 0.52;
-  filter: blur(3.5px) brightness(1.13);
-  animation: blueflame-anim2 2.2s -.85s infinite cubic-bezier(.90, 0, .42, 1.0);
-}
-
-.flame3 {
-  left: 85px;
-  width: 39px;
-  height: 98px;
-  background: radial-gradient(ellipse 15px 42px at 53% 78%, #b2e7ff 63%, #80a7ef 97%);
-  opacity: 0.34;
-  filter: blur(1.7px) brightness(1.23) drop-shadow(0 -4px 13px #bbdbf977);
-  animation: blueflame-anim3 2.1s -.33s infinite cubic-bezier(.63,0,.86,1.0);
-}
-
-.flame4 {
-  left: 112px;
-  width: 31px;
-  height: 89px;
-  background: radial-gradient(ellipse 12px 33px at 55% 70%, #79cafb 65%, #2a73b6 99%);
-  opacity: 0.69;
-  filter: blur(1.4px) brightness(1.15) drop-shadow(0 -4px 13px #6dd4ff77);
-  animation: blueflame-anim2 1.6s -.12s infinite cubic-bezier(.7, 0, .5, 1.0);
-}
-
-.flame5 {
-  left: 122px;
-  width: 22px;
-  height: 68px;
-  background: radial-gradient(ellipse 7px 19px at 43% 93%, #a3f5ff 70%, #45a7f3 100%);
-  opacity: 0.33;
-  filter: blur(2.8px) brightness(1.29);
-  animation: blueflame-anim1 2.41s -.91s infinite cubic-bezier(.8,0,.68,1.0);
-}
-
-/* Keyframes for unique blue-flames flicker and wobble motions */
-@keyframes blueflame-anim1 {
-  0%   { opacity: .8; transform: translateX(-50%) scaleX(1.02) scaleY(1.04) translateY(0) skewX(-2deg);}
-  13%  { opacity: 1;  filter: blur(1.6px) brightness(1.32);}
-  27%  { transform: translateX(-50%) scaleY(1.09) scaleX(1.09) translateY(-18px) skewX(-3deg);}
-  41%  { filter: blur(3.2px); opacity: .86;}
-  63%  {opacity: 1;filter:blur(2px);}
-  82%  {filter: blur(1.2px) brightness(1.2);}
-  100% { opacity: .12; filter: blur(2.8px) brightness(1.09); transform: translateX(-50%) scaleY(1.01) scaleX(1.0) translateY(-42px);}
-}
-@keyframes blueflame-anim2 {
-  0%   { opacity: .5; filter:blur(5.2px); }
-  18%  { opacity: .79; filter:blur(2.8px); }
-  31%  { transform:translateX(-50%) scaleY(1.09) translateY(-19px) skewX(2deg);}
-  48%  { opacity:.54;  }
-  63%  { filter:brightness(1.27);}
-  89%  { filter:blur(2.2px);}
-  100% { opacity:.08; filter:blur(4.6px); transform:translateX(-50%) scaleY(1.02) translateY(-29px);}
-}
-@keyframes blueflame-anim3 {
-  0%   { opacity: .39; filter: blur(6.4px);}
-  11%  {opacity:.71; filter: blur(3.1px);}
-  22%  {filter:blur(2.2px) brightness(1.18);}
-  49%  {opacity:.86;}
-  64%  {filter:blur(1.2px);}
-  77%  {opacity:.85;}
-  89%  {filter:blur(3.2px) brightness(1.19);}
-  100% { opacity:.04; filter:blur(4.7px); transform:translateX(-50%) scaleY(1.0) scaleX(1.0) translateY(-33px);}
-}
-
-/* === END: Blue Flame Effect from CodePen === */
-
-/* Fade + bounce in heading */
-@keyframes fade-in_1s_ease-out {
-  0% { opacity: 0; transform: translateY(14px); }
-  90% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 1; }
-}
-@keyframes fade-in_1s_100ms_ease-out {
-  0% { opacity: 0; transform: translateY(12px); }
-  10% { opacity: 0; }
-  100% { opacity: 1; transform: translateY(0); }
-}
-@keyframes fade-in_1s_200ms_ease-out {
-  0% { opacity: 0; transform: translateY(20px); }
-  20% { opacity: 0; }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-/* Pulse logo for reference (unchanged) */
-@keyframes logo-pulse {
-  0% {
-    transform: scale(1) rotate(-2deg);
-    filter: drop-shadow(0 2px 32px #ff673799) drop-shadow(0 2px 32px #6dd4ff99);
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
   }
-  30% {
-    transform: scale(1.045) rotate(1deg);
-    filter: drop-shadow(0 4px 38px #ff451030) drop-shadow(0 0px 28px #69e6ff44);
-  }
-  50% {
-    transform: scale(1.07) rotate(-1.5deg);
-    filter: drop-shadow(0 8px 44px #ff6737bb) drop-shadow(0 2px 36px #6dd4ffbb);
-  }
-  70% {
-    transform: scale(1.045) rotate(2deg);
-    filter: drop-shadow(0 4px 32px #ff451010) drop-shadow(0 0px 24px #69e6ff22);
-  }
-  100% {
-    transform: scale(1) rotate(-2deg);
-    filter: drop-shadow(0 2px 32px #ff673799) drop-shadow(0 2px 32px #6dd4ff99);
+  to {
+    transform: rotate(360deg);
   }
 }

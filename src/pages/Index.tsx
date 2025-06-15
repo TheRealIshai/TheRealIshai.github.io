@@ -14,13 +14,15 @@ const Index = () => {
           <span className="font-light text-white ml-3">games studio</span>
         </h1>
         <div className="my-12 relative flex items-center justify-center">
-          <img
-            src="/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png"
-            alt="fireWater games studio logo"
-            className="w-[200px] md:w-[280px] h-auto drop-shadow-2xl z-20"
-            draggable={false}
-            style={{ userSelect: "none" }}
-          />
+          <div className="logo-glow-container w-[200px] h-[200px] md:w-[280px] md:h-[280px]">
+            <img
+              src="/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png"
+              alt="fireWater games studio logo"
+              className="relative w-full h-full object-contain"
+              draggable={false}
+              style={{ userSelect: "none" }}
+            />
+          </div>
         </div>
       </div>
       {/* Contact Button at bottom */}
