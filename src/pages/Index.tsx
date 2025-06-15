@@ -18,9 +18,8 @@ const Index = () => {
             <img
               src="/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png"
               alt="fireWater games studio logo"
-              className="relative w-full h-full object-contain"
+              className="relative w-full h-full object-contain z-10 select-none"
               draggable={false}
-              style={{ userSelect: "none" }}
             />
           </div>
         </div>
