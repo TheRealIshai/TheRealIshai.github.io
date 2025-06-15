@@ -14,14 +14,13 @@ const Index = () => {
           <span className="font-light text-white ml-3 animate-[fade-in_1s_200ms_ease-out]">games studio</span>
         </h1>
         <div className="my-12 relative flex items-center justify-center">
-          {/* Animated Blue Flames Overlay */}
-          <div className="blue-flames" aria-hidden>
-            {/* SVG flame tongues layered - all these render as blue "flames" rising upward */}
-            <svg className="blue-flame f1" viewBox="0 0 38 110" fill="none"><path d="M18.6,110 C5,76 8,46 19,30 C24,23 21,11 15,4 Q25,12 29,28 q5,17 -4,37 q19,10 9,45 z" fill="#53cffd" fillOpacity="0.54" /></svg>
-            <svg className="blue-flame f2" viewBox="0 0 50 110" fill="none"><path d="M27,108 Q11,69 22,42 Q23,24 35,10 T40,24 Q43,31 37,45 Q53,60 32,100 z" fill="#9aeaff" fillOpacity="0.34" /></svg>
-            <svg className="blue-flame f3" viewBox="0 0 44 110" fill="none"><path d="M28,108 Q14,61 25,39 Q34,24 26,10 T38,25 Q45,35 36,57 Q53,75 30,110 z" fill="#d0f3fe" fillOpacity="0.21" /></svg>
-            <svg className="blue-flame f4" viewBox="0 0 34 110" fill="none"><path d="M12,109 Q8,74 18,56 Q18,35 28,16 T24,34 Q31,43 20,66 Q34,86 14,110 z" fill="#8addfc" fillOpacity="0.27" /></svg>
-            <svg className="blue-flame f5" viewBox="0 0 28 110" fill="none"><path d="M18,111 Q16,85 23,67 Q23,54 27,41 T19,43 Q26,55 17,72 Q28,92 18,112 z" fill="#5ad1fa" fillOpacity="0.18" /></svg>
+          {/* Blue Flame Animation: Reference Copy */}
+          <div className="flame-box" aria-hidden>
+            <div className="flame flame1"></div>
+            <div className="flame flame2"></div>
+            <div className="flame flame3"></div>
+            <div className="flame flame4"></div>
+            <div className="flame flame5"></div>
           </div>
           {/* Center Logo */}
           <img
@@ -48,4 +47,3 @@ const Index = () => {
 };
 
 export default Index;
-
