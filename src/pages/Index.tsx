@@ -14,6 +14,13 @@ const Index = () => {
           <span className="font-light text-white ml-3">games studio</span>
         </h1>
         <div className="my-12 relative flex items-center justify-center">
+          {/* Shimmer effect above logo */}
+          <div className="shimmer-container absolute top-[-65px] left-1/2 -translate-x-1/2 z-30 pointer-events-none w-[184px] h-8 flex items-center justify-center">
+            <span className="shimmer-text text-3xl md:text-4xl font-bold uppercase tracking-widest select-none">
+              SHIMMER
+            </span>
+          </div>
+          {/* Center Logo */}
           <img
             src="/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png"
             alt="fireWater games studio logo"

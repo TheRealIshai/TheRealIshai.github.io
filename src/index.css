@@ -162,3 +162,48 @@
     filter: drop-shadow(0 2px 32px #ff673799) drop-shadow(0 2px 32px #6dd4ff99);
   }
 }
+
+/* Shimmer Effect from simeydotme/pen/PoyzbPM */
+.shimmer-container {
+  /* responsive sizing handled by Tailwind on w-/h- classes */
+  overflow: visible;
+  /* pointer-events: none above */
+}
+.shimmer-text {
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  letter-spacing: 0.3em;
+  /* The following text-shadow is similar to the CodePen but altered for light backgrounds */
+  text-shadow:
+    0 1px 0 #5558,
+    0 2px 4px #fff8;
+  background: linear-gradient(
+    120deg,
+    #fff 25%,
+    #ffeda0 40%,
+    #ffe082 50%,
+    #ffeda0 60%,
+    #fff 80%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: brightness(1.08) drop-shadow(0 1px 1px #e8e8f7);
+
+  animation: shimmer-move 2.5s linear infinite;
+  /* fixes text-filling on Safari */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+@keyframes shimmer-move {
+  100% {
+    background-position: 200% center;
+  }
+  0% {
+    background-position: 0% center;
+  }
+}
