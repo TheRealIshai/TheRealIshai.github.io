@@ -1,12 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { Button } from "@/components/ui/button";
+import { Contact } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen w-full flex flex-col bg-[#171c2b] overflow-x-hidden">
+      {/* Centered Content */}
+      <div className="flex flex-1 flex-col items-center justify-center">
+        {/* Logo & Heading */}
+        <h1 className="text-5xl md:text-7xl font-semibold mb-8 mt-16 text-white select-none leading-tight">
+          <span className="font-semibold text-[#ff6737] animate-[fade-in_1s_ease-out]">fire</span>
+          <span className="font-semibold text-[#6dd4ff] ml-0.5 animate-[fade-in_1s_100ms_ease-out]">Water</span>
+          <span className="font-light text-white ml-3 animate-[fade-in_1s_200ms_ease-out]">games studio</span>
+        </h1>
+        <div className="my-12">
+          {/* Animated Logo */}
+          <img
+            src="/lovable-uploads/9b6836c0-ec9c-4ebb-b771-9cd8afd0251c.png"
+            alt="fireWater games studio logo"
+            className="w-[200px] md:w-[280px] h-auto drop-shadow-2xl animate-logo-pulse"
+            draggable={false}
+            style={{ userSelect: "none" }}
+          />
+        </div>
       </div>
+      {/* Contact Button at bottom */}
+      <footer className="w-full pb-12 flex justify-center">
+        <Button 
+          size="lg"
+          className="rounded-full px-8 py-4 text-lg font-semibold bg-[#262e44] text-white hover:bg-[#2e3857] shadow-lg transition-all flex gap-2 items-center animate-[fade-in_1s_200ms_ease-out]"
+        >
+          <Contact className="w-5 h-5 mr-2" />
+          Contact Us
+        </Button>
+      </footer>
     </div>
   );
 };
