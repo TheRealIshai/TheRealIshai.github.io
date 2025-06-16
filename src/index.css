@@ -13,7 +13,7 @@
 .logo-glow-container::before {
   content: '';
   position: absolute;
-  inset: -4px; /* Creates the glow effect around the image by making the pseudo-element larger */
+  inset: -7px; /* Increased from -4px to -7px for 3 more pixels of spread */
   
   /* An upward-glowing gradient using the brand's fire and water colors */
   background: linear-gradient(
@@ -24,6 +24,9 @@
   );
   background-size: 100% 200%;
   animation: glow-up 4s ease-in-out infinite;
+  
+  /* Added blur filter for 50% more blur effect */
+  filter: blur(3px);
 
   /* Use the logo image as a mask to shape the glow */
   -webkit-mask-image: url('/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png');
