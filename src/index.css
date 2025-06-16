@@ -13,17 +13,18 @@
 .logo-glow-container::before {
   content: '';
   position: absolute;
-  inset: -4px; /* Creates the glow effect around the image by making the pseudo-element larger */
+  inset: -8px; /* Increased to create more upward smearing */
   
-  /* An upward-glowing gradient using the brand's fire and water colors */
+  /* An upward-flowing flame-like gradient */
   background: linear-gradient(
     to top,
-    #6dd4ff, /* water */
-    #ff6737, /* fire */
-    #6dd4ff  /* water */
+    #6dd4ff 0%,   /* water at bottom */
+    #ff6737 40%,  /* fire in middle */
+    #ff6737 60%,  /* extended fire */
+    #6dd4ff 100%  /* water at top */
   );
-  background-size: 100% 200%;
-  animation: glow-up 4s ease-in-out infinite;
+  background-size: 100% 300%; /* Increased height for more smearing */
+  animation: glow-up 3s ease-in-out infinite;
 
   /* Use the logo image as a mask to shape the glow */
   -webkit-mask-image: url('/lovable-uploads/42621c03-1f32-4567-a024-ac089c67e648.png');
@@ -37,11 +38,13 @@
 }
 
 @keyframes glow-up {
-  0%,
-  100% {
-    background-position: 0 100%;
+  0% {
+    background-position: 0 120%; /* Start further down */
   }
   50% {
-    background-position: 0 0;
+    background-position: 0 -20%; /* Move further up */
+  }
+  100% {
+    background-position: 0 120%; /* Return to start */
   }
 }
