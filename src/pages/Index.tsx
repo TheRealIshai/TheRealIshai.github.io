@@ -12,10 +12,10 @@ const Index = () => {
       {/* Centered Content */}
       <div className="flex flex-1 flex-col items-center justify-center">
         {/* Logo & Heading */}
-        <h1 className="text-5xl md:text-7xl font-semibold mb-8 mt-16 text-white select-none leading-tight">
-          <span className="font-semibold text-[#ff6737]">fire</span>
-          <span className="font-semibold text-[#6dd4ff] ml-0.5">Water</span>
-          <span className="font-light text-white ml-3">games studio</span>
+        <h1 className="text-5xl md:text-7xl font-bold mb-8 mt-16 text-white select-none leading-tight font-orbitron">
+          <span className="font-bold text-[#ff6737]">fire</span>
+          <span className="font-bold text-[#6dd4ff] ml-0.5">Water</span>
+          <span className="font-normal text-white ml-3">games studio</span>
         </h1>
         <div className="my-12 relative flex items-center justify-center">
           <div className="logo-glow-container w-[200px] h-[200px] md:w-[280px] md:h-[280px]">
