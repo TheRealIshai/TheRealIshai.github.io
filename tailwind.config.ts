@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,7 +19,7 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'orbitron': ['Orbitron', 'sans-serif'],
+				'space-comics': ['Space Comics', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Contact } from "lucide-react";
 
@@ -12,7 +11,7 @@ const Index = () => {
       {/* Centered Content */}
       <div className="flex flex-1 flex-col items-center justify-center">
         {/* Logo & Heading */}
-        <h1 className="text-5xl md:text-7xl font-bold mb-8 mt-16 text-white select-none leading-tight font-orbitron">
+        <h1 className="text-5xl md:text-7xl font-bold mb-8 mt-16 text-white select-none leading-tight font-space-comics">
           <span className="font-bold text-[#ff6737]">fire</span>
           <span className="font-bold text-[#6dd4ff] ml-0.5">Water</span>
           <span className="font-normal text-white ml-3">games studio</span>
