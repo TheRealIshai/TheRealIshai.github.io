@@ -1,10 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Contact } from "lucide-react";
+import { useEffect } from "react";
 
 const Index = () => {
   const handleContactClick = () => {
     window.location.href = "mailto:jesse.nosferatue@gmail.com";
   };
+
+  useEffect(() => {
+    // Check if Space Comics font is loaded
+    document.fonts.ready.then(() => {
+      const spaceComicsFont = new FontFace('Space Comics', 'url(/Space Comics.ttf)');
+      spaceComicsFont.load().then(() => {
+        console.log('Space Comics font loaded successfully');
+      }).catch((error) => {
+        console.error('Space Comics font failed to load:', error);
+      });
+    });
+  }, []);
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#171c2b] overflow-x-hidden">

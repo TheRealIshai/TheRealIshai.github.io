@@ -4,9 +4,11 @@
 
 @font-face {
   font-family: 'Space Comics';
-  src: url('/Space Comics.ttf') format('truetype');
+  src: url('/Space Comics.ttf') format('truetype'),
+       url('/public/Space Comics.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 .logo-glow-container {
