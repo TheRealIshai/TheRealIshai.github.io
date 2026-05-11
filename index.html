@@ -1,18 +1,193 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fireWater games studio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/assets/index-CU9S6LIW.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DbT2TII9.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verb Master Game</title>
+    <style>
+        :root {
+            --bg-color: #fdfaf5;
+            --text-color: #4a4a4a;
+            --accent-color: #8fb9a8;
+            --button-hover: #7aa896;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #game-container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        h1 { font-weight: 300; color: #5a7d6e; }
+        .hebrew { direction: rtl; font-family: Arial, sans-serif; margin-bottom: 10px; font-size: 1.2rem; }
+        
+        .verb-display {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            font-size: 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            width: 80%;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus { border-color: var(--accent-color); }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover { background-color: var(--button-hover); }
+
+        #feedback { margin-top: 20px; min-height: 24px; font-weight: 500; }
+        .progress { margin-top: 30px; font-size: 0.9rem; color: #888; }
+        
+        .sentence-box {
+            font-style: italic;
+            margin-top: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .success { color: #6b8e23; }
+        .hint { color: #d97706; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <div id="setup">
+        <h1>Irregular Verb Prep</h1>
+        <p>Ready to practice your verb groups?</p>
+        <button onclick="startGame()">Start Practice</button>
+    </div>
+
+    <div id="game" style="display:none;">
+        <div id="group-info" class="hint"></div>
+        <div id="hebrew-meaning" class="hebrew"></div>
+        <div id="word-to-change" class="verb-display"></div>
+        
+        <div class="sentence-box" id="sentence"></div>
+        
+        <div style="margin-top: 20px;">
+            <input type="text" id="user-input" placeholder="Type the past tense here..." autocomplete="off">
+        </div>
+        
+        <button id="submit-btn" onclick="checkAnswer()">Check Answer</button>
+        <div id="feedback"></div>
+        <div class="progress" id="progress"></div>
+    </div>
+</div>
+
+<script>
+    const verbList = [
+        // Group 9 - No change
+        { base: "put", past: "put", heb: "לשים / להניח", group: "Group 9 (No Change)", sentence: "Yesterday, I ___ my book on the table." },
+        { base: "cut", past: "cut", heb: "לחתוך", group: "Group 9 (No Change)", sentence: "I ___ the paper into a heart shape." },
+        { base: "hit", past: "hit", heb: "לפגוע", group: "Group 9 (No Change)", sentence: "The ball ___ the wall." },
+        
+        // Group 11 - D to T
+        { base: "send", past: "sent", heb: "לשלוח", group: "Group 11 (D turns to T)", sentence: "Grandma ___ a gift in the mail." },
+        { base: "spend", past: "spent", heb: "לבזבז / לבלות", group: "Group 11 (D turns to T)", sentence: "We ___ all afternoon playing outside." },
+        { base: "build", past: "built", heb: "לבנות", group: "Group 11 (D turns to T)", sentence: "Last week, we ___ a big Lego castle." },
+        
+        // Group 12 - Short vowel + T
+        { base: "sleep", past: "slept", heb: "לישון", group: "Group 12 (Vowel shortens + T)", sentence: "The cat ___ on the sofa all night." },
+        { base: "feel", past: "felt", heb: "להרגיש", group: "Group 12 (Vowel shortens + T)", sentence: "I ___ very proud of my work." },
+        { base: "keep", past: "kept", heb: "לשמור", group: "Group 12 (Vowel shortens + T)", sentence: "She ___ her favorite stones in a box." },
+        
+        // Group 10 - Ought/Aught
+        { base: "think", past: "thought", heb: "לחשוב", group: "Group 10 (Ought / Aught)", sentence: "I ___ about the puzzle and found the answer." },
+        { base: "buy", past: "bought", heb: "לקנות", group: "Group 10 (Ought / Aught)", sentence: "We ___ some apples at the market." },
+        { base: "catch", past: "caught", heb: "לתפוס", group: "Group 10 (Ought / Aught)", sentence: "The player ___ the ball in the air." }
+    ];
+
+    let currentIndex = 0;
+
+    function startGame() {
+        document.getElementById('setup').style.display = 'none';
+        document.getElementById('game').style.display = 'block';
+        showWord();
+    }
+
+    function showWord() {
+        const current = verbList[currentIndex];
+        document.getElementById('group-info').innerText = current.group;
+        document.getElementById('hebrew-meaning').innerText = current.heb;
+        document.getElementById('word-to-change').innerText = current.base;
+        document.getElementById('sentence').innerText = current.sentence;
+        document.getElementById('user-input').value = "";
+        document.getElementById('feedback').innerText = "";
+        document.getElementById('progress').innerText = `Word ${currentIndex + 1} of ${verbList.length}`;
+        document.getElementById('user-input').focus();
+    }
+
+    function checkAnswer() {
+        const userAnswer = document.getElementById('user-input').value.trim().toLowerCase();
+        const correctAnswer = verbList[currentIndex].past;
+
+        if (userAnswer === correctAnswer) {
+            document.getElementById('feedback').innerHTML = "<span class='success'>Excellent! well done.</span>";
+            document.getElementById('submit-btn').disabled = true;
+            
+            setTimeout(() => {
+                currentIndex++;
+                if (currentIndex < verbList.length) {
+                    showWord();
+                    document.getElementById('submit-btn').disabled = false;
+                } else {
+                    finishGame();
+                }
+            }, 1500);
+        } else {
+            document.getElementById('feedback').innerHTML = "<span style='color: #e53e3e;'>Almost! Try again.</span>";
+        }
+    }
+
+    // Allow "Enter" key to submit
+    document.getElementById('user-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') checkAnswer();
+    });
+
+    function finishGame() {
+        document.getElementById('game').innerHTML = `
+            <h1>Wonderful Work!</h1>
+            <p>You have mastered these verb groups.</p>
+            <button onclick="location.reload()">Play Again</button>
+        `;
+    }
+</script>
+
+</body>
 </html>
