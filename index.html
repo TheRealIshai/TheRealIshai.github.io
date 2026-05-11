@@ -11,6 +11,8 @@
             --accent-color: #8fb9a8;
             --button-hover: #7aa896;
             --card-bg: #ffffff;
+            --menu-btn: #e0ac8f;
+            --menu-hover: #d19a7c;
         }
 
         body {
@@ -25,177 +27,310 @@
         }
 
         #game-container {
-            max-width: 600px;
+            max-width: 650px;
             width: 100%;
             background: var(--card-bg);
-            padding: 30px;
+            padding: 40px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             text-align: center;
         }
 
-        h1 { font-weight: 300; color: #5a7d6e; }
-        .hebrew { direction: rtl; font-family: Arial, sans-serif; margin-bottom: 10px; font-size: 1.2rem; }
+        h1 { font-weight: 300; color: #5a7d6e; margin-bottom: 5px; }
+        .subtitle { color: #888; font-size: 1rem; margin-bottom: 30px; }
+        
+        .hebrew { direction: rtl; font-family: Arial, sans-serif; margin-bottom: 10px; font-size: 1.3rem; color: #666;}
         
         .verb-display {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin: 20px 0;
             color: var(--accent-color);
             font-weight: bold;
         }
 
+        .sentence-display {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: var(--text-color);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Inputs and Buttons */
         input[type="text"] {
-            padding: 12px;
-            font-size: 1.2rem;
+            padding: 15px;
+            font-size: 1.4rem;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
-            width: 80%;
+            width: 70%;
             outline: none;
             transition: border-color 0.3s;
+            text-align: center;
+            margin-bottom: 10px;
         }
 
         input[type="text"]:focus { border-color: var(--accent-color); }
 
-        button {
-            margin-top: 20px;
+        .btn {
             padding: 12px 30px;
             font-size: 1.1rem;
-            background-color: var(--accent-color);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            margin: 5px;
         }
 
-        button:hover { background-color: var(--button-hover); }
-
-        #feedback { margin-top: 20px; min-height: 24px; font-weight: 500; }
-        .progress { margin-top: 30px; font-size: 0.9rem; color: #888; }
+        .btn-primary { background-color: var(--accent-color); }
+        .btn-primary:hover { background-color: var(--button-hover); }
         
-        .sentence-box {
-            font-style: italic;
-            margin-top: 15px;
-            color: #666;
-            line-height: 1.6;
-        }
+        .btn-menu { background-color: var(--menu-btn); display: block; width: 80%; margin: 15px auto; padding: 15px; font-size: 1.2rem;}
+        .btn-menu:hover { background-color: var(--menu-hover); transform: translateY(-2px); }
 
+        .btn-choice {
+            background-color: #f0f0f0;
+            color: #4a4a4a;
+            border: 2px solid #e0e0e0;
+            font-size: 1.3rem;
+            padding: 15px 25px;
+            margin: 10px;
+            width: 40%;
+        }
+        .btn-choice:hover { background-color: #e8e8e8; border-color: #ccc; }
+
+        .btn-back {
+            background-color: transparent;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            text-decoration: underline;
+        }
+        .btn-back:hover { color: #666; }
+
+        /* Feedback and Progress */
+        #feedback { margin-top: 20px; min-height: 28px; font-weight: 500; font-size: 1.2rem; }
         .success { color: #6b8e23; }
-        .hint { color: #8fb9a8; font-size: 1rem; font-weight: bold; margin-bottom: 10px; }
+        .error { color: #e53e3e; }
+        .progress { margin-top: 30px; font-size: 0.9rem; color: #aaa; }
+        .mode-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-color); font-weight: bold; margin-bottom: 15px;}
+
+        /* Layout grids */
+        .choices-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
 <div id="game-container">
-    <div id="setup">
-        <h1>Irregular Verb Prep</h1>
-        <p>Ready to practice your verb groups?</p>
-        <button onclick="startGame()">Start Practice</button>
+    
+    <div id="menu-screen">
+        <h1>Verb Mastery</h1>
+        <div class="subtitle">Choose your challenge</div>
+        
+        <button class="btn btn-menu" onclick="startMode(1)">
+            <strong>Mode 1: The Transformer</strong><br>
+            <span style="font-size: 0.9rem; font-weight: normal;">See the present, type the past.</span>
+        </button>
+        
+        <button class="btn btn-menu" onclick="startMode(2)">
+            <strong>Mode 2: The Detective</strong><br>
+            <span style="font-size: 0.9rem; font-weight: normal;">Choose the correct word for the sentence.</span>
+        </button>
+        
+        <button class="btn btn-menu" onclick="startMode(3)">
+            <strong>Mode 3: The Master</strong><br>
+            <span style="font-size: 0.9rem; font-weight: normal;">Complete the sentence with no hints!</span>
+        </button>
     </div>
 
-    <div id="game" style="display:none;">
-        <div id="group-info" class="hint"></div>
-        <div id="hebrew-meaning" class="hebrew"></div>
-        <div id="word-to-change" class="verb-display"></div>
+    <div id="game-screen" style="display:none;">
+        <div id="mode-indicator" class="mode-title"></div>
         
-        <div class="sentence-box" id="sentence"></div>
+        <div id="question-area">
+            </div>
+
+        <div id="input-area">
+            </div>
         
-        <div style="margin-top: 20px;">
-            <input type="text" id="user-input" placeholder="Type the past tense here..." autocomplete="off">
-        </div>
-        
-        <button id="submit-btn" onclick="checkAnswer()">Check Answer</button>
         <div id="feedback"></div>
         <div class="progress" id="progress"></div>
+        
+        <button class="btn btn-back" onclick="returnToMenu()">← Back to Menu</button>
     </div>
+
 </div>
 
 <script>
-    const verbList = [
-        // Group 9
-        { base: "put", past: "put", heb: "לשים / להניח", group: "Group 9", sentence: "Yesterday, I ___ my book on the table." },
-        { base: "cut", past: "cut", heb: "לחתוך", group: "Group 9", sentence: "I ___ the paper into a heart shape." },
-        { base: "hit", past: "hit", heb: "לפגוע", group: "Group 9", sentence: "The ball ___ the wall." },
+    // The master list of verbs with common incorrect "ed" distractors for Mode 2
+    const masterVerbList = [
+        { base: "put", past: "put", heb: "לשים / להניח", sentence: "Yesterday, I ___ my book on the table.", distractors: ["putted", "puts"] },
+        { base: "cut", past: "cut", heb: "לחתוך", sentence: "I ___ the paper into a heart shape.", distractors: ["cutted", "cuts"] },
+        { base: "hit", past: "hit", heb: "לפגוע", sentence: "The ball ___ the wall.", distractors: ["hitted", "hits"] },
         
-        // Group 11
-        { base: "send", past: "sent", heb: "לשלוח", group: "Group 11", sentence: "Grandma ___ a gift in the mail." },
-        { base: "spend", past: "spent", heb: "לבזבז / לבלות", group: "Group 11", sentence: "We ___ all afternoon playing outside." },
-        { base: "build", past: "built", heb: "לבנות", group: "Group 11", sentence: "Last week, we ___ a big Lego castle." },
+        { base: "send", past: "sent", heb: "לשלוח", sentence: "Grandma ___ a gift in the mail.", distractors: ["send", "sended"] },
+        { base: "spend", past: "spent", heb: "לבזבז / לבלות", sentence: "We ___ all afternoon playing outside.", distractors: ["spend", "spended"] },
+        { base: "build", past: "built", heb: "לבנות", sentence: "Last week, we ___ a big Lego castle.", distractors: ["build", "builded"] },
         
-        // Group 12
-        { base: "sleep", past: "slept", heb: "לישון", group: "Group 12", sentence: "The cat ___ on the sofa all night." },
-        { base: "feel", past: "felt", heb: "להרגיש", group: "Group 12", sentence: "I ___ very proud of my work." },
-        { base: "keep", past: "kept", heb: "לשמור", group: "Group 12", sentence: "She ___ her favorite stones in a box." },
+        { base: "sleep", past: "slept", heb: "לישון", sentence: "The cat ___ on the sofa all night.", distractors: ["sleep", "sleeped"] },
+        { base: "feel", past: "felt", heb: "להרגיש", sentence: "I ___ very proud of my work.", distractors: ["feel", "feeled"] },
+        { base: "keep", past: "kept", heb: "לשמור", sentence: "She ___ her favorite stones in a box.", distractors: ["keep", "keeped"] },
         
-        // Group 10
-        { base: "think", past: "thought", heb: "לחשוב", group: "Group 10", sentence: "I ___ about the puzzle and found the answer." },
-        { base: "buy", past: "bought", heb: "לקנות", group: "Group 10", sentence: "We ___ some apples at the market." },
-        { base: "catch", past: "caught", heb: "לתפוס", group: "Group 10", sentence: "The player ___ the ball in the air." }
+        { base: "think", past: "thought", heb: "לחשוב", sentence: "I ___ about the puzzle and found the answer.", distractors: ["think", "thinked"] },
+        { base: "buy", past: "bought", heb: "לקנות", sentence: "We ___ some apples at the market.", distractors: ["buy", "buyed"] },
+        { base: "catch", past: "caught", heb: "לתפוס", sentence: "The player ___ the ball in the air.", distractors: ["catch", "catched"] }
     ];
 
+    let currentMode = 1;
     let currentIndex = 0;
+    let activeList = [];
 
-    // The magical shuffling function
     function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
+        let shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
+    function returnToMenu() {
+        document.getElementById('game-screen').style.display = 'none';
+        document.getElementById('menu-screen').style.display = 'block';
+    }
+
+    function startMode(mode) {
+        currentMode = mode;
+        currentIndex = 0;
+        activeList = shuffleArray(masterVerbList);
+        
+        document.getElementById('menu-screen').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'block';
+        
+        let title = "";
+        if(mode === 1) title = "Mode 1: The Transformer";
+        if(mode === 2) title = "Mode 2: The Detective";
+        if(mode === 3) title = "Mode 3: The Master";
+        document.getElementById('mode-indicator').innerText = title;
+
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const wordData = activeList[currentIndex];
+        const qArea = document.getElementById('question-area');
+        const iArea = document.getElementById('input-area');
+        
+        document.getElementById('feedback').innerText = "";
+        document.getElementById('progress').innerText = `Question ${currentIndex + 1} of ${activeList.length}`;
+
+        if (currentMode === 1) {
+            // Mode 1: Present to Past
+            qArea.innerHTML = `
+                <div class="hebrew">${wordData.heb}</div>
+                <div class="verb-display">${wordData.base}</div>
+            `;
+            iArea.innerHTML = `
+                <input type="text" id="user-input" placeholder="Type past tense..." autocomplete="off">
+                <br><button class="btn btn-primary" id="submit-btn" onclick="checkTyping()">Check</button>
+            `;
+            setupEnterKey();
+            document.getElementById('user-input').focus();
+
+        } else if (currentMode === 2) {
+            // Mode 2: Multiple Choice Sentence
+            qArea.innerHTML = `
+                <div class="hebrew">(${wordData.heb})</div>
+                <div class="sentence-display">${wordData.sentence}</div>
+            `;
+            
+            // Build and shuffle options
+            let options = [wordData.past, ...wordData.distractors];
+            options = shuffleArray(options);
+            
+            let buttonsHTML = '<div class="choices-grid">';
+            options.forEach(opt => {
+                buttonsHTML += `<button class="btn btn-choice" onclick="checkChoice('${opt}')">${opt}</button>`;
+            });
+            buttonsHTML += '</div>';
+            iArea.innerHTML = buttonsHTML;
+
+        } else if (currentMode === 3) {
+            // Mode 3: Blind Sentence
+            qArea.innerHTML = `
+                <div class="hebrew">Hint: ${wordData.heb}</div>
+                <div class="sentence-display">${wordData.sentence}</div>
+            `;
+            iArea.innerHTML = `
+                <input type="text" id="user-input" placeholder="Type the missing word..." autocomplete="off">
+                <br><button class="btn btn-primary" id="submit-btn" onclick="checkTyping()">Check</button>
+            `;
+            setupEnterKey();
+            document.getElementById('user-input').focus();
         }
     }
 
-    function startGame() {
-        // Shuffle the verbs right before we begin
-        shuffleArray(verbList);
-        document.getElementById('setup').style.display = 'none';
-        document.getElementById('game').style.display = 'block';
-        showWord();
+    function setupEnterKey() {
+        document.getElementById('user-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkTyping();
+        });
     }
 
-    function showWord() {
-        const current = verbList[currentIndex];
-        document.getElementById('group-info').innerText = current.group;
-        document.getElementById('hebrew-meaning').innerText = current.heb;
-        document.getElementById('word-to-change').innerText = current.base;
-        document.getElementById('sentence').innerText = current.sentence;
-        document.getElementById('user-input').value = "";
-        document.getElementById('feedback').innerText = "";
-        document.getElementById('progress').innerText = `Word ${currentIndex + 1} of ${verbList.length}`;
-        document.getElementById('user-input').focus();
-    }
-
-    function checkAnswer() {
+    function checkTyping() {
         const userAnswer = document.getElementById('user-input').value.trim().toLowerCase();
-        const correctAnswer = verbList[currentIndex].past;
+        handleResult(userAnswer === activeList[currentIndex].past);
+    }
 
-        if (userAnswer === correctAnswer) {
-            document.getElementById('feedback').innerHTML = "<span class='success'>Excellent! well done.</span>";
-            document.getElementById('submit-btn').disabled = true;
+    function checkChoice(selectedOption) {
+        handleResult(selectedOption === activeList[currentIndex].past);
+    }
+
+    function handleResult(isCorrect) {
+        const feedback = document.getElementById('feedback');
+        
+        if (isCorrect) {
+            feedback.innerHTML = "<span class='success'>Excellent! well done.</span>";
+            
+            // Disable inputs so they can't double-click
+            if(document.getElementById('submit-btn')) document.getElementById('submit-btn').disabled = true;
+            let choiceBtns = document.querySelectorAll('.btn-choice');
+            choiceBtns.forEach(btn => btn.disabled = true);
             
             setTimeout(() => {
                 currentIndex++;
-                if (currentIndex < verbList.length) {
-                    showWord();
-                    document.getElementById('submit-btn').disabled = false;
+                if (currentIndex < activeList.length) {
+                    loadQuestion();
                 } else {
-                    finishGame();
+                    showWinScreen();
                 }
-            }, 1500);
+            }, 1200);
         } else {
-            document.getElementById('feedback').innerHTML = "<span style='color: #e53e3e;'>Almost! Try again.</span>";
+            feedback.innerHTML = "<span class='error'>Almost! Try again.</span>";
+            // Shake effect for input box if it exists
+            const inputField = document.getElementById('user-input');
+            if(inputField) {
+                inputField.style.transform = "translateX(5px)";
+                setTimeout(() => inputField.style.transform = "translateX(-5px)", 100);
+                setTimeout(() => inputField.style.transform = "translateX(5px)", 200);
+                setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+            }
         }
     }
 
-    // Allow "Enter" key to submit
-    document.getElementById('user-input').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') checkAnswer();
-    });
-
-    function finishGame() {
-        document.getElementById('game').innerHTML = `
-            <h1>Wonderful Work!</h1>
-            <p>You have mastered these verb groups.</p>
-            <button onclick="location.reload()">Play Again</button>
+    function showWinScreen() {
+        document.getElementById('question-area').innerHTML = `
+            <div class="verb-display" style="color: #6b8e23;">Amazing Work!</div>
+            <p style="font-size: 1.2rem;">You completed this challenge beautifully.</p>
         `;
+        document.getElementById('input-area').innerHTML = `
+            <button class="btn btn-menu" onclick="returnToMenu()">Choose Another Mode</button>
+        `;
+        document.getElementById('feedback').innerText = "";
+        document.getElementById('progress').innerText = "";
     }
 </script>
 
