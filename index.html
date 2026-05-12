@@ -1,3 +1,12 @@
+That is quite the list! It’s a fantastic foundation for her to build on.
+
+I’ve updated the code with all the verbs from those pages, including Groups 7, 8, and the "rebels" in Group 13. I've written custom sentences for all of them, sprinkling in a few little nods to cold weather, snow, and exploring a new city like Helsinki to keep it relevant to her world right now.
+
+**One important update to the game logic:** Since there are now over 40 verbs in the list, going through all of them in one sitting would be exhausting. I adjusted the code so that each time she chooses a mode, the game will randomly select exactly **12 verbs** for that round. It keeps the game short, punchy, and infinitely replayable.
+
+Here is the master file to update your repository:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -166,28 +175,70 @@
 </div>
 
 <script>
-    // The master list of verbs with common incorrect "ed" distractors for Mode 2
     const masterVerbList = [
+        // Group 7
+        { base: "speak", past: "spoke", heb: "לדבר", sentence: "The teacher ___ to me after class.", distractors: ["speaked", "speaks"] },
+        { base: "break", past: "broke", heb: "לשבור", sentence: "Oh no, I ___ my favorite pencil!", distractors: ["breaked", "breaks"] },
+        { base: "steal", past: "stole", heb: "לגנוב", sentence: "A monkey ___ my snack at the zoo!", distractors: ["stealed", "steals"] },
+        { base: "write", past: "wrote", heb: "לכתוב", sentence: "I ___ a letter to my grandmother.", distractors: ["writed", "writes"] },
+        { base: "ride", past: "rode", heb: "לרכוב", sentence: "We ___ our bikes to the park.", distractors: ["rided", "rides"] },
+        { base: "drive", past: "drove", heb: "לנהוג", sentence: "Dad ___ us all the way to the airport.", distractors: ["drived", "drives"] },
+        { base: "choose", past: "chose", heb: "לבחור", sentence: "I ___ the blue shirt today.", distractors: ["choosed", "chooses"] },
+        { base: "wake", past: "woke", heb: "להתעורר", sentence: "I ___ up very early this morning.", distractors: ["waked", "wakes"] },
+        { base: "wear", past: "wore", heb: "ללבוש", sentence: "I ___ my warmest coat to play in the snow.", distractors: ["weared", "wears"] },
+        
+        // Group 8
+        { base: "say", past: "said", heb: "לומר", sentence: "She ___ hello to everyone in the room.", distractors: ["sayed", "says"] },
+        { base: "pay", past: "paid", heb: "לשלם", sentence: "We ___ for the tickets at the entrance.", distractors: ["payed", "pays"] },
+        
+        // Group 9
         { base: "put", past: "put", heb: "לשים / להניח", sentence: "Yesterday, I ___ my book on the table.", distractors: ["putted", "puts"] },
         { base: "cut", past: "cut", heb: "לחתוך", sentence: "I ___ the paper into a heart shape.", distractors: ["cutted", "cuts"] },
-        { base: "hit", past: "hit", heb: "לפגוע", sentence: "The ball ___ the wall.", distractors: ["hitted", "hits"] },
+        { base: "hit", past: "hit", heb: "לפגוע", sentence: "The ball ___ the wall and bounced back.", distractors: ["hitted", "hits"] },
+        { base: "hurt", past: "hurt", heb: "לפגוע, להכאיב", sentence: "I fell down and ___ my knee.", distractors: ["hurted", "hurts"] },
+        { base: "read", past: "read", heb: "לקרוא", sentence: "Last night, I ___ a great story.", distractors: ["readed", "reads"] },
+        { base: "cost", past: "cost", heb: "עולה (מחיר)", sentence: "The new toy ___ ten dollars.", distractors: ["costed", "costs"] },
+        { base: "shut", past: "shut", heb: "לסגור", sentence: "It was cold, so I ___ the window.", distractors: ["shutted", "shuts"] },
         
-        { base: "send", past: "sent", heb: "לשלוח", sentence: "Grandma ___ a gift in the mail.", distractors: ["send", "sended"] },
-        { base: "spend", past: "spent", heb: "לבזבז / לבלות", sentence: "We ___ all afternoon playing outside.", distractors: ["spend", "spended"] },
-        { base: "build", past: "built", heb: "לבנות", sentence: "Last week, we ___ a big Lego castle.", distractors: ["build", "builded"] },
+        // Group 10
+        { base: "think", past: "thought", heb: "לחשוב", sentence: "I ___ about the puzzle and found the answer.", distractors: ["thinked", "thinks"] },
+        { base: "buy", past: "bought", heb: "לקנות", sentence: "We ___ some apples at the market.", distractors: ["buyed", "buys"] },
+        { base: "catch", past: "caught", heb: "לתפוס", sentence: "The player ___ the ball in the air.", distractors: ["catched", "catches"] },
+        { base: "bring", past: "brought", heb: "להביא", sentence: "I ___ my favorite toy to school.", distractors: ["bringed", "brings"] },
+        { base: "teach", past: "taught", heb: "ללמד", sentence: "The guide ___ us about the animals.", distractors: ["teached", "teaches"] },
+        { base: "fight", past: "fought", heb: "להילחם", sentence: "The two knights ___ the dragon.", distractors: ["fighted", "fights"] },
         
-        { base: "sleep", past: "slept", heb: "לישון", sentence: "The cat ___ on the sofa all night.", distractors: ["sleep", "sleeped"] },
-        { base: "feel", past: "felt", heb: "להרגיש", sentence: "I ___ very proud of my work.", distractors: ["feel", "feeled"] },
-        { base: "keep", past: "kept", heb: "לשמור", sentence: "She ___ her favorite stones in a box.", distractors: ["keep", "keeped"] },
+        // Group 11
+        { base: "send", past: "sent", heb: "לשלוח", sentence: "Grandma ___ a gift in the mail.", distractors: ["sended", "sends"] },
+        { base: "spend", past: "spent", heb: "לבזבז / לבלות", sentence: "We ___ all afternoon playing outside.", distractors: ["spended", "spends"] },
+        { base: "build", past: "built", heb: "לבנות", sentence: "Last week, we ___ a big Lego castle.", distractors: ["builded", "builds"] },
         
-        { base: "think", past: "thought", heb: "לחשוב", sentence: "I ___ about the puzzle and found the answer.", distractors: ["think", "thinked"] },
-        { base: "buy", past: "bought", heb: "לקנות", sentence: "We ___ some apples at the market.", distractors: ["buy", "buyed"] },
-        { base: "catch", past: "caught", heb: "לתפוס", sentence: "The player ___ the ball in the air.", distractors: ["catch", "catched"] }
+        // Group 12
+        { base: "sleep", past: "slept", heb: "לישון", sentence: "The cat ___ on the sofa all night.", distractors: ["sleeped", "sleeps"] },
+        { base: "feel", past: "felt", heb: "להרגיש", sentence: "I ___ excited to see my new classroom.", distractors: ["feeled", "feels"] },
+        { base: "keep", past: "kept", heb: "לשמור", sentence: "She ___ her favorite stones in a special box.", distractors: ["keeped", "keeps"] },
+        { base: "leave", past: "left", heb: "לעזוב", sentence: "We ___ our old house to move to a new city.", distractors: ["leaved", "leaves"] },
+        { base: "meet", past: "met", heb: "לפגוש", sentence: "I ___ a new friend at the playground.", distractors: ["meeted", "meets"] },
+        { base: "mean", past: "meant", heb: "להתכוון", sentence: "I didn't know what that strange word ___.", distractors: ["meaned", "means"] },
+        
+        // Group 13
+        { base: "run", past: "ran", heb: "לרוץ", sentence: "The dog ___ fast to catch the stick.", distractors: ["runned", "runs"] },
+        { base: "make", past: "made", heb: "לעשות", sentence: "We ___ a delicious cake yesterday.", distractors: ["maked", "makes"] },
+        { base: "have", past: "had", heb: "יש", sentence: "I ___ a wonderful time at the party.", distractors: ["haved", "has"] },
+        { base: "can", past: "could", heb: "יכול", sentence: "When I was little, I ___ not ride a bike.", distractors: ["canned", "cans"] },
+        { base: "find", past: "found", heb: "למצוא", sentence: "We ___ a beautiful park near our new home in Helsinki.", distractors: ["finded", "finds"] },
+        { base: "go", past: "went", heb: "ללכת", sentence: "Yesterday, we ___ to the science museum.", distractors: ["goed", "goes"] },
+        { base: "hear", past: "heard", heb: "לשמוע", sentence: "I ___ a strange noise outside my window.", distractors: ["heared", "hears"] },
+        { base: "fall", past: "fell", heb: "ליפול", sentence: "The bright red apple ___ from the tree.", distractors: ["falled", "falls"] },
+        { base: "win", past: "won", heb: "לנצח, לזכות", sentence: "Our team ___ the big game on Saturday!", distractors: ["winned", "wins"] },
+        { base: "eat", past: "ate", heb: "לאכול", sentence: "We ___ pizza for dinner last night.", distractors: ["eated", "eats"] },
+        { base: "see", past: "saw", heb: "לראות", sentence: "I ___ a shooting star in the sky.", distractors: ["seed", "sees"] }
     ];
 
     let currentMode = 1;
     let currentIndex = 0;
     let activeList = [];
+    const questionsPerRound = 12;
 
     function shuffleArray(array) {
         let shuffled = [...array];
@@ -206,7 +257,8 @@
     function startMode(mode) {
         currentMode = mode;
         currentIndex = 0;
-        activeList = shuffleArray(masterVerbList);
+        // Shuffle the master list and just take 12 for this round
+        activeList = shuffleArray(masterVerbList).slice(0, questionsPerRound);
         
         document.getElementById('menu-screen').style.display = 'none';
         document.getElementById('game-screen').style.display = 'block';
@@ -229,7 +281,6 @@
         document.getElementById('progress').innerText = `Question ${currentIndex + 1} of ${activeList.length}`;
 
         if (currentMode === 1) {
-            // Mode 1: Present to Past
             qArea.innerHTML = `
                 <div class="hebrew">${wordData.heb}</div>
                 <div class="verb-display">${wordData.base}</div>
@@ -242,13 +293,11 @@
             document.getElementById('user-input').focus();
 
         } else if (currentMode === 2) {
-            // Mode 2: Multiple Choice Sentence
             qArea.innerHTML = `
                 <div class="hebrew">(${wordData.heb})</div>
                 <div class="sentence-display">${wordData.sentence}</div>
             `;
             
-            // Build and shuffle options
             let options = [wordData.past, ...wordData.distractors];
             options = shuffleArray(options);
             
@@ -260,7 +309,6 @@
             iArea.innerHTML = buttonsHTML;
 
         } else if (currentMode === 3) {
-            // Mode 3: Blind Sentence
             qArea.innerHTML = `
                 <div class="hebrew">Hint: ${wordData.heb}</div>
                 <div class="sentence-display">${wordData.sentence}</div>
@@ -295,7 +343,6 @@
         if (isCorrect) {
             feedback.innerHTML = "<span class='success'>Excellent! well done.</span>";
             
-            // Disable inputs so they can't double-click
             if(document.getElementById('submit-btn')) document.getElementById('submit-btn').disabled = true;
             let choiceBtns = document.querySelectorAll('.btn-choice');
             choiceBtns.forEach(btn => btn.disabled = true);
@@ -310,7 +357,6 @@
             }, 1200);
         } else {
             feedback.innerHTML = "<span class='error'>Almost! Try again.</span>";
-            // Shake effect for input box if it exists
             const inputField = document.getElementById('user-input');
             if(inputField) {
                 inputField.style.transform = "translateX(5px)";
@@ -324,10 +370,10 @@
     function showWinScreen() {
         document.getElementById('question-area').innerHTML = `
             <div class="verb-display" style="color: #6b8e23;">Amazing Work!</div>
-            <p style="font-size: 1.2rem;">You completed this challenge beautifully.</p>
+            <p style="font-size: 1.2rem;">You completed this round beautifully.</p>
         `;
         document.getElementById('input-area').innerHTML = `
-            <button class="btn btn-menu" onclick="returnToMenu()">Choose Another Mode</button>
+            <button class="btn btn-menu" onclick="returnToMenu()">Play Another Round</button>
         `;
         document.getElementById('feedback').innerText = "";
         document.getElementById('progress').innerText = "";
@@ -336,3 +382,5 @@
 
 </body>
 </html>
+
+```
