@@ -1,383 +1,289 @@
-That is quite the list! It’s a fantastic foundation for her to build on.
-
-I’ve updated the code with all the verbs from those pages, including Groups 7, 8, and the "rebels" in Group 13. I've written custom sentences for all of them, sprinkling in a few little nods to cold weather, snow, and exploring a new city like Helsinki to keep it relevant to her world right now.
-
-**One important update to the game logic:** Since there are now over 40 verbs in the list, going through all of them in one sitting would be exhausting. I adjusted the code so that each time she chooses a mode, the game will randomly select exactly **12 verbs** for that round. It keeps the game short, punchy, and infinitely replayable.
-
-Here is the master file to update your repository:
-
+I absolutely love seeing this progression! We are moving from the tricky past tense right into predicting the future with "going to" and "shall." As an AI, I don't have my own school days to look back on, but I'm a gal who appreciates a brilliantly structured grammar lesson when I see one. The Hebrew hint on the second page—*"Remember: there are three components!!!"* (am/is/are + going to + verb)—is exactly the kind of scaffolding that helps these rules click.
+I also noticed a very common, very endearing phonetic guess in the "shall" practice where it was spelled "shell" a few times. Honestly, English pronunciation is so delightfully confusing that spelling it "shell" makes perfect logical sense! To help reinforce the standard spelling, I've made sure this new app specifically requires "s-h-a-l-l."
+Here is the brand new app, **"Future Forecaster,"** built entirely around these new worksheets. I kept your wonderful "productive struggle" feature (revealing the answer only after 3 tries) so she still gets that great mental workout.
+### 🛠️ The Web App Code: Future Forecaster
+Just like last time, copy this code, save it as an .html file (for example, future-practice.html), and double-click it to open it in your browser.
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verb Master Game</title>
+    <title>Future Forecaster 🔮</title>
     <style>
         :root {
-            --bg-color: #fdfaf5;
-            --text-color: #4a4a4a;
-            --accent-color: #8fb9a8;
-            --button-hover: #7aa896;
-            --card-bg: #ffffff;
-            --menu-btn: #e0ac8f;
-            --menu-hover: #d19a7c;
+            --primary: #00B4D8;
+            --secondary: #FFB703;
+            --bg: #F8F9FA;
+            --text: #2B2D42;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg);
+            color: var(--text);
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 20px;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
-
-        #game-container {
-            max-width: 650px;
+        .app-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             width: 100%;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            max-width: 600px;
             text-align: center;
         }
-
-        h1 { font-weight: 300; color: #5a7d6e; margin-bottom: 5px; }
-        .subtitle { color: #888; font-size: 1rem; margin-bottom: 30px; }
-        
-        .hebrew { direction: rtl; font-family: Arial, sans-serif; margin-bottom: 10px; font-size: 1.3rem; color: #666;}
-        
-        .verb-display {
-            font-size: 2.8rem;
-            margin: 20px 0;
-            color: var(--accent-color);
-            font-weight: bold;
+        h1 {
+            color: var(--primary);
+            margin-bottom: 5px;
         }
-
-        .sentence-display {
-            font-size: 1.5rem;
-            margin: 20px 0;
-            color: var(--text-color);
-            line-height: 1.6;
-            font-style: italic;
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: #E9ECEF;
+            border-radius: 10px;
+            overflow: hidden;
         }
-
-        /* Inputs and Buttons */
-        input[type="text"] {
-            padding: 15px;
-            font-size: 1.4rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            width: 70%;
-            outline: none;
-            transition: border-color 0.3s;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        input[type="text"]:focus { border-color: var(--accent-color); }
-
-        .btn {
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            color: white;
-            border: none;
-            border-radius: 8px;
+        .tab {
+            flex: 1;
+            padding: 12px;
             cursor: pointer;
-            transition: all 0.3s;
-            margin: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            color: #6C757D;
         }
-
-        .btn-primary { background-color: var(--accent-color); }
-        .btn-primary:hover { background-color: var(--button-hover); }
-        
-        .btn-menu { background-color: var(--menu-btn); display: block; width: 80%; margin: 15px auto; padding: 15px; font-size: 1.2rem;}
-        .btn-menu:hover { background-color: var(--menu-hover); transform: translateY(-2px); }
-
-        .btn-choice {
-            background-color: #f0f0f0;
-            color: #4a4a4a;
-            border: 2px solid #e0e0e0;
-            font-size: 1.3rem;
-            padding: 15px 25px;
-            margin: 10px;
-            width: 40%;
+        .tab.active {
+            background: var(--primary);
+            color: white;
         }
-        .btn-choice:hover { background-color: #e8e8e8; border-color: #ccc; }
-
-        .btn-back {
-            background-color: transparent;
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-top: 30px;
-            text-decoration: underline;
+        .card {
+            background: #F8F9FA;
+            border: 2px dashed #DEE2E6;
+            padding: 30px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            line-height: 1.8;
         }
-        .btn-back:hover { color: #666; }
-
-        /* Feedback and Progress */
-        #feedback { margin-top: 20px; min-height: 28px; font-weight: 500; font-size: 1.2rem; }
-        .success { color: #6b8e23; }
-        .error { color: #e53e3e; }
-        .progress { margin-top: 30px; font-size: 0.9rem; color: #aaa; }
-        .mode-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-color); font-weight: bold; margin-bottom: 15px;}
-
-        /* Layout grids */
-        .choices-grid {
+        .hint-text {
+            color: #8D99AE;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sentence-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin-top: 20px;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
         }
+        input {
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #DEE2E6;
+            border-radius: 8px;
+            text-align: center;
+            width: 180px;
+            transition: 0.3s;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 8px rgba(255, 183, 3, 0.4);
+        }
+        .verb-hint {
+            display: block;
+            color: var(--secondary);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .btn {
+            background: var(--secondary);
+            color: #2B2D42;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 183, 3, 0.4);
+        }
+        .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 24px;
+            font-size: 1.1em;
+        }
+        .correct { color: #2A9D8F; }
+        .incorrect { color: #E76F51; }
+        .warning { color: #F4A261; }
     </style>
 </head>
 <body>
 
-<div id="game-container">
-    
-    <div id="menu-screen">
-        <h1>Verb Mastery</h1>
-        <div class="subtitle">Choose your challenge</div>
-        
-        <button class="btn btn-menu" onclick="startMode(1)">
-            <strong>Mode 1: The Transformer</strong><br>
-            <span style="font-size: 0.9rem; font-weight: normal;">See the present, type the past.</span>
-        </button>
-        
-        <button class="btn btn-menu" onclick="startMode(2)">
-            <strong>Mode 2: The Detective</strong><br>
-            <span style="font-size: 0.9rem; font-weight: normal;">Choose the correct word for the sentence.</span>
-        </button>
-        
-        <button class="btn btn-menu" onclick="startMode(3)">
-            <strong>Mode 3: The Master</strong><br>
-            <span style="font-size: 0.9rem; font-weight: normal;">Complete the sentence with no hints!</span>
-        </button>
+<div class="app-container">
+    <h1>Future Forecaster 🔮</h1>
+    <p>Predict the future with perfect grammar!</p>
+
+    <div class="tabs">
+        <div class="tab active" onclick="switchMode('goingTo')" id="tab-goingTo">"Going To"</div>
+        <div class="tab" onclick="switchMode('shall')" id="tab-shall">"Shall"</div>
     </div>
 
-    <div id="game-screen" style="display:none;">
-        <div id="mode-indicator" class="mode-title"></div>
+    <div class="card">
+        <div id="mode-instruction" class="hint-text">
+            Remember: am/is/are + going to + verb
+        </div>
         
-        <div id="question-area">
-            </div>
-
-        <div id="input-area">
-            </div>
+        <div class="sentence-container">
+            <span id="sent-prefix">She</span>
+            <input type="text" id="answer-input" placeholder="type here..." autocomplete="off">
+            <span id="sent-suffix">her grandmother tomorrow.</span>
+        </div>
+        <div class="verb-hint" id="verb-hint">(visit)</div>
         
-        <div id="feedback"></div>
-        <div class="progress" id="progress"></div>
-        
-        <button class="btn btn-back" onclick="returnToMenu()">← Back to Menu</button>
+        <button class="btn" onclick="checkAnswer()">Check Answer</button>
+        <div class="feedback" id="feedback-message"></div>
     </div>
 
+    <button class="btn" style="background: var(--primary); color: white; width: 100%;" onclick="nextQuestion()">Next Sentence ➡️</button>
 </div>
 
 <script>
-    const masterVerbList = [
-        // Group 7
-        { base: "speak", past: "spoke", heb: "לדבר", sentence: "The teacher ___ to me after class.", distractors: ["speaked", "speaks"] },
-        { base: "break", past: "broke", heb: "לשבור", sentence: "Oh no, I ___ my favorite pencil!", distractors: ["breaked", "breaks"] },
-        { base: "steal", past: "stole", heb: "לגנוב", sentence: "A monkey ___ my snack at the zoo!", distractors: ["stealed", "steals"] },
-        { base: "write", past: "wrote", heb: "לכתוב", sentence: "I ___ a letter to my grandmother.", distractors: ["writed", "writes"] },
-        { base: "ride", past: "rode", heb: "לרכוב", sentence: "We ___ our bikes to the park.", distractors: ["rided", "rides"] },
-        { base: "drive", past: "drove", heb: "לנהוג", sentence: "Dad ___ us all the way to the airport.", distractors: ["drived", "drives"] },
-        { base: "choose", past: "chose", heb: "לבחור", sentence: "I ___ the blue shirt today.", distractors: ["choosed", "chooses"] },
-        { base: "wake", past: "woke", heb: "להתעורר", sentence: "I ___ up very early this morning.", distractors: ["waked", "wakes"] },
-        { base: "wear", past: "wore", heb: "ללבוש", sentence: "I ___ my warmest coat to play in the snow.", distractors: ["weared", "wears"] },
-        
-        // Group 8
-        { base: "say", past: "said", heb: "לומר", sentence: "She ___ hello to everyone in the room.", distractors: ["sayed", "says"] },
-        { base: "pay", past: "paid", heb: "לשלם", sentence: "We ___ for the tickets at the entrance.", distractors: ["payed", "pays"] },
-        
-        // Group 9
-        { base: "put", past: "put", heb: "לשים / להניח", sentence: "Yesterday, I ___ my book on the table.", distractors: ["putted", "puts"] },
-        { base: "cut", past: "cut", heb: "לחתוך", sentence: "I ___ the paper into a heart shape.", distractors: ["cutted", "cuts"] },
-        { base: "hit", past: "hit", heb: "לפגוע", sentence: "The ball ___ the wall and bounced back.", distractors: ["hitted", "hits"] },
-        { base: "hurt", past: "hurt", heb: "לפגוע, להכאיב", sentence: "I fell down and ___ my knee.", distractors: ["hurted", "hurts"] },
-        { base: "read", past: "read", heb: "לקרוא", sentence: "Last night, I ___ a great story.", distractors: ["readed", "reads"] },
-        { base: "cost", past: "cost", heb: "עולה (מחיר)", sentence: "The new toy ___ ten dollars.", distractors: ["costed", "costs"] },
-        { base: "shut", past: "shut", heb: "לסגור", sentence: "It was cold, so I ___ the window.", distractors: ["shutted", "shuts"] },
-        
-        // Group 10
-        { base: "think", past: "thought", heb: "לחשוב", sentence: "I ___ about the puzzle and found the answer.", distractors: ["thinked", "thinks"] },
-        { base: "buy", past: "bought", heb: "לקנות", sentence: "We ___ some apples at the market.", distractors: ["buyed", "buys"] },
-        { base: "catch", past: "caught", heb: "לתפוס", sentence: "The player ___ the ball in the air.", distractors: ["catched", "catches"] },
-        { base: "bring", past: "brought", heb: "להביא", sentence: "I ___ my favorite toy to school.", distractors: ["bringed", "brings"] },
-        { base: "teach", past: "taught", heb: "ללמד", sentence: "The guide ___ us about the animals.", distractors: ["teached", "teaches"] },
-        { base: "fight", past: "fought", heb: "להילחם", sentence: "The two knights ___ the dragon.", distractors: ["fighted", "fights"] },
-        
-        // Group 11
-        { base: "send", past: "sent", heb: "לשלוח", sentence: "Grandma ___ a gift in the mail.", distractors: ["sended", "sends"] },
-        { base: "spend", past: "spent", heb: "לבזבז / לבלות", sentence: "We ___ all afternoon playing outside.", distractors: ["spended", "spends"] },
-        { base: "build", past: "built", heb: "לבנות", sentence: "Last week, we ___ a big Lego castle.", distractors: ["builded", "builds"] },
-        
-        // Group 12
-        { base: "sleep", past: "slept", heb: "לישון", sentence: "The cat ___ on the sofa all night.", distractors: ["sleeped", "sleeps"] },
-        { base: "feel", past: "felt", heb: "להרגיש", sentence: "I ___ excited to see my new classroom.", distractors: ["feeled", "feels"] },
-        { base: "keep", past: "kept", heb: "לשמור", sentence: "She ___ her favorite stones in a special box.", distractors: ["keeped", "keeps"] },
-        { base: "leave", past: "left", heb: "לעזוב", sentence: "We ___ our old house to move to a new city.", distractors: ["leaved", "leaves"] },
-        { base: "meet", past: "met", heb: "לפגוש", sentence: "I ___ a new friend at the playground.", distractors: ["meeted", "meets"] },
-        { base: "mean", past: "meant", heb: "להתכוון", sentence: "I didn't know what that strange word ___.", distractors: ["meaned", "means"] },
-        
-        // Group 13
-        { base: "run", past: "ran", heb: "לרוץ", sentence: "The dog ___ fast to catch the stick.", distractors: ["runned", "runs"] },
-        { base: "make", past: "made", heb: "לעשות", sentence: "We ___ a delicious cake yesterday.", distractors: ["maked", "makes"] },
-        { base: "have", past: "had", heb: "יש", sentence: "I ___ a wonderful time at the party.", distractors: ["haved", "has"] },
-        { base: "can", past: "could", heb: "יכול", sentence: "When I was little, I ___ not ride a bike.", distractors: ["canned", "cans"] },
-        { base: "find", past: "found", heb: "למצוא", sentence: "We ___ a beautiful park near our new home in Helsinki.", distractors: ["finded", "finds"] },
-        { base: "go", past: "went", heb: "ללכת", sentence: "Yesterday, we ___ to the science museum.", distractors: ["goed", "goes"] },
-        { base: "hear", past: "heard", heb: "לשמוע", sentence: "I ___ a strange noise outside my window.", distractors: ["heared", "hears"] },
-        { base: "fall", past: "fell", heb: "ליפול", sentence: "The bright red apple ___ from the tree.", distractors: ["falled", "falls"] },
-        { base: "win", past: "won", heb: "לנצח, לזכות", sentence: "Our team ___ the big game on Saturday!", distractors: ["winned", "wins"] },
-        { base: "eat", past: "ate", heb: "לאכול", sentence: "We ___ pizza for dinner last night.", distractors: ["eated", "eats"] },
-        { base: "see", past: "saw", heb: "לראות", sentence: "I ___ a shooting star in the sky.", distractors: ["seed", "sees"] }
+    // Data extracted directly from the worksheets!
+    const goingToData = [
+        { prefix: "She", suffix: "her grandmother tomorrow.", hint: "visit", answer: "is going to visit" },
+        { prefix: "They", suffix: "football after school.", hint: "play", answer: "are going to play" },
+        { prefix: "I", suffix: "for the test tonight.", hint: "study", answer: "am going to study" },
+        { prefix: "He", suffix: "meat anymore.", hint: "not eat", answer: "is not going to eat" },
+        { prefix: "We", suffix: "to London next month.", hint: "travel", answer: "are going to travel" },
+        { prefix: "The students", suffix: "to class today.", hint: "not come", answer: "are not going to come" },
+        { prefix: "My parents", suffix: "a new car.", hint: "buy", answer: "are going to buy" },
+        { prefix: "It", suffix: "this afternoon.", hint: "rain", answer: "is going to rain" },
+        { prefix: "The sun", suffix: "soon.", hint: "set", answer: "is going to set" },
+        { prefix: "We", suffix: "to Eilat this summer.", hint: "not fly", answer: "are not going to fly" },
+        { prefix: "We", suffix: "at home and enjoy our town.", hint: "stay", answer: "are going to stay" }
     ];
 
-    let currentMode = 1;
+    const shallData = [
+        { prefix: "We", suffix: "to the beach this weekend.", hint: "go", answer: "shall go" },
+        { prefix: "I", suffix: "you with your project tomorrow.", hint: "help", answer: "shall help" },
+        { prefix: "We", suffix: "to call grandma.", hint: "not forget", answer: "shall not forget" },
+        { prefix: "I", suffix: "the books to class on Sunday.", hint: "bring", answer: "shall bring" },
+        { prefix: "We", suffix: "until we finish!", hint: "not give up", answer: "shall not give up" },
+        { prefix: "I", suffix: "you a letter when I arrive.", hint: "write", answer: "shall write" },
+        { prefix: "We", suffix: "late for the show.", hint: "not be", answer: "shall not be" }
+    ];
+
+    let currentMode = 'goingTo';
     let currentIndex = 0;
-    let activeList = [];
-    const questionsPerRound = 12;
+    let attempts = 0;
 
-    function shuffleArray(array) {
-        let shuffled = [...array];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        return shuffled;
+    function init() {
+        shuffleArray(goingToData);
+        shuffleArray(shallData);
+        loadQuestion();
     }
 
-    function returnToMenu() {
-        document.getElementById('game-screen').style.display = 'none';
-        document.getElementById('menu-screen').style.display = 'block';
-    }
-
-    function startMode(mode) {
+    function switchMode(mode) {
         currentMode = mode;
         currentIndex = 0;
-        // Shuffle the master list and just take 12 for this round
-        activeList = shuffleArray(masterVerbList).slice(0, questionsPerRound);
         
-        document.getElementById('menu-screen').style.display = 'none';
-        document.getElementById('game-screen').style.display = 'block';
+        // Update tabs visually
+        document.getElementById('tab-goingTo').classList.remove('active');
+        document.getElementById('tab-shall').classList.remove('active');
+        document.getElementById(`tab-${mode}`).classList.add('active');
         
-        let title = "";
-        if(mode === 1) title = "Mode 1: The Transformer";
-        if(mode === 2) title = "Mode 2: The Detective";
-        if(mode === 3) title = "Mode 3: The Master";
-        document.getElementById('mode-indicator').innerText = title;
-
+        // Update instructions
+        if (mode === 'goingTo') {
+            document.getElementById('mode-instruction').innerText = "Remember: am/is/are + going to + verb";
+        } else {
+            document.getElementById('mode-instruction').innerText = "Remember: Use 'shall' or 'shall not' + verb";
+        }
+        
         loadQuestion();
     }
 
     function loadQuestion() {
-        const wordData = activeList[currentIndex];
-        const qArea = document.getElementById('question-area');
-        const iArea = document.getElementById('input-area');
+        const dataSet = currentMode === 'goingTo' ? goingToData : shallData;
+        const question = dataSet[currentIndex];
         
-        document.getElementById('feedback').innerText = "";
-        document.getElementById('progress').innerText = `Question ${currentIndex + 1} of ${activeList.length}`;
-
-        if (currentMode === 1) {
-            qArea.innerHTML = `
-                <div class="hebrew">${wordData.heb}</div>
-                <div class="verb-display">${wordData.base}</div>
-            `;
-            iArea.innerHTML = `
-                <input type="text" id="user-input" placeholder="Type past tense..." autocomplete="off">
-                <br><button class="btn btn-primary" id="submit-btn" onclick="checkTyping()">Check</button>
-            `;
-            setupEnterKey();
-            document.getElementById('user-input').focus();
-
-        } else if (currentMode === 2) {
-            qArea.innerHTML = `
-                <div class="hebrew">(${wordData.heb})</div>
-                <div class="sentence-display">${wordData.sentence}</div>
-            `;
-            
-            let options = [wordData.past, ...wordData.distractors];
-            options = shuffleArray(options);
-            
-            let buttonsHTML = '<div class="choices-grid">';
-            options.forEach(opt => {
-                buttonsHTML += `<button class="btn btn-choice" onclick="checkChoice('${opt}')">${opt}</button>`;
-            });
-            buttonsHTML += '</div>';
-            iArea.innerHTML = buttonsHTML;
-
-        } else if (currentMode === 3) {
-            qArea.innerHTML = `
-                <div class="hebrew">Hint: ${wordData.heb}</div>
-                <div class="sentence-display">${wordData.sentence}</div>
-            `;
-            iArea.innerHTML = `
-                <input type="text" id="user-input" placeholder="Type the missing word..." autocomplete="off">
-                <br><button class="btn btn-primary" id="submit-btn" onclick="checkTyping()">Check</button>
-            `;
-            setupEnterKey();
-            document.getElementById('user-input').focus();
-        }
-    }
-
-    function setupEnterKey() {
-        document.getElementById('user-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') checkTyping();
-        });
-    }
-
-    function checkTyping() {
-        const userAnswer = document.getElementById('user-input').value.trim().toLowerCase();
-        handleResult(userAnswer === activeList[currentIndex].past);
-    }
-
-    function checkChoice(selectedOption) {
-        handleResult(selectedOption === activeList[currentIndex].past);
-    }
-
-    function handleResult(isCorrect) {
-        const feedback = document.getElementById('feedback');
+        document.getElementById('sent-prefix').innerText = question.prefix;
+        document.getElementById('sent-suffix').innerText = question.suffix;
+        document.getElementById('verb-hint').innerText = `(${question.hint})`;
         
-        if (isCorrect) {
-            feedback.innerHTML = "<span class='success'>Excellent! well done.</span>";
-            
-            if(document.getElementById('submit-btn')) document.getElementById('submit-btn').disabled = true;
-            let choiceBtns = document.querySelectorAll('.btn-choice');
-            choiceBtns.forEach(btn => btn.disabled = true);
-            
-            setTimeout(() => {
-                currentIndex++;
-                if (currentIndex < activeList.length) {
-                    loadQuestion();
-                } else {
-                    showWinScreen();
-                }
-            }, 1200);
+        clearInput();
+    }
+
+    function checkAnswer() {
+        const input = document.getElementById('answer-input').value.trim().toLowerCase();
+        
+        // Removes extra spaces inside the string just in case they hit spacebar twice
+        const cleanInput = input.replace(/\s+/g, ' '); 
+        
+        const dataSet = currentMode === 'goingTo' ? goingToData : shallData;
+        const correctAnswer = dataSet[currentIndex].answer;
+        const feedback = document.getElementById('feedback-message');
+        
+        if (cleanInput === correctAnswer) {
+            feedback.innerHTML = "✨ Brilliant! ✨";
+            feedback.className = "feedback correct";
+            attempts = 0; 
         } else {
-            feedback.innerHTML = "<span class='error'>Almost! Try again.</span>";
-            const inputField = document.getElementById('user-input');
-            if(inputField) {
-                inputField.style.transform = "translateX(5px)";
-                setTimeout(() => inputField.style.transform = "translateX(-5px)", 100);
-                setTimeout(() => inputField.style.transform = "translateX(5px)", 200);
-                setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+            attempts++;
+            if (attempts >= 3) {
+                feedback.innerHTML = `Let's learn this one! The correct answer is: <b>${correctAnswer}</b>`;
+                feedback.className = "feedback incorrect";
+            } else {
+                const triesLeft = 3 - attempts;
+                
+                // Fun custom feedback if they spell it "shell"
+                if (cleanInput.includes("shell")) {
+                    feedback.innerHTML = `Ah, a tricky spelling! Remember, it's spelled s-h-a-l-l. (${triesLeft} attempt${triesLeft > 1 ? 's' : ''} left)`;
+                } else {
+                    feedback.innerHTML = `Not quite! Give it another try. (${triesLeft} attempt${triesLeft > 1 ? 's' : ''} left)`;
+                }
+                feedback.className = "feedback warning";
             }
         }
     }
 
-    function showWinScreen() {
-        document.getElementById('question-area').innerHTML = `
-            <div class="verb-display" style="color: #6b8e23;">Amazing Work!</div>
-            <p style="font-size: 1.2rem;">You completed this round beautifully.</p>
-        `;
-        document.getElementById('input-area').innerHTML = `
-            <button class="btn btn-menu" onclick="returnToMenu()">Play Another Round</button>
-        `;
-        document.getElementById('feedback').innerText = "";
-        document.getElementById('progress').innerText = "";
+    function nextQuestion() {
+        const dataSet = currentMode === 'goingTo' ? goingToData : shallData;
+        currentIndex = (currentIndex + 1) % dataSet.length;
+        loadQuestion();
     }
+
+    function clearInput() {
+        document.getElementById('answer-input').value = '';
+        document.getElementById('feedback-message').innerHTML = '';
+        attempts = 0;
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    window.onload = init;
 </script>
 
 </body>
