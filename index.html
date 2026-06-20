@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Future Forecaster 🔮</title>
+    <title>Grammar & Adjective Ace 🏆</title>
     <style>
         :root {
-            --primary: #00B4D8;
-            --secondary: #FFB703;
+            --primary: #8338EC;
+            --secondary: #FF006E;
+            --tertiary: #3A86FF;
             --bg: #F8F9FA;
             --text: #2B2D42;
         }
@@ -29,7 +30,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
             text-align: center;
         }
         h1 {
@@ -38,6 +39,7 @@
         }
         .tabs {
             display: flex;
+            flex-wrap: wrap;
             margin-bottom: 20px;
             background: #E9ECEF;
             border-radius: 10px;
@@ -50,6 +52,7 @@
             font-weight: bold;
             transition: 0.3s;
             color: #6C757D;
+            min-width: 120px;
         }
         .tab.active {
             background: var(--primary);
@@ -63,11 +66,15 @@
             margin-bottom: 20px;
             font-size: 1.2em;
             line-height: 1.8;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         .hint-text {
             color: #8D99AE;
             font-size: 0.85em;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -77,34 +84,35 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 15px;
         }
-        input {
+        input[type="text"] {
             padding: 10px;
             font-size: 1em;
             border: 2px solid #DEE2E6;
             border-radius: 8px;
             text-align: center;
-            width: 180px;
             transition: 0.3s;
             font-weight: bold;
-            color: var(--primary);
+            color: var(--tertiary);
+            width: 140px;
         }
-        input:focus {
+        input[type="text"]:focus {
             outline: none;
             border-color: var(--secondary);
-            box-shadow: 0 0 8px rgba(255, 183, 3, 0.4);
+            box-shadow: 0 0 8px rgba(255, 0, 110, 0.3);
         }
         .verb-hint {
             display: block;
             color: var(--secondary);
             font-weight: bold;
             margin-top: 5px;
+            font-size: 1.1em;
         }
         .btn {
             background: var(--secondary);
-            color: #2B2D42;
+            color: white;
             border: none;
             padding: 12px 25px;
             font-size: 1.1em;
@@ -112,86 +120,130 @@
             cursor: pointer;
             font-weight: bold;
             transition: 0.3s;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 183, 3, 0.4);
+            box-shadow: 0 4px 12px rgba(255, 0, 110, 0.4);
         }
         .feedback {
             margin-top: 15px;
             font-weight: bold;
-            min-height: 24px;
+            min-height: 28px;
             font-size: 1.1em;
         }
         .correct { color: #2A9D8F; }
         .incorrect { color: #E76F51; }
         .warning { color: #F4A261; }
+        
+        /* Adjective Specific Styles */
+        .adj-base {
+            font-size: 2.5em;
+            color: var(--tertiary);
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-transform: capitalize;
+        }
+        .adj-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        .adj-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+            max-width: 380px;
+            gap: 10px;
+        }
+        .adj-label {
+            font-weight: bold;
+            color: #6C757D;
+            width: 120px;
+            text-align: right;
+            font-size: 0.9em;
+        }
+        .adj-the {
+            font-weight: bold;
+            color: var(--text);
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <h1>Future Forecaster 🔮</h1>
-    <p>Predict the future with perfect grammar!</p>
-
+    <h1>Grammar & Adjective Ace 🏆</h1>
+    
     <div class="tabs">
-        <div class="tab active" onclick="switchMode('goingTo')" id="tab-goingTo">"Going To"</div>
-        <div class="tab" onclick="switchMode('shall')" id="tab-shall">"Shall"</div>
+        <div class="tab active" onclick="switchMode('future')" id="tab-future">Future Simple</div>
+        <div class="tab" onclick="switchMode('goingTo')" id="tab-goingTo">"Going To"</div>
+        <div class="tab" onclick="switchMode('adjectives')" id="tab-adjectives">Adjectives</div>
     </div>
 
-    <div class="card">
-        <div id="mode-instruction" class="hint-text">
-            Remember: am/is/are + going to + verb
-        </div>
-        
-        <div class="sentence-container">
-            <span id="sent-prefix">She</span>
-            <input type="text" id="answer-input" placeholder="type here..." autocomplete="off">
-            <span id="sent-suffix">her grandmother tomorrow.</span>
-        </div>
-        <div class="verb-hint" id="verb-hint">(visit)</div>
-        
-        <button class="btn" onclick="checkAnswer()">Check Answer</button>
-        <div class="feedback" id="feedback-message"></div>
+    <div class="card" id="card-area">
+        <!-- Content will be injected here by JavaScript -->
     </div>
 
-    <button class="btn" style="background: var(--primary); color: white; width: 100%;" onclick="nextQuestion()">Next Sentence ➡️</button>
+    <button class="btn" style="background: var(--primary); width: 100%;" onclick="nextQuestion()">Next Question ➡️</button>
 </div>
 
 <script>
-    // Data extracted directly from the worksheets!
+    // --- DATA MODULES ---
+
+    const futureData = [
+        { parts: ["Sharon", "his grandparents next Monday."], hint: "visit", answers: [["will visit"]] },
+        { parts: ["Many tourists", "in Israel in the summer."], hint: "arrive", answers: [["will arrive"]] },
+        { parts: ["I", "to London this summer."], hint: "not fly", answers: [["will not fly", "won't fly"]] },
+        { parts: ["Who", "with me to the beach tomorrow?"], hint: "come", answers: [["will come"]] },
+        { parts: ["When", "the test", "?"], hint: "start", answers: [["will"], ["start"]] },
+        { parts: ["They", "to the cinema tonight."], hint: "not go", answers: [["will not go", "won't go"]] },
+        { parts: ["Where", "you", "next week?"], hint: "travel", answers: [["will"], ["travel"]] }
+    ];
+
     const goingToData = [
-        { prefix: "She", suffix: "her grandmother tomorrow.", hint: "visit", answer: "is going to visit" },
-        { prefix: "They", suffix: "football after school.", hint: "play", answer: "are going to play" },
-        { prefix: "I", suffix: "for the test tonight.", hint: "study", answer: "am going to study" },
-        { prefix: "He", suffix: "meat anymore.", hint: "not eat", answer: "is not going to eat" },
-        { prefix: "We", suffix: "to London next month.", hint: "travel", answer: "are going to travel" },
-        { prefix: "The students", suffix: "to class today.", hint: "not come", answer: "are not going to come" },
-        { prefix: "My parents", suffix: "a new car.", hint: "buy", answer: "are going to buy" },
-        { prefix: "It", suffix: "this afternoon.", hint: "rain", answer: "is going to rain" },
-        { prefix: "The sun", suffix: "soon.", hint: "set", answer: "is going to set" },
-        { prefix: "We", suffix: "to Eilat this summer.", hint: "not fly", answer: "are not going to fly" },
-        { prefix: "We", suffix: "at home and enjoy our town.", hint: "stay", answer: "are going to stay" }
+        { parts: ["The temperatures", "tomorrow."], hint: "rise", answers: [["are going to rise"]] },
+        { parts: ["", "the airplane", "soon?"], hint: "land", answers: [["is"], ["going to land"]] },
+        { parts: ["I", "basketball next week, because my hand still hurts."], hint: "not play", answers: [["am not going to play", "m not going to play", "'m not going to play"]] }
     ];
 
-    const shallData = [
-        { prefix: "We", suffix: "to the beach this weekend.", hint: "go", answer: "shall go" },
-        { prefix: "I", suffix: "you with your project tomorrow.", hint: "help", answer: "shall help" },
-        { prefix: "We", suffix: "to call grandma.", hint: "not forget", answer: "shall not forget" },
-        { prefix: "I", suffix: "the books to class on Sunday.", hint: "bring", answer: "shall bring" },
-        { prefix: "We", suffix: "until we finish!", hint: "not give up", answer: "shall not give up" },
-        { prefix: "I", suffix: "you a letter when I arrive.", hint: "write", answer: "shall write" },
-        { prefix: "We", suffix: "late for the show.", hint: "not be", answer: "shall not be" }
+    const adjectiveData = [
+        { base: "easy", comp: ["easier"], sup: ["easiest"] },
+        { base: "short", comp: ["shorter"], sup: ["shortest"] },
+        { base: "heavy", comp: ["heavier"], sup: ["heaviest"] },
+        { base: "strong", comp: ["stronger"], sup: ["strongest"] },
+        { base: "weak", comp: ["weaker"], sup: ["weakest"] },
+        { base: "calm", comp: ["calmer"], sup: ["calmest"] },
+        { base: "hard", comp: ["harder"], sup: ["hardest"] },
+        { base: "tiny", comp: ["tinier"], sup: ["tiniest"] },
+        { base: "nice", comp: ["nicer"], sup: ["nicest"] },
+        { base: "hot", comp: ["hotter"], sup: ["hottest"] },
+        { base: "interesting", comp: ["more interesting"], sup: ["most interesting"] },
+        { base: "boring", comp: ["more boring"], sup: ["most boring"] },
+        { base: "exciting", comp: ["more exciting"], sup: ["most exciting"] },
+        { base: "wonderful", comp: ["more wonderful"], sup: ["most wonderful"] },
+        { base: "anxious", comp: ["more anxious"], sup: ["most anxious"] },
+        { base: "fascinating", comp: ["more fascinating"], sup: ["most fascinating"] },
+        { base: "peaceful", comp: ["more peaceful"], sup: ["most peaceful"] },
+        { base: "pleasant", comp: ["more pleasant"], sup: ["most pleasant"] },
+        { base: "thoughtful", comp: ["more thoughtful"], sup: ["most thoughtful"] },
+        { base: "good", comp: ["better"], sup: ["best"] },
+        { base: "bad", comp: ["worse"], sup: ["worst"] },
+        { base: "far", comp: ["farther", "further"], sup: ["farthest", "furthest"] }
     ];
 
-    let currentMode = 'goingTo';
+    // --- APP STATE ---
+    let currentMode = 'future';
     let currentIndex = 0;
     let attempts = 0;
 
+    // --- CORE LOGIC ---
     function init() {
+        shuffleArray(futureData);
         shuffleArray(goingToData);
-        shuffleArray(shallData);
+        shuffleArray(adjectiveData);
         loadQuestion();
     }
 
@@ -199,75 +251,124 @@
         currentMode = mode;
         currentIndex = 0;
         
-        // Update tabs visually
+        document.getElementById('tab-future').classList.remove('active');
         document.getElementById('tab-goingTo').classList.remove('active');
-        document.getElementById('tab-shall').classList.remove('active');
+        document.getElementById('tab-adjectives').classList.remove('active');
+        
         document.getElementById(`tab-${mode}`).classList.add('active');
-        
-        // Update instructions
-        if (mode === 'goingTo') {
-            document.getElementById('mode-instruction').innerText = "Remember: am/is/are + going to + verb";
-        } else {
-            document.getElementById('mode-instruction').innerText = "Remember: Use 'shall' or 'shall not' + verb";
-        }
-        
         loadQuestion();
     }
 
     function loadQuestion() {
-        const dataSet = currentMode === 'goingTo' ? goingToData : shallData;
-        const question = dataSet[currentIndex];
-        
-        document.getElementById('sent-prefix').innerText = question.prefix;
-        document.getElementById('sent-suffix').innerText = question.suffix;
-        document.getElementById('verb-hint').innerText = `(${question.hint})`;
-        
-        clearInput();
+        attempts = 0;
+        const cardArea = document.getElementById('card-area');
+        cardArea.innerHTML = ''; // Clear previous
+
+        if (currentMode === 'future' || currentMode === 'goingTo') {
+            const dataSet = currentMode === 'future' ? futureData : goingToData;
+            const q = dataSet[currentIndex];
+            const title = currentMode === 'future' ? "Future Simple (will + verb)" : '"Be" (am/is/are) + going to + verb';
+            
+            let html = `<div class="hint-text">${title}</div><div class="sentence-container">`;
+            
+            // Build dynamic sentence layout based on how many "parts" there are
+            for (let i = 0; i < q.parts.length; i++) {
+                if (q.parts[i] !== "") {
+                    html += `<span>${q.parts[i]}</span>`;
+                }
+                if (i < q.answers.length) {
+                    html += `<input type="text" id="ans-${i}" autocomplete="off">`;
+                }
+            }
+            
+            html += `</div>
+                     <div class="verb-hint">(${q.hint})</div>
+                     <button class="btn" onclick="checkSentence()">Check Answer</button>
+                     <div class="feedback" id="feedback-message"></div>`;
+            
+            cardArea.innerHTML = html;
+
+        } else if (currentMode === 'adjectives') {
+            const q = adjectiveData[currentIndex];
+            cardArea.innerHTML = `
+                <div class="hint-text">Comparative & Superlative</div>
+                <div class="adj-base">${q.base}</div>
+                
+                <div class="adj-inputs">
+                    <div class="adj-row">
+                        <span class="adj-label">Comparative (יותר מ):</span>
+                        <input type="text" id="comp-ans" autocomplete="off">
+                    </div>
+                    <div class="adj-row">
+                        <span class="adj-label">Superlative (הכי):</span>
+                        <span class="adj-the">the</span>
+                        <input type="text" id="sup-ans" autocomplete="off">
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="checkAdjective()">Check Answer</button>
+                <div class="feedback" id="feedback-message"></div>
+            `;
+        }
     }
 
-    function checkAnswer() {
-        const input = document.getElementById('answer-input').value.trim().toLowerCase();
+    function checkSentence() {
+        const dataSet = currentMode === 'future' ? futureData : goingToData;
+        const q = dataSet[currentIndex];
+        let allCorrect = true;
+
+        for (let i = 0; i < q.answers.length; i++) {
+            const userInput = document.getElementById(`ans-${i}`).value.trim().toLowerCase().replace(/\s+/g, ' ');
+            const acceptableAnswers = q.answers[i];
+            
+            if (!acceptableAnswers.includes(userInput)) {
+                allCorrect = false;
+                break;
+            }
+        }
+        handleFeedback(allCorrect, q.answers.map(arr => arr[0]).join(' ... '));
+    }
+
+    function checkAdjective() {
+        const q = adjectiveData[currentIndex];
+        const compInput = document.getElementById('comp-ans').value.trim().toLowerCase().replace(/\s+/g, ' ');
+        const supInput = document.getElementById('sup-ans').value.trim().toLowerCase().replace(/\s+/g, ' ');
+
+        const compCorrect = q.comp.includes(compInput);
+        const supCorrect = q.sup.includes(supInput);
         
-        // Removes extra spaces inside the string just in case they hit spacebar twice
-        const cleanInput = input.replace(/\s+/g, ' '); 
-        
-        const dataSet = currentMode === 'goingTo' ? goingToData : shallData;
-        const correctAnswer = dataSet[currentIndex].answer;
+        handleFeedback(compCorrect && supCorrect, `${q.comp[0]} / the ${q.sup[0]}`);
+    }
+
+    function handleFeedback(isCorrect, rightAnswerText) {
         const feedback = document.getElementById('feedback-message');
         
-        if (cleanInput === correctAnswer) {
-            feedback.innerHTML = "✨ Brilliant! ✨";
+        if (isCorrect) {
+            feedback.innerHTML = "✨ Outstanding! ✨";
             feedback.className = "feedback correct";
             attempts = 0; 
         } else {
             attempts++;
             if (attempts >= 3) {
-                feedback.innerHTML = `Let's learn this one! The correct answer is: <b>${correctAnswer}</b>`;
+                feedback.innerHTML = `Let's learn this one! The correct answer is: <b>${rightAnswerText}</b>`;
                 feedback.className = "feedback incorrect";
             } else {
                 const triesLeft = 3 - attempts;
-                
-                // Fun custom feedback if they spell it "shell"
-                if (cleanInput.includes("shell")) {
-                    feedback.innerHTML = `Ah, a tricky spelling! Remember, it's spelled s-h-a-l-l. (${triesLeft} attempt${triesLeft > 1 ? 's' : ''} left)`;
-                } else {
-                    feedback.innerHTML = `Not quite! Give it another try. (${triesLeft} attempt${triesLeft > 1 ? 's' : ''} left)`;
-                }
+                feedback.innerHTML = `Not quite right! Double-check your spelling. (${triesLeft} attempt${triesLeft > 1 ? 's' : ''} left)`;
                 feedback.className = "feedback warning";
             }
         }
     }
 
     function nextQuestion() {
-        const dataSet = currentMode === 'goingTo' ? goingToData : shallData;
-        currentIndex = (currentIndex + 1) % dataSet.length;
+        if (currentMode === 'future') {
+            currentIndex = (currentIndex + 1) % futureData.length;
+        } else if (currentMode === 'goingTo') {
+            currentIndex = (currentIndex + 1) % goingToData.length;
+        } else {
+            currentIndex = (currentIndex + 1) % adjectiveData.length;
+        }
         loadQuestion();
-    }
-
-    function clearInput() {
-        document.getElementById('answer-input').value = '';
-        document.getElementById('feedback-message').innerHTML = '';
-        attempts = 0;
     }
 
     function shuffleArray(array) {
