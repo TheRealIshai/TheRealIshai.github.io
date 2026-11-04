@@ -4,282 +4,459 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orry's Botany Explorer</title>
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for Data Lab -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: #f0fdf4; 
-            background-image: radial-gradient(#bbf7d0 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-color: #f0fdf4; /* Light green background */
+            background-image: radial-gradient(#bbf7d0 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
         }
 
-        /* Custom Animations */
+        /* Animations */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-8px); }
-            80% { transform: translateX(8px); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
+            0% { transform: scale(0.9); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
-
-        .animate-shake {
-            animation: shake 0.5s ease-in-out;
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
 
-        .animate-pop {
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
 
-        /* State Styles for Buttons */
+        /* Quiz Buttons */
         .option-btn {
             transition: all 0.2s ease;
-            transform-origin: center;
         }
-
         .option-btn:hover:not(:disabled) {
             transform: scale(1.02) translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-
         .option-btn:active:not(:disabled) {
             transform: scale(0.98);
         }
-
         .correct-answer {
             background-color: #dcfce7 !important;
             border-color: #22c55e !important;
-            color: #166534 !important;
-            box-shadow: 0 0 15px 2px rgba(34, 197, 94, 0.4);
+            color: #15803d !important;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
             transform: scale(1.02);
             z-index: 10;
         }
-
         .wrong-answer {
             background-color: #fee2e2 !important;
             border-color: #ef4444 !important;
             color: #991b1b !important;
-            opacity: 0.9;
         }
 
+        /* Tab Navigation */
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
         .tab-active {
             background-color: #ffffff;
-            color: #15803d;
+            color: #15803d; /* Green 700 */
             border-bottom: 4px solid #15803d;
         }
-        
         .tab-inactive {
-            background-color: #dcfce7;
-            color: #166534;
+            background-color: #dcfce7; /* Green 100 */
+            color: #166534; /* Green 800 */
             border-bottom: 4px solid transparent;
         }
-        
         .tab-inactive:hover {
-            background-color: #bbf7d0;
+            background-color: #bbf7d0; /* Green 200 */
         }
+
+        /* Anatomy Interactive Hotspots */
+        .hotspot-btn {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background-color: #fbbf24; /* Amber 400 */
+            color: #78350f; /* Amber 900 */
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            font-weight: 900;
+            font-size: 1.2rem;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+        }
+        .hotspot-btn:hover {
+            background-color: #f59e0b; /* Amber 500 */
+            transform: translate(-50%, -50%) scale(1.2);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Anatomy Diagram Styling */
+        .diagram-container {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 16px 16px;
+        }
+        
+        /* Hide scrollbar for clean UI */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4 text-slate-800">
 
     <!-- Main App Container -->
-    <div id="game-container" class="bg-white rounded-3xl shadow-2xl overflow-hidden w-full max-w-3xl border-4 border-green-200 relative z-10 animate-pop flex flex-col">
+    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden w-full max-w-4xl border-4 border-green-200 relative z-10 flex flex-col max-h-[90vh]">
         
         <!-- Header -->
-        <div class="bg-gradient-to-r from-green-500 to-emerald-600 p-6 text-white text-center relative overflow-hidden shrink-0">
+        <div class="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 p-5 text-white text-center relative overflow-hidden shrink-0 shadow-md z-20">
             <!-- Decorative circles -->
             <div class="absolute top-0 left-0 w-32 h-32 bg-white opacity-10 rounded-full -translate-x-16 -translate-y-16"></div>
             <div class="absolute bottom-0 right-0 w-24 h-24 bg-white opacity-10 rounded-full translate-x-8 translate-y-8"></div>
-            
-            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight drop-shadow-md">Orry's Botany Explorer</h1>
+            <h1 class="text-3xl md:text-4xl font-black tracking-tight drop-shadow-lg flex items-center justify-center gap-3">
+                <span>🌱</span> Orry's Botany Explorer <span>🌿</span>
+            </h1>
         </div>
 
         <!-- Tab Navigation -->
-        <div class="flex flex-row text-lg font-bold shrink-0">
-            <button id="tab-btn-quiz" class="flex-1 py-4 tab-active transition-colors duration-200">
-                📝 Quiz Mode
+        <div class="flex flex-row text-sm sm:text-base md:text-lg font-bold shrink-0 z-10 bg-green-50 shadow-sm">
+            <button id="btn-tab-quiz" class="tab-btn flex-1 py-3 sm:py-4 tab-active" onclick="switchTab('quiz')">
+                📝 Quiz Challenge
             </button>
-            <button id="tab-btn-data" class="flex-1 py-4 tab-inactive transition-colors duration-200">
+            <button id="btn-tab-data" class="tab-btn flex-1 py-3 sm:py-4 tab-inactive border-l border-green-200" onclick="switchTab('data')">
                 📊 Data Lab
+            </button>
+            <button id="btn-tab-anatomy" class="tab-btn flex-1 py-3 sm:py-4 tab-inactive border-l border-green-200" onclick="switchTab('anatomy')">
+                🔍 Anatomy Lab
             </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto">
-            <!-- QUIZ VIEW -->
-            <div id="view-quiz" class="p-6 md:p-8 block">
-                
-                <!-- Quiz Status Bar -->
-                <div id="quiz-status" class="flex justify-between items-center mb-6 bg-green-50 rounded-full px-4 py-2 border border-green-200">
-                    <span class="font-bold text-green-800" id="score-display">Score: 0</span>
-                    <div class="flex-1 mx-4 bg-green-200 rounded-full h-3 overflow-hidden">
+        <!-- Scrollable Content Area -->
+        <div class="flex-1 overflow-y-auto relative">
+            
+            <!-- ============================== -->
+            <!-- TAB 1: QUIZ CHALLENGE          -->
+            <!-- ============================== -->
+            <div id="tab-quiz" class="p-6 md:p-8 animate-pop block">
+                <!-- Status Bar -->
+                <div id="quiz-status" class="flex justify-between items-center mb-6 bg-green-50 rounded-full px-4 py-2 border border-green-200 shadow-inner">
+                    <span class="font-black text-green-800 text-lg" id="score-display">Score: 0</span>
+                    <div class="flex-1 mx-4 bg-green-200 rounded-full h-3 md:h-4 overflow-hidden shadow-inner">
                         <div id="progress-bar" class="bg-green-500 h-full w-0 transition-all duration-500 rounded-full"></div>
                     </div>
-                    <span class="font-bold text-sm bg-white text-green-700 px-3 py-1 rounded-full shadow-sm border border-green-100" id="question-counter">Q: 1</span>
+                    <span class="font-bold text-sm bg-white text-green-700 px-3 py-1 rounded-full shadow border border-green-100" id="question-counter">Q: 1/15</span>
                 </div>
 
-                <!-- Quiz Question Section -->
+                <!-- Quiz Area -->
                 <div id="quiz-section">
-                    <h2 id="question-text" class="text-xl md:text-2xl font-bold text-center mb-8 text-green-900 leading-snug">
-                        <!-- Question loaded here via JS -->
+                    <h2 id="question-text" class="text-xl md:text-2xl font-extrabold text-center mb-8 text-slate-800 leading-snug min-h-[4rem] flex items-center justify-center">
+                        <!-- Question Text Injected Here -->
                     </h2>
 
-                    <div id="options-container" class="grid grid-cols-1 gap-4 mb-6">
-                        <!-- Options loaded here via JS -->
+                    <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <!-- Options Injected Here -->
                     </div>
 
-                    <!-- Feedback & Explanation Container -->
-                    <div id="feedback-container" class="text-center hidden mb-6">
-                        <div id="feedback-title" class="font-extrabold text-2xl mb-2"></div>
-                        <div id="explanation-box" class="hidden bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg text-left text-blue-900 shadow-sm">
-                            <span class="font-bold mr-1">💡 Explanation:</span>
-                            <span id="explanation-text"></span>
+                    <!-- Feedback & Explanation -->
+                    <div id="feedback-container" class="text-center hidden mb-6 animate-pop">
+                        <div id="feedback-title" class="font-black text-2xl mb-2"></div>
+                        <div id="explanation-box" class="hidden bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-xl text-left text-blue-900 shadow-md">
+                            <span class="font-black mr-2 text-blue-700 flex items-center gap-2 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                Let's Learn:
+                            </span>
+                            <span id="explanation-text" class="text-lg leading-relaxed"></span>
                         </div>
                     </div>
 
-                    <!-- Next Button -->
                     <div class="text-center">
-                        <button id="next-btn" class="hidden mx-auto bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold py-3 px-10 rounded-full shadow-[0_4px_0_#ca8a04] active:shadow-none active:translate-y-1 transition-all text-lg w-full sm:w-auto">
-                            Next Question 🌿
+                        <button id="next-btn" class="hidden mx-auto bg-amber-400 hover:bg-amber-500 text-amber-900 font-black py-3 px-10 rounded-full shadow-[0_4px_0_#b45309] active:shadow-none active:translate-y-1 transition-all text-xl">
+                            Next Question 🚀
                         </button>
                     </div>
                 </div>
 
-                <!-- End Screen Section -->
-                <div id="end-screen" class="text-center hidden py-8">
-                    <h2 class="text-4xl font-extrabold text-green-600 mb-4">Quiz Complete!</h2>
-                    <div class="text-6xl mb-6 animate-bounce">🌻</div>
-                    <p id="final-score" class="text-2xl font-bold text-gray-700 mb-8"></p>
-                    
-                    <button id="restart-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-full shadow-[0_4px_0_#166534] active:shadow-none active:translate-y-1 transition-all text-xl w-full sm:w-auto">
-                        Play Again 🪴
+                <!-- Quiz End Screen -->
+                <div id="end-screen" class="text-center hidden py-10 animate-pop">
+                    <h2 class="text-5xl font-black text-green-600 mb-4">Awesome Job!</h2>
+                    <div class="text-7xl mb-6 animate-float">🌻</div>
+                    <p id="final-score" class="text-3xl font-bold text-slate-700 mb-8"></p>
+                    <button onclick="startQuiz()" class="bg-green-500 hover:bg-green-600 text-white font-black py-4 px-12 rounded-full shadow-[0_4px_0_#166534] active:shadow-none active:translate-y-1 transition-all text-xl">
+                        Play Again 🔄
                     </button>
                 </div>
             </div>
 
-            <!-- DATA LAB VIEW -->
-            <div id="view-data" class="p-6 md:p-8 hidden">
-                <h2 class="text-2xl font-bold text-green-900 mb-2 text-center">Plant Growth Experiment</h2>
-                <p class="text-gray-600 text-center mb-6">How does light affect plant growth over 20 days?</p>
-                
-                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-inner mb-6 relative h-64 sm:h-80 w-full">
-                    <canvas id="growthChart"></canvas>
-                </div>
-
-                <div class="bg-yellow-50 border border-yellow-200 p-5 rounded-2xl shadow-sm">
-                    <h3 class="font-bold text-yellow-800 text-lg mb-2">🔍 Observation Station</h3>
-                    <p class="text-yellow-900 leading-relaxed">
-                        Look at <strong class="bg-yellow-200 px-1 rounded">Day 5</strong>! Which plant was taller? 
-                        The plant in the darkness stretched out looking for light, but eventually ran out of energy. 
-                        The plant in sunlight grew steadily and caught up by <strong class="bg-yellow-200 px-1 rounded">Day 20</strong>!
+            <!-- ============================== -->
+            <!-- TAB 2: DATA LAB                -->
+            <!-- ============================== -->
+            <div id="tab-data" class="p-6 md:p-8 hidden">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="text-3xl font-black text-slate-800 mb-2 text-center flex items-center justify-center gap-2">
+                        📈 Plant Growth Experiment
+                    </h2>
+                    <p class="text-slate-600 text-center mb-6 font-semibold text-lg">
+                        How does light affect plant growth over 20 days?
                     </p>
+                    
+                    <!-- Chart Container -->
+                    <div class="bg-white p-4 rounded-2xl border-2 border-gray-200 shadow-lg mb-8 relative h-72 sm:h-96 w-full">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+
+                    <!-- Observation Box -->
+                    <div class="bg-amber-50 border-2 border-amber-200 p-6 rounded-2xl shadow-md">
+                        <h3 class="font-black text-amber-900 text-xl mb-3 flex items-center gap-2">
+                            <span class="text-2xl">🔬</span> Observation Station
+                        </h3>
+                        <p class="text-amber-900 leading-relaxed text-lg mb-3">
+                            Look at <strong class="bg-amber-200 px-2 py-0.5 rounded text-amber-900 shadow-sm">Day 5</strong>! The plant in the <span class="text-gray-700 font-bold">darkness</span> actually shot up faster at first. Why?
+                        </p>
+                        <p class="text-amber-900 leading-relaxed text-lg">
+                            <strong>Explanation:</strong> Plants in darkness quickly stretch out, desperately trying to find sunlight. However, without light for <em>photosynthesis</em>, they eventually run out of stored energy and stop growing. The plant in <span class="text-green-700 font-bold">sunlight</span> grew steadily because it could make its own food, becoming taller and healthier by <strong class="bg-amber-200 px-2 py-0.5 rounded text-amber-900 shadow-sm">Day 20</strong>!
+                        </p>
+                    </div>
                 </div>
             </div>
+
+            <!-- ============================== -->
+            <!-- TAB 3: ANATOMY LAB             -->
+            <!-- ============================== -->
+            <div id="tab-anatomy" class="p-6 md:p-8 hidden">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-black text-slate-800 mb-2">🔍 Interactive Anatomy Lab</h2>
+                    <p class="text-slate-600 font-semibold text-lg">Click the yellow plus <span class="bg-amber-400 text-amber-900 rounded-full w-6 h-6 inline-flex items-center justify-center font-black text-sm mx-1">+</span> buttons to explore plant parts!</p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-8 items-center justify-center pb-8">
+                    
+                    <!-- SEED DIAGRAM -->
+                    <div class="bg-white rounded-3xl p-6 border-4 border-amber-100 shadow-xl flex-1 w-full max-w-sm flex flex-col items-center diagram-container">
+                        <h3 class="text-2xl font-black text-amber-800 mb-6">Inside a Seed</h3>
+                        
+                        <div class="relative w-48 h-64 mx-auto animate-float" style="animation-delay: 0s;">
+                            <!-- Seed Visual (CSS Art) -->
+                            <div class="absolute inset-0 bg-[#d4a373] rounded-[50%_50%_50%_50%/60%_60%_40%_40%] shadow-[inset_-10px_-10px_20px_rgba(0,0,0,0.15)] border-8 border-[#8b5a2b]"></div>
+                            <div class="absolute top-1/4 left-1/4 right-1/4 bottom-1/4 bg-[#faedcd] rounded-full opacity-60 filter blur-md"></div>
+                            
+                            <!-- Leaf inside (Epicotyl visual) -->
+                            <div class="absolute top-[25%] left-[30%] w-6 h-10 bg-green-400 rounded-[50%_0_50%_0] border-2 border-green-600 rotate-12"></div>
+                            <!-- Root inside (Radicle visual) -->
+                            <div class="absolute bottom-[25%] left-[40%] w-4 h-12 bg-gray-100 rounded-full border-2 border-gray-400 -rotate-12"></div>
+
+                            <!-- Hotspots -->
+                            <!-- Seed Coat -->
+                            <button class="hotspot-btn" style="top: 5%; left: 80%;" onclick="openModal('Seed Coat', 'The hard outer layer. Function: Protects the embryo and its food supply from physical damage and dehydration.')" aria-label="Seed Coat Info">+</button>
+                            <!-- Cotyledon -->
+                            <button class="hotspot-btn" style="top: 60%; left: 70%;" onclick="openModal('Cotyledon', 'The large food storage area. Function: Stores food (nutrients/starch) to provide energy for the baby plant during germination.')" aria-label="Cotyledon Info">+</button>
+                            <!-- Epicotyl -->
+                            <button class="hotspot-btn" style="top: 30%; left: 35%;" onclick="openModal('Epicotyl', 'The upper part of the baby plant. Function: This is the part of the embryo that will develop into the true leaves and upper stem.')" aria-label="Epicotyl Info">+</button>
+                            <!-- Radicle -->
+                            <button class="hotspot-btn" style="top: 75%; left: 45%;" onclick="openModal('Radicle', 'The bottom part of the baby plant. Function: This is the root of the embryo and is the very first part to emerge from the seed.')" aria-label="Radicle Info">+</button>
+                        </div>
+                    </div>
+
+                    <!-- ADULT PLANT DIAGRAM -->
+                    <div class="bg-white rounded-3xl p-6 border-4 border-green-100 shadow-xl flex-1 w-full max-w-sm flex flex-col items-center diagram-container">
+                        <h3 class="text-2xl font-black text-green-800 mb-6">Adult Plant</h3>
+                        
+                        <div class="relative w-48 h-64 mx-auto animate-float" style="animation-delay: 1.5s;">
+                            <!-- Plant Visual (CSS Art) -->
+                            <!-- Stem -->
+                            <div class="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-4 h-[60%] bg-green-600 rounded-full z-10"></div>
+                            
+                            <!-- Leaves -->
+                            <div class="absolute top-[40%] left-[10%] w-16 h-8 bg-green-500 rounded-[50%_0_50%_0] border-2 border-green-700 z-0 origin-right rotate-[-20deg]"></div>
+                            <div class="absolute top-[55%] right-[10%] w-16 h-8 bg-green-500 rounded-[0_50%_0_50%] border-2 border-green-700 z-0 origin-left rotate-[20deg]"></div>
+                            
+                            <!-- Fruit -->
+                            <div class="absolute top-[25%] left-[55%] text-4xl z-20 drop-shadow-md">🍅</div>
+                            
+                            <!-- Flower (Top) -->
+                            <div class="absolute top-[10%] left-1/2 -translate-x-1/2 text-4xl z-20 drop-shadow-md">🌼</div>
+                            
+                            <!-- Soil/Roots -->
+                            <div class="absolute bottom-0 left-0 w-full h-[25%] bg-[#8b5a2b] rounded-t-full opacity-80 z-20 overflow-hidden">
+                                <!-- Root lines -->
+                                <svg class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-16 text-amber-900" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4">
+                                    <path d="M50,0 Q40,30 20,60 M50,0 Q60,40 80,70 M50,10 Q50,50 50,90" />
+                                </svg>
+                            </div>
+
+                            <!-- Hotspots -->
+                            <!-- Fruit -->
+                            <button class="hotspot-btn" style="top: 30%; left: 85%;" onclick="openModal('Fruit', 'Develops from the flower. Function: Protects and contains the seeds to help them spread to new places.')" aria-label="Fruit Info">+</button>
+                            <!-- Leaf -->
+                            <button class="hotspot-btn" style="top: 45%; left: 5%;" onclick="openModal('Leaf', 'The flat green parts. Function: The main place for photosynthesis. It captures sunlight, takes in carbon dioxide, and makes sugar (food).')" aria-label="Leaf Info">+</button>
+                            <!-- Stem -->
+                            <button class="hotspot-btn" style="top: 65%; left: 50%;" onclick="openModal('Stem', 'The main stalk. Function: Transports water and nutrients from the roots up, and sugar from the leaves down. It also holds the plant up.')" aria-label="Stem Info">+</button>
+                            <!-- Roots -->
+                            <button class="hotspot-btn" style="top: 85%; left: 30%;" onclick="openModal('Roots', 'The underground part. Function: Absorbs water and minerals from the soil. It also anchors the plant firmly in the ground.')" aria-label="Roots Info">+</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Anatomy Modal Backdrop & Content -->
+    <div id="anatomy-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl transform scale-95 transition-transform duration-300" id="modal-card">
+            
+            <div class="flex justify-between items-start mb-4">
+                <h3 id="modal-title" class="text-3xl font-black text-slate-800 border-b-4 border-amber-400 pb-2 inline-block">Part Name</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 transition-colors bg-gray-100 hover:bg-red-50 rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold">
+                    &times;
+                </button>
+            </div>
+            
+            <div class="bg-amber-50 p-5 rounded-2xl border-2 border-amber-100 mt-6">
+                <p class="font-bold text-amber-900 mb-1 text-sm uppercase tracking-wide">Function:</p>
+                <p id="modal-desc" class="text-lg text-slate-700 leading-relaxed font-semibold">Description goes here.</p>
+            </div>
+            
+            <button onclick="closeModal()" class="w-full mt-6 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 px-6 rounded-xl transition-colors">
+                Got it!
+            </button>
         </div>
     </div>
 
     <!-- Decorative background elements -->
-    <div class="fixed bottom-0 left-0 w-full h-32 pointer-events-none opacity-50 flex justify-between" style="z-index: 0;">
+    <div class="fixed bottom-0 left-0 w-full h-32 pointer-events-none opacity-40 flex justify-between" style="z-index: 0;">
         <svg class="h-full w-auto text-green-300" viewBox="0 0 100 100" fill="currentColor"><path d="M0,100 C20,80 40,90 60,60 C80,30 90,40 100,0 L100,100 Z"/></svg>
         <svg class="h-full w-auto text-green-200" viewBox="0 0 100 100" fill="currentColor"><path d="M100,100 C80,80 60,90 40,60 C20,30 10,40 0,0 L0,100 Z"/></svg>
     </div>
 
     <script>
-        // --- DATA & STATE ---
+        // ==========================================
+        // 1. DATA & STATE MANAGEMENT
+        // ==========================================
+        
+        // 15 strictly topic-based questions
         const questionBank = [
+            // Topic 1: Stomata Functions
             {
-                q: "Where are stomata mainly found?",
-                a: "Underside of leaves",
-                w: ["Top of leaves", "On the stem", "In the roots"],
-                exp: "They are on the underside to avoid water loss, as it is cooler and shaded."
+                q: "What is the primary job of the stomata in a plant leaf?",
+                a: "Control gases entering and leaving",
+                w: ["Absorb sunlight for energy", "Soak up water from rain", "Produce seeds for reproduction"],
+                exp: "Stomata act like tiny doors that open and close to let in Carbon Dioxide (CO2) and release Oxygen (O2) and water vapor."
             },
             {
-                q: "What is the job of the stomata?",
-                a: "Control gases entering and leaving the leaf",
-                w: ["Absorb sunlight", "Soak up water from the soil", "Store food for the winter"],
-                exp: "Stomata control the passage of oxygen, carbon dioxide, and water vapour."
+                q: "Where on a leaf do you find most of the stomata?",
+                a: "On the underside of the leaf",
+                w: ["On the top, facing the sun", "On the edges only", "Inside the stem"],
+                exp: "They are on the cooler, shaded underside to prevent the plant from losing too much water through evaporation from the sun's heat."
             },
             {
-                q: "What controls the opening and closing of stomata?",
+                q: "What specific cells control the opening and closing of the stomata?",
                 a: "Guard cells",
-                w: ["Epidermal cells", "Radicle", "Epicotyl"],
-                exp: "Guard cells surround the stomata and control their opening and closing."
+                w: ["Epidermal cells", "Root hair cells", "Cotyledon cells"],
+                exp: "Guard cells surround the stoma (hole) and swell or shrink to open and close it."
+            },
+            
+            // Topic 2: Photosynthesis vs Respiration
+            {
+                q: "In photosynthesis, what does a plant take in to make its food?",
+                a: "Water, Carbon Dioxide, and Sunlight",
+                w: ["Oxygen, Sugar, and Soil", "Oxygen, Water, and Sunlight", "Carbon Dioxide, Sugar, and Heat"],
+                exp: "Plants use sunlight energy to turn Water (from roots) and Carbon Dioxide (from air) into food."
             },
             {
-                q: "According to a plant key, what kind of plant is a fern?",
-                a: "Seedless plant with a stem",
-                w: ["Seedless plant with no stem", "Flowering seed plant", "Non-flowering seed plant"],
-                exp: "Ferns do not have seeds, but they do have stems."
+                q: "What does a plant PRODUCE during photosynthesis?",
+                a: "Sugar (glucose) and Oxygen",
+                w: ["Carbon Dioxide and Water", "Seeds and Fruit", "Heat and Nitrogen"],
+                exp: "The plant makes sugar for its own food/mass, and releases oxygen into the air as a byproduct."
             },
             {
-                q: "Where does a seedling get its initial energy to grow?",
+                q: "While photosynthesis makes food, what process does the plant use to break down that sugar for energy?",
+                a: "Cellular Respiration",
+                w: ["Germination", "Transpiration", "Pollination"],
+                exp: "Photosynthesis stores energy in sugar. Cellular Respiration releases that energy so the plant can use it to grow."
+            },
+
+            // Topic 3: Seed Germination Conditions
+            {
+                q: "Which condition will most likely STOP a seed from germinating?",
+                a: "Being placed in a freezer",
+                w: ["Being planted in warm, moist soil", "Being kept in the dark", "Being given plenty of oxygen"],
+                exp: "Seeds need a warm environment to trigger germination. Extreme cold keeps them dormant (asleep)."
+            },
+            {
+                q: "Why would a seed fail to germinate if covered in a thick layer of liquid soap?",
+                a: "It blocks the oxygen needed for respiration",
+                w: ["It makes the seed too clean", "It provides too much sugar", "It makes the seed too slippery to grow roots"],
+                exp: "Seeds are living things! Before they have leaves, they need oxygen from the air to perform cellular respiration to grow."
+            },
+            {
+                q: "Besides warmth and oxygen, what is the third essential requirement for a seed to germinate?",
+                a: "Moisture (Water)",
+                w: ["Direct sunlight", "Fertilizer", "Carbon Dioxide"],
+                exp: "Moisture softens the hard seed coat, allowing the baby plant (embryo) to break out."
+            },
+
+            // Topic 4: Dichotomous Keys
+            {
+                q: "Using a plant key, how do you classify a plant that has vascular stems but reproduces using spores, not seeds?",
+                a: "Fern",
+                w: ["Moss", "Pine tree (Gymnosperm)", "Daisy (Angiosperm)"],
+                exp: "Ferns are seedless vascular plants. They have stems but no seeds (they use spores)."
+            },
+            {
+                q: "According to a key, what is a non-flowering plant that produces seeds in a cone called?",
+                a: "Gymnosperm (e.g., Pine)",
+                w: ["Angiosperm (e.g., Apple tree)", "Fern", "Moss"],
+                exp: "Gymnosperms like pines and spruces create naked seeds, usually held inside protective cones."
+            },
+            {
+                q: "A small green plant grows close to the ground, has no true roots, and reproduces with spores. What is it?",
+                a: "Non-vascular plant (e.g., Moss)",
+                w: ["Angiosperm", "Gymnosperm", "Seedless vascular plant"],
+                exp: "Mosses are non-vascular. They lack true stems and roots (using rhizoids instead) and must stay small and close to moisture."
+            },
+
+            // Topic 5: Plant Energy Sources
+            {
+                q: "Where does a baby plant (seedling) get its initial energy to grow BEFORE it has leaves?",
                 a: "Stored food in the cotyledon",
-                w: ["Sunlight", "Water from the soil", "Nutrients from the seed coat"],
-                exp: "The cotyledon stores food (nutrients/starch) to provide energy for the embryo during germination."
+                w: ["From sunlight", "From minerals in the soil", "From the seed coat"],
+                exp: "Before a plant can perform photosynthesis, it relies entirely on the packed lunch (starch/nutrients) inside the seed's cotyledon."
             },
             {
-                q: "Where does most of the mass of a plant come from?",
-                a: "Photosynthesis (Carbon dioxide and water)",
-                w: ["Soil and fertilizers", "Sunlight only", "Oxygen"],
-                exp: "Plants use water and carbon dioxide in the presence of sunlight to produce sugar (mass) and oxygen."
+                q: "Where does MOST of the physical mass (weight) of an adult tree come from?",
+                a: "Carbon dioxide from the air and water",
+                w: ["Dirt and soil", "Sunlight and heat", "Fertilizer"],
+                exp: "Through photosynthesis, a plant stitches together Carbon from the air and Water to build sugars, which build the plant's body!"
             },
             {
-                q: "What protects the embryo and its food supply from physical damage?",
-                a: "Seed coat",
-                w: ["Cotyledon", "Epicotyl", "Radicle"],
-                exp: "The seed coat is the hard outer layer that prevents damage and dehydration."
-            },
-            {
-                q: "Which part of the embryo develops into the root and is the first to emerge?",
-                a: "Radicle",
-                w: ["Epicotyl", "Cotyledon", "Future stem"],
-                exp: "The radicle is the embryonic root."
-            },
-            {
-                q: "In photosynthesis, what does a plant produce?",
-                a: "Sugar (food) and oxygen",
-                w: ["Carbon dioxide and water", "Sunlight and water", "Spores and seeds"],
-                exp: "Plants use CO2, water, and sunlight to produce sugar and oxygen."
-            },
-            {
-                q: "How would planting a seed in very cold temperature affect germination?",
-                a: "Negatively, seeds need warm temperature",
-                w: ["Positively, cold helps it grow", "It would have no effect", "It depends on the light"],
-                exp: "Seeds need a warm environment to trigger germination."
-            },
-            {
-                q: "What happens if an adult plant grows in a chamber with pure oxygen?",
-                a: "It will die because it needs carbon dioxide",
-                w: ["It will grow twice as fast", "It will survive normally", "It will produce more water"],
-                exp: "Plants require carbon dioxide for photosynthesis."
-            },
-            {
-                q: "Is a plant that reproduces via spores and has no true roots vascular or non-vascular?",
-                a: "Non-vascular",
-                w: ["Vascular", "Angiosperm", "Gymnosperm"],
-                exp: "Non-vascular plants like mosses use rhizoids instead of true roots and reproduce via spores."
-            },
-            {
-                q: "Where does a pitcher plant get most of its energy?",
+                q: "Even though a Pitcher Plant catches insects, where does it get MOST of its energy to survive?",
                 a: "From sunlight via photosynthesis",
-                w: ["Entirely from eating insects", "From the soil", "From absorbing water"],
-                exp: "Like other plants, it gets most of its energy from sunlight. Catching insects just provides extra nutrients."
-            },
-            {
-                q: "Why are there more stomata on the underside of a leaf?",
-                a: "To prevent dehydration",
-                w: ["Because there is more sunlight there", "To protect against insects", "Because guard cells only grow upside down"],
-                exp: "The upper surface is exposed to sunlight and heat, which would cause rapid evaporation."
-            },
-            {
-                q: "If a plant is grown in total darkness but has water, what will happen?",
-                a: "It will struggle to survive",
-                w: ["It will grow perfectly fine", "It will turn into a fungus", "It will only grow roots"],
-                exp: "Sunlight is the energy source needed to convert water and CO2 into food."
+                w: ["Entirely from digesting insects", "From the roots", "From drinking water"],
+                exp: "Carnivorous plants still have green leaves! They use photosynthesis for energy, and just eat bugs for extra nutrients (like nitrogen) missing in their soil."
             }
         ];
 
@@ -287,32 +464,38 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let answered = false;
+        let chartInstance = null; // Store chart instance
 
-        // --- DOM ELEMENTS ---
-        const viewQuiz = document.getElementById('view-quiz');
-        const viewData = document.getElementById('view-data');
-        const tabBtnQuiz = document.getElementById('tab-btn-quiz');
-        const tabBtnData = document.getElementById('tab-btn-data');
+        // ==========================================
+        // 2. TAB NAVIGATION LOGIC
+        // ==========================================
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.getElementById('tab-quiz').classList.add('hidden');
+            document.getElementById('tab-data').classList.add('hidden');
+            document.getElementById('tab-anatomy').classList.add('hidden');
+            
+            // Reset button styles
+            const btns = ['btn-tab-quiz', 'btn-tab-data', 'btn-tab-anatomy'];
+            btns.forEach(id => {
+                document.getElementById(id).classList.remove('tab-active');
+                document.getElementById(id).classList.add('tab-inactive');
+            });
 
-        const quizSection = document.getElementById('quiz-section');
-        const endScreen = document.getElementById('end-screen');
-        const quizStatus = document.getElementById('quiz-status');
-        
-        const questionText = document.getElementById('question-text');
-        const optionsContainer = document.getElementById('options-container');
-        const feedbackContainer = document.getElementById('feedback-container');
-        const feedbackTitle = document.getElementById('feedback-title');
-        const explanationBox = document.getElementById('explanation-box');
-        const explanationText = document.getElementById('explanation-text');
-        const nextBtn = document.getElementById('next-btn');
-        
-        const scoreDisplay = document.getElementById('score-display');
-        const questionCounter = document.getElementById('question-counter');
-        const progressBar = document.getElementById('progress-bar');
-        const finalScore = document.getElementById('final-score');
-        const restartBtn = document.getElementById('restart-btn');
+            // Show selected tab & update button
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            document.getElementById(`btn-tab-${tabId}`).classList.remove('tab-inactive');
+            document.getElementById(`btn-tab-${tabId}`).classList.add('tab-active');
 
-        // --- UTILS ---
+            // Initialize chart if Data tab is clicked and chart doesn't exist
+            if (tabId === 'data' && !chartInstance) {
+                initChart();
+            }
+        }
+
+        // ==========================================
+        // 3. QUIZ LOGIC
+        // ==========================================
         function shuffle(array) {
             let currentIndex = array.length, randomIndex;
             while (currentIndex != 0) {
@@ -323,58 +506,42 @@
             return array;
         }
 
-        // --- TAB LOGIC ---
-        function switchTab(tab) {
-            if (tab === 'quiz') {
-                viewQuiz.classList.remove('hidden');
-                viewData.classList.add('hidden');
-                tabBtnQuiz.className = "flex-1 py-4 tab-active transition-colors duration-200";
-                tabBtnData.className = "flex-1 py-4 tab-inactive transition-colors duration-200";
-            } else {
-                viewQuiz.classList.add('hidden');
-                viewData.classList.remove('hidden');
-                tabBtnData.className = "flex-1 py-4 tab-active transition-colors duration-200";
-                tabBtnQuiz.className = "flex-1 py-4 tab-inactive transition-colors duration-200";
-            }
-        }
-        tabBtnQuiz.addEventListener('click', () => switchTab('quiz'));
-        tabBtnData.addEventListener('click', () => switchTab('data'));
-
-        // --- QUIZ LOGIC ---
         function startQuiz() {
-            // Randomize question order for this session
             activeQuizQueue = shuffle([...questionBank]);
             currentQuestionIndex = 0;
             score = 0;
             
-            quizSection.classList.remove('hidden');
-            quizStatus.classList.remove('hidden');
-            endScreen.classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            document.getElementById('quiz-status').classList.remove('hidden');
+            document.getElementById('end-screen').classList.add('hidden');
             
             loadQuestion();
         }
 
         function loadQuestion() {
             answered = false;
-            feedbackContainer.classList.add('hidden');
-            explanationBox.classList.add('hidden');
-            nextBtn.classList.add('hidden');
-            optionsContainer.innerHTML = '';
+            document.getElementById('feedback-container').classList.add('hidden');
+            document.getElementById('explanation-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+            
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = '';
             
             const currentQ = activeQuizQueue[currentQuestionIndex];
             
-            // Animation for new question
-            questionText.classList.remove('animate-pop');
-            void questionText.offsetWidth; // trigger reflow
-            questionText.classList.add('animate-pop');
-            questionText.innerText = currentQ.q;
+            // Set Text & Animate
+            const qText = document.getElementById('question-text');
+            qText.innerText = currentQ.q;
+            qText.classList.remove('animate-pop');
+            void qText.offsetWidth; // Reflow
+            qText.classList.add('animate-pop');
 
-            // Update status bar
-            questionCounter.innerText = `Q: ${currentQuestionIndex + 1} / ${activeQuizQueue.length}`;
-            scoreDisplay.innerText = `Score: ${score}`;
-            progressBar.style.width = `${(currentQuestionIndex / activeQuizQueue.length) * 100}%`;
+            // Update UI Counters
+            document.getElementById('question-counter').innerText = `Q: ${currentQuestionIndex + 1}/${activeQuizQueue.length}`;
+            document.getElementById('score-display').innerText = `Score: ${score}`;
+            document.getElementById('progress-bar').style.width = `${(currentQuestionIndex / activeQuizQueue.length) * 100}%`;
 
-            // Prepare options (1 correct + 3 wrong) and shuffle them
+            // Prepare Options
             let options = [
                 { text: currentQ.a, correct: true },
                 { text: currentQ.w[0], correct: false },
@@ -384,80 +551,84 @@
             options = shuffle(options);
 
             options.forEach((opt) => {
-                const button = document.createElement('button');
-                button.innerText = opt.text;
-                button.className = 'option-btn w-full text-left p-4 rounded-xl border-2 border-green-100 bg-green-50 text-green-900 font-semibold text-lg';
-                button.dataset.correct = opt.correct;
+                const btn = document.createElement('button');
+                btn.innerText = opt.text;
+                btn.className = 'option-btn w-full text-left p-5 rounded-2xl border-2 border-slate-200 bg-white text-slate-700 font-bold text-lg shadow-sm hover:border-green-400 focus:outline-none';
+                btn.dataset.correct = opt.correct;
                 
-                button.addEventListener('click', () => handleAnswer(button, opt.correct, currentQ.exp));
-                optionsContainer.appendChild(button);
+                btn.addEventListener('click', () => handleAnswer(btn, opt.correct, currentQ.exp));
+                optsContainer.appendChild(btn);
             });
         }
 
-        function handleAnswer(selectedButton, isCorrect, explanation) {
+        function handleAnswer(selectedBtn, isCorrect, explanation) {
             if (answered) return;
             answered = true;
 
-            const allButtons = optionsContainer.querySelectorAll('button');
+            const allBtns = document.getElementById('options-container').querySelectorAll('button');
+            const feedbackContainer = document.getElementById('feedback-container');
+            const feedbackTitle = document.getElementById('feedback-title');
             
-            allButtons.forEach(btn => {
+            allBtns.forEach(btn => {
                 btn.disabled = true;
-                btn.classList.remove('hover:not(:disabled)');
-                btn.classList.add('cursor-default');
+                btn.classList.remove('hover:border-green-400');
+                btn.classList.add('cursor-default', 'opacity-60');
                 
-                // Highlight correct answer no matter what
                 if (btn.dataset.correct === "true") {
-                    btn.classList.remove('bg-green-50', 'border-green-100');
-                    btn.classList.add('border-green-500', 'bg-green-100', 'border-dashed');
-                    btn.innerHTML += ' <span class="float-right text-green-600 font-bold">✓ Correct</span>';
+                    btn.classList.remove('opacity-60', 'bg-white', 'border-slate-200', 'text-slate-700');
+                    btn.classList.add('correct-answer', 'border-dashed');
+                    btn.innerHTML = `<span class="flex justify-between items-center w-full">${btn.innerText} <svg class="w-6 h-6 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></span>`;
                 }
             });
 
             feedbackContainer.classList.remove('hidden');
-            feedbackContainer.classList.add('animate-pop');
-            nextBtn.classList.remove('hidden');
+            document.getElementById('next-btn').classList.remove('hidden');
 
             if (isCorrect) {
                 score++;
-                scoreDisplay.innerText = `Score: ${score}`;
-                selectedButton.classList.add('correct-answer');
-                feedbackTitle.innerText = "✨ Brilliant! That's right!";
-                feedbackTitle.className = "font-extrabold text-2xl mb-2 text-green-600";
+                document.getElementById('score-display').innerText = `Score: ${score}`;
+                selectedBtn.classList.remove('opacity-60');
+                feedbackTitle.innerText = "✨ Brilliant! Correct!";
+                feedbackTitle.className = "font-black text-3xl mb-2 text-green-600";
             } else {
-                selectedButton.classList.add('wrong-answer', 'animate-shake');
-                feedbackTitle.innerText = "Not quite!";
-                feedbackTitle.className = "font-extrabold text-2xl mb-2 text-red-500";
+                selectedBtn.classList.remove('opacity-60');
+                selectedBtn.classList.add('wrong-answer', 'animate-shake');
+                feedbackTitle.innerText = "Oops! Not quite.";
+                feedbackTitle.className = "font-black text-3xl mb-2 text-red-500";
                 
-                // Show Explanation if wrong
-                explanationText.innerText = explanation;
-                explanationBox.classList.remove('hidden');
+                // Show Explanation
+                document.getElementById('explanation-text').innerText = explanation;
+                document.getElementById('explanation-box').classList.remove('hidden');
             }
         }
 
-        nextBtn.addEventListener('click', () => {
+        document.getElementById('next-btn').addEventListener('click', () => {
             currentQuestionIndex++;
             if (currentQuestionIndex < activeQuizQueue.length) {
                 loadQuestion();
             } else {
-                showEndScreen();
+                // Finish Quiz
+                document.getElementById('quiz-section').classList.add('hidden');
+                document.getElementById('quiz-status').classList.add('hidden');
+                const endScreen = document.getElementById('end-screen');
+                endScreen.classList.remove('hidden');
+                
+                let msg = "";
+                if(score === 15) msg = "Perfect Score! You're a Botany Master!";
+                else if (score >= 10) msg = "Great Job! You know your plants!";
+                else msg = "Good effort! Keep practicing!";
+                
+                document.getElementById('final-score').innerHTML = `You scored <strong>${score} out of 15</strong>.<br><span class="text-xl text-slate-500 mt-2 block">${msg}</span>`;
+                document.getElementById('progress-bar').style.width = '100%';
             }
         });
 
-        function showEndScreen() {
-            quizSection.classList.add('hidden');
-            quizStatus.classList.add('hidden');
-            endScreen.classList.remove('hidden');
-            endScreen.classList.add('animate-pop');
-            
-            finalScore.innerText = `You scored ${score} out of ${activeQuizQueue.length}!`;
-        }
-
-        restartBtn.addEventListener('click', startQuiz);
-
-        // --- CHART JS LOGIC ---
+        // ==========================================
+        // 4. CHART.JS LOGIC (DATA LAB)
+        // ==========================================
         function initChart() {
             const ctx = document.getElementById('growthChart').getContext('2d');
-            new Chart(ctx, {
+            chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Day 0', 'Day 5', 'Day 10', 'Day 15', 'Day 20'],
@@ -465,25 +636,25 @@
                         {
                             label: 'Plant in Darkness',
                             data: [0, 15, 20, 22, 22],
-                            borderColor: '#6b7280', // Gray
-                            backgroundColor: 'rgba(107, 114, 128, 0.2)',
-                            borderWidth: 3,
-                            borderDash: [5, 5],
+                            borderColor: '#64748b', // Slate 500
+                            backgroundColor: 'rgba(100, 116, 139, 0.2)',
+                            borderWidth: 4,
+                            borderDash: [8, 4],
                             tension: 0.3,
-                            pointBackgroundColor: '#4b5563',
-                            pointRadius: 5,
-                            pointHoverRadius: 8
+                            pointBackgroundColor: '#334155',
+                            pointRadius: 6,
+                            pointHoverRadius: 9
                         },
                         {
                             label: 'Plant in Sunlight',
                             data: [0, 5, 15, 25, 30],
-                            borderColor: '#22c55e', // Green
+                            borderColor: '#22c55e', // Green 500
                             backgroundColor: 'rgba(34, 197, 94, 0.2)',
-                            borderWidth: 4,
+                            borderWidth: 5,
                             tension: 0.3,
-                            pointBackgroundColor: '#16a34a',
-                            pointRadius: 5,
-                            pointHoverRadius: 8
+                            pointBackgroundColor: '#166534',
+                            pointRadius: 6,
+                            pointHoverRadius: 9
                         }
                     ]
                 },
@@ -496,51 +667,88 @@
                     },
                     plugins: {
                         tooltip: {
-                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            titleColor: '#1f2937',
-                            bodyColor: '#1f2937',
-                            borderColor: '#e5e7eb',
-                            borderWidth: 1,
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { size: 16, family: "'Nunito', sans-serif" },
+                            bodyFont: { size: 14, family: "'Nunito', sans-serif" },
                             padding: 12,
-                            boxPadding: 6
+                            cornerRadius: 8,
+                            displayColors: true
                         },
                         legend: {
                             position: 'top',
                             labels: {
-                                font: {
-                                    family: "'Nunito', sans-serif",
-                                    size: 14,
-                                    weight: 'bold'
-                                }
+                                font: { family: "'Nunito', sans-serif", size: 15, weight: 'bold' },
+                                color: '#334155',
+                                usePointStyle: true,
+                                padding: 20
                             }
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 30,
+                            max: 35,
                             title: {
                                 display: true,
                                 text: 'Plant Height (cm)',
-                                font: { weight: 'bold' }
-                            }
+                                font: { size: 14, weight: 'bold', family: "'Nunito', sans-serif" },
+                                color: '#475569'
+                            },
+                            grid: { color: '#f1f5f9' }
                         },
                         x: {
                             title: {
                                 display: true,
-                                text: 'Number of Days',
-                                font: { weight: 'bold' }
-                            }
+                                text: 'Time (Days)',
+                                font: { size: 14, weight: 'bold', family: "'Nunito', sans-serif" },
+                                color: '#475569'
+                            },
+                            grid: { display: false }
                         }
                     }
                 }
             });
         }
 
-        // Initialize App
+        // ==========================================
+        // 5. ANATOMY MODAL LOGIC
+        // ==========================================
+        const modal = document.getElementById('anatomy-modal');
+        const modalCard = document.getElementById('modal-card');
+
+        function openModal(title, description) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = description;
+            
+            modal.classList.remove('hidden');
+            // Small delay to allow display:block to apply before animating opacity
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalCard.classList.remove('scale-95');
+                modalCard.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalCard.classList.remove('scale-100');
+            modalCard.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // match duration
+        }
+
+        // Close modal if clicked outside
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Initialize on Load
         document.addEventListener('DOMContentLoaded', () => {
             startQuiz();
-            initChart();
         });
 
     </script>
