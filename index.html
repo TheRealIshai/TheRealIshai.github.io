@@ -3,383 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grammar & Adjective Ace 🏆</title>
+    <title>Orry's Botany Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #8338EC;
-            --secondary: #FF006E;
-            --tertiary: #3A86FF;
-            --bg: #F8F9FA;
-            --text: #2B2D42;
-        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0fdf4; /* Light green background */
+            background-image: radial-gradient(#bbf7d0 1px, transparent 1px);
+            background-size: 20px 20px;
         }
-        .app-container {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            width: 100%;
-            max-width: 650px;
-            text-align: center;
+
+        /* Custom Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
         }
-        h1 {
-            color: var(--primary);
-            margin-bottom: 5px;
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
-        .tabs {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-            background: #E9ECEF;
-            border-radius: 10px;
-            overflow: hidden;
+
+        @keyframes grow {
+            0% { transform: scale(0.9) translateY(5px); }
+            50% { transform: scale(1.1) translateY(-5px); }
+            100% { transform: scale(1) translateY(0); }
         }
-        .tab {
-            flex: 1;
-            padding: 12px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            color: #6C757D;
-            min-width: 120px;
+
+        .animate-shake {
+            animation: shake 0.5s ease-in-out;
         }
-        .tab.active {
-            background: var(--primary);
-            color: white;
+
+        .animate-pop {
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
-        .card {
-            background: #F8F9FA;
-            border: 2px dashed #DEE2E6;
-            padding: 30px 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            line-height: 1.8;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+
+        .animate-grow {
+            animation: grow 0.6s ease-in-out forwards;
         }
-        .hint-text {
-            color: #8D99AE;
-            font-size: 0.85em;
-            margin-bottom: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+
+        /* State Styles for Buttons */
+        .option-btn {
+            transition: all 0.2s ease;
+            transform-origin: center;
         }
-        .sentence-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 15px;
+
+        .option-btn:hover:not(:disabled) {
+            transform: scale(1.03) translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
-        input[type="text"] {
-            padding: 10px;
-            font-size: 1em;
-            border: 2px solid #DEE2E6;
-            border-radius: 8px;
-            text-align: center;
-            transition: 0.3s;
-            font-weight: bold;
-            color: var(--tertiary);
-            width: 140px;
+
+        .option-btn:active:not(:disabled) {
+            transform: scale(0.98);
         }
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 8px rgba(255, 0, 110, 0.3);
+
+        .correct-answer {
+            background-color: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #166534 !important;
+            box-shadow: 0 0 15px 2px rgba(34, 197, 94, 0.4);
+            transform: scale(1.02);
+            z-index: 10;
         }
-        .verb-hint {
-            display: block;
-            color: var(--secondary);
-            font-weight: bold;
-            margin-top: 5px;
-            font-size: 1.1em;
+
+        .wrong-answer {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+            opacity: 0.8;
         }
-        .btn {
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 1.1em;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            margin-top: 15px;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 0, 110, 0.4);
-        }
-        .feedback {
-            margin-top: 15px;
-            font-weight: bold;
-            min-height: 28px;
-            font-size: 1.1em;
-        }
-        .correct { color: #2A9D8F; }
-        .incorrect { color: #E76F51; }
-        .warning { color: #F4A261; }
-        
-        /* Adjective Specific Styles */
-        .adj-base {
-            font-size: 2.5em;
-            color: var(--tertiary);
-            font-weight: bold;
-            margin-bottom: 25px;
-            text-transform: capitalize;
-        }
-        .adj-inputs {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
-        .adj-row {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            width: 100%;
-            max-width: 380px;
-            gap: 10px;
-        }
-        .adj-label {
-            font-weight: bold;
-            color: #6C757D;
-            width: 120px;
-            text-align: right;
-            font-size: 0.9em;
-        }
-        .adj-the {
-            font-weight: bold;
-            color: var(--text);
-            font-style: italic;
+
+        /* Plant Evolution Container */
+        .plant-emoji {
+            font-size: 3rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center p-4 text-slate-800">
 
-<div class="app-container">
-    <h1>Grammar & Adjective Ace 🏆</h1>
-    
-    <div class="tabs">
-        <div class="tab active" onclick="switchMode('future')" id="tab-future">Future Simple</div>
-        <div class="tab" onclick="switchMode('goingTo')" id="tab-goingTo">"Going To"</div>
-        <div class="tab" onclick="switchMode('adjectives')" id="tab-adjectives">Adjectives</div>
-    </div>
-
-    <div class="card" id="card-area">
-        <!-- Content will be injected here by JavaScript -->
-    </div>
-
-    <button class="btn" style="background: var(--primary); width: 100%;" onclick="nextQuestion()">Next Question ➡️</button>
-</div>
-
-<script>
-    // --- DATA MODULES ---
-
-    const futureData = [
-        { parts: ["Sharon", "his grandparents next Monday."], hint: "visit", answers: [["will visit"]] },
-        { parts: ["Many tourists", "in Israel in the summer."], hint: "arrive", answers: [["will arrive"]] },
-        { parts: ["I", "to London this summer."], hint: "not fly", answers: [["will not fly", "won't fly"]] },
-        { parts: ["Who", "with me to the beach tomorrow?"], hint: "come", answers: [["will come"]] },
-        { parts: ["When", "the test", "?"], hint: "start", answers: [["will"], ["start"]] },
-        { parts: ["They", "to the cinema tonight."], hint: "not go", answers: [["will not go", "won't go"]] },
-        { parts: ["Where", "you", "next week?"], hint: "travel", answers: [["will"], ["travel"]] }
-    ];
-
-    const goingToData = [
-        { parts: ["The temperatures", "tomorrow."], hint: "rise", answers: [["are going to rise"]] },
-        { parts: ["", "the airplane", "soon?"], hint: "land", answers: [["is"], ["going to land"]] },
-        { parts: ["I", "basketball next week, because my hand still hurts."], hint: "not play", answers: [["am not going to play", "m not going to play", "'m not going to play"]] }
-    ];
-
-    const adjectiveData = [
-        { base: "easy", comp: ["easier"], sup: ["easiest"] },
-        { base: "short", comp: ["shorter"], sup: ["shortest"] },
-        { base: "heavy", comp: ["heavier"], sup: ["heaviest"] },
-        { base: "strong", comp: ["stronger"], sup: ["strongest"] },
-        { base: "weak", comp: ["weaker"], sup: ["weakest"] },
-        { base: "calm", comp: ["calmer"], sup: ["calmest"] },
-        { base: "hard", comp: ["harder"], sup: ["hardest"] },
-        { base: "tiny", comp: ["tinier"], sup: ["tiniest"] },
-        { base: "nice", comp: ["nicer"], sup: ["nicest"] },
-        { base: "hot", comp: ["hotter"], sup: ["hottest"] },
-        { base: "interesting", comp: ["more interesting"], sup: ["most interesting"] },
-        { base: "boring", comp: ["more boring"], sup: ["most boring"] },
-        { base: "exciting", comp: ["more exciting"], sup: ["most exciting"] },
-        { base: "wonderful", comp: ["more wonderful"], sup: ["most wonderful"] },
-        { base: "anxious", comp: ["more anxious"], sup: ["most anxious"] },
-        { base: "fascinating", comp: ["more fascinating"], sup: ["most fascinating"] },
-        { base: "peaceful", comp: ["more peaceful"], sup: ["most peaceful"] },
-        { base: "pleasant", comp: ["more pleasant"], sup: ["most pleasant"] },
-        { base: "thoughtful", comp: ["more thoughtful"], sup: ["most thoughtful"] },
-        { base: "good", comp: ["better"], sup: ["best"] },
-        { base: "bad", comp: ["worse"], sup: ["worst"] },
-        { base: "far", comp: ["farther", "further"], sup: ["farthest", "furthest"] }
-    ];
-
-    // --- APP STATE ---
-    let currentMode = 'future';
-    let currentIndex = 0;
-    let attempts = 0;
-
-    // --- CORE LOGIC ---
-    function init() {
-        shuffleArray(futureData);
-        shuffleArray(goingToData);
-        shuffleArray(adjectiveData);
-        loadQuestion();
-    }
-
-    function switchMode(mode) {
-        currentMode = mode;
-        currentIndex = 0;
+    <!-- Main Game Container -->
+    <div id="game-container" class="bg-white rounded-3xl shadow-2xl overflow-hidden w-full max-w-2xl border-4 border-green-200 relative z-10 animate-pop">
         
-        document.getElementById('tab-future').classList.remove('active');
-        document.getElementById('tab-goingTo').classList.remove('active');
-        document.getElementById('tab-adjectives').classList.remove('active');
-        
-        document.getElementById(`tab-${mode}`).classList.add('active');
-        loadQuestion();
-    }
-
-    function loadQuestion() {
-        attempts = 0;
-        const cardArea = document.getElementById('card-area');
-        cardArea.innerHTML = ''; // Clear previous
-
-        if (currentMode === 'future' || currentMode === 'goingTo') {
-            const dataSet = currentMode === 'future' ? futureData : goingToData;
-            const q = dataSet[currentIndex];
-            const title = currentMode === 'future' ? "Future Simple (will + verb)" : '"Be" (am/is/are) + going to + verb';
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-green-400 to-emerald-500 p-6 text-white text-center relative overflow-hidden">
+            <!-- Decorative circles -->
+            <div class="absolute top-0 left-0 w-32 h-32 bg-white opacity-10 rounded-full -translate-x-16 -translate-y-16"></div>
+            <div class="absolute bottom-0 right-0 w-24 h-24 bg-white opacity-10 rounded-full translate-x-8 translate-y-8"></div>
             
-            let html = `<div class="hint-text">${title}</div><div class="sentence-container">`;
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 drop-shadow-md">Orry's Botany Explorer</h1>
             
-            // Build dynamic sentence layout based on how many "parts" there are
-            for (let i = 0; i < q.parts.length; i++) {
-                if (q.parts[i] !== "") {
-                    html += `<span>${q.parts[i]}</span>`;
-                }
-                if (i < q.answers.length) {
-                    html += `<input type="text" id="ans-${i}" autocomplete="off">`;
-                }
-            }
-            
-            html += `</div>
-                     <div class="verb-hint">(${q.hint})</div>
-                     <button class="btn" onclick="checkSentence()">Check Answer</button>
-                     <div class="feedback" id="feedback-message"></div>`;
-            
-            cardArea.innerHTML = html;
-
-        } else if (currentMode === 'adjectives') {
-            const q = adjectiveData[currentIndex];
-            cardArea.innerHTML = `
-                <div class="hint-text">Comparative & Superlative</div>
-                <div class="adj-base">${q.base}</div>
-                
-                <div class="adj-inputs">
-                    <div class="adj-row">
-                        <span class="adj-label">Comparative (יותר מ):</span>
-                        <input type="text" id="comp-ans" autocomplete="off">
-                    </div>
-                    <div class="adj-row">
-                        <span class="adj-label">Superlative (הכי):</span>
-                        <span class="adj-the">the</span>
-                        <input type="text" id="sup-ans" autocomplete="off">
-                    </div>
+            <!-- Progress & Score -->
+            <div class="flex justify-between items-center mt-4 bg-black/20 rounded-full px-4 py-2 backdrop-blur-sm">
+                <span class="font-bold text-lg" id="score-display">Score: 0 / 8</span>
+                <div class="flex-1 mx-4 bg-black/30 rounded-full h-3 overflow-hidden border border-white/20">
+                    <div id="progress-bar" class="bg-yellow-300 h-full w-0 transition-all duration-500 rounded-full"></div>
                 </div>
-                
-                <button class="btn" onclick="checkAdjective()">Check Answer</button>
-                <div class="feedback" id="feedback-message"></div>
-            `;
-        }
-    }
+                <span class="font-bold text-sm bg-white text-green-700 px-3 py-1 rounded-full shadow-sm" id="question-counter">Q: 1/8</span>
+            </div>
+        </div>
 
-    function checkSentence() {
-        const dataSet = currentMode === 'future' ? futureData : goingToData;
-        const q = dataSet[currentIndex];
-        let allCorrect = true;
+        <!-- Plant Growth Visual -->
+        <div class="flex justify-center -mt-8 relative z-20">
+            <div class="bg-white rounded-full p-2 shadow-lg border-4 border-green-100 flex items-center justify-center w-20 h-20">
+                <span id="plant-visual" class="plant-emoji">🫘</span>
+            </div>
+        </div>
 
-        for (let i = 0; i < q.answers.length; i++) {
-            const userInput = document.getElementById(`ans-${i}`).value.trim().toLowerCase().replace(/\s+/g, ' ');
-            const acceptableAnswers = q.answers[i];
+        <!-- Question Section -->
+        <div id="quiz-section" class="p-6 md:p-8">
+            <h2 id="question-text" class="text-xl md:text-2xl font-bold text-center mb-8 text-green-900 leading-snug">
+                <!-- Question loaded here via JS -->
+            </h2>
+
+            <div id="options-container" class="grid grid-cols-1 gap-4">
+                <!-- Options loaded here via JS -->
+            </div>
+
+            <!-- Feedback & Next Button -->
+            <div id="feedback-container" class="mt-8 text-center hidden">
+                <p id="feedback-text" class="font-bold text-lg mb-4"></p>
+                <button id="next-btn" class="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold py-3 px-8 rounded-full shadow-[0_4px_0_#ca8a04] active:shadow-none active:translate-y-1 transition-all text-lg w-full sm:w-auto">
+                    Next Question 🌿
+                </button>
+            </div>
+        </div>
+
+        <!-- End Screen Section -->
+        <div id="end-screen" class="p-8 text-center hidden">
+            <h2 class="text-4xl font-extrabold text-green-600 mb-4">Quiz Complete!</h2>
+            <div class="text-6xl mb-6 animate-bounce">🌻</div>
+            <p id="final-score" class="text-2xl font-bold text-gray-700 mb-2"></p>
+            <p id="encouraging-message" class="text-lg text-gray-600 mb-8 px-4 leading-relaxed"></p>
             
-            if (!acceptableAnswers.includes(userInput)) {
-                allCorrect = false;
-                break;
+            <button id="restart-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-full shadow-[0_4px_0_#166534] active:shadow-none active:translate-y-1 transition-all text-xl w-full sm:w-auto">
+                Play Again 🪴
+            </button>
+        </div>
+    </div>
+
+    <!-- Decorative background elements -->
+    <div class="fixed bottom-0 left-0 w-full h-32 pointer-events-none opacity-50 flex justify-between" style="z-index: 0;">
+        <svg class="h-full w-auto text-green-300" viewBox="0 0 100 100" fill="currentColor"><path d="M0,100 C20,80 40,90 60,60 C80,30 90,40 100,0 L100,100 Z"/></svg>
+        <svg class="h-full w-auto text-green-200" viewBox="0 0 100 100" fill="currentColor"><path d="M100,100 C80,80 60,90 40,60 C20,30 10,40 0,0 L0,100 Z"/></svg>
+    </div>
+
+    <script>
+        // Quiz Data based strictly on the provided botanical requirements
+        const quizData = [
+            {
+                question: "Where does a seedling (baby plant) get its initial energy to grow?",
+                options: [
+                    { text: "From stored food in the cotyledon.", correct: true },
+                    { text: "From soil nutrients.", correct: false },
+                    { text: "From the radicle.", correct: false },
+                    { text: "From the sun.", correct: false }
+                ]
+            },
+            {
+                question: "What are the tiny pores on the underside of a leaf called?",
+                options: [
+                    { text: "Guard cells.", correct: false },
+                    { text: "Stomata.", correct: true },
+                    { text: "Epicotyls.", correct: false },
+                    { text: "Rhizoids.", correct: false }
+                ]
+            },
+            {
+                question: "Why are most stomata located on the underside of a leaf?",
+                options: [
+                    { text: "It is closer to the soil.", correct: false },
+                    { text: "It gets more sunlight there.", correct: false },
+                    { text: "The shade keeps it cooler and prevents dehydration.", correct: true },
+                    { text: "It avoids insects.", correct: false }
+                ]
+            },
+            {
+                question: "Based on your plant classification key, what is a fern?",
+                options: [
+                    { text: "A seedless plant with no stem.", correct: false },
+                    { text: "A flowering seed plant.", correct: false },
+                    { text: "A non-flowering gymnosperm.", correct: false },
+                    { text: "A seedless plant with a stem.", correct: true }
+                ]
+            },
+            {
+                question: "What does a plant need for photosynthesis?",
+                options: [
+                    { text: "Oxygen, sugar, and soil.", correct: false },
+                    { text: "Carbon dioxide, water, and sunlight.", correct: true },
+                    { text: "Pure oxygen and water.", correct: false },
+                    { text: "Only sunlight.", correct: false }
+                ]
+            },
+            {
+                question: "Which part of a seed protects the embryo from physical damage?",
+                options: [
+                    { text: "Radicle.", correct: false },
+                    { text: "Cotyledon.", correct: false },
+                    { text: "Seed coat.", correct: true },
+                    { text: "Epicotyl.", correct: false }
+                ]
+            },
+            {
+                question: "If a seed is planted in liquid dish soap with no air bubbles, why will it fail to germinate?",
+                options: [
+                    { text: "It lacks sunlight.", correct: false },
+                    { text: "It lacks oxygen for respiration.", correct: true },
+                    { text: "The soap is too cold.", correct: false },
+                    { text: "It has too much sugar.", correct: false }
+                ]
+            },
+            {
+                question: "How do non-vascular plants like liverworts absorb water without true roots?",
+                options: [
+                    { text: "They absorb water through their spores.", correct: false },
+                    { text: "They use deep taproots.", correct: false },
+                    { text: "They don't need water.", correct: false },
+                    { text: "They use root-like structures called rhizoids.", correct: true }
+                ]
             }
+        ];
+
+        // Plant Evolution Stages (Emojis)
+        const plantStages = ["🫘", "🌱", "🌿", "🪴", "🌳", "🌻"];
+
+        // State variables
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        // DOM Elements
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackText = document.getElementById('feedback-text');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score-display');
+        const questionCounter = document.getElementById('question-counter');
+        const progressBar = document.getElementById('progress-bar');
+        const plantVisual = document.getElementById('plant-visual');
+        const quizSection = document.getElementById('quiz-section');
+        const endScreen = document.getElementById('end-screen');
+        const finalScore = document.getElementById('final-score');
+        const encouragingMessage = document.getElementById('encouraging-message');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // Helper: Shuffle array so options aren't always in the same place
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
         }
-        handleFeedback(allCorrect, q.answers.map(arr => arr[0]).join(' ... '));
-    }
 
-    function checkAdjective() {
-        const q = adjectiveData[currentIndex];
-        const compInput = document.getElementById('comp-ans').value.trim().toLowerCase().replace(/\s+/g, ' ');
-        const supInput = document.getElementById('sup-ans').value.trim().toLowerCase().replace(/\s+/g, ' ');
+        function updatePlantVisual() {
+            // Calculate progress percentage and map to a plant stage
+            const progress = score / quizData.length;
+            let stageIndex = Math.floor(progress * (plantStages.length - 1));
+            
+            // Re-trigger animation
+            plantVisual.classList.remove('animate-grow');
+            void plantVisual.offsetWidth; // trigger reflow
+            plantVisual.classList.add('animate-grow');
+            
+            plantVisual.innerText = plantStages[stageIndex];
+        }
 
-        const compCorrect = q.comp.includes(compInput);
-        const supCorrect = q.sup.includes(supInput);
-        
-        handleFeedback(compCorrect && supCorrect, `${q.comp[0]} / the ${q.sup[0]}`);
-    }
+        function loadQuestion() {
+            answered = false;
+            feedbackContainer.classList.add('hidden');
+            optionsContainer.innerHTML = '';
+            
+            const currentQ = quizData[currentQuestionIndex];
+            
+            // Apply slight animation to question text
+            questionText.classList.remove('animate-pop');
+            void questionText.offsetWidth;
+            questionText.classList.add('animate-pop');
+            questionText.innerText = currentQ.question;
 
-    function handleFeedback(isCorrect, rightAnswerText) {
-        const feedback = document.getElementById('feedback-message');
-        
-        if (isCorrect) {
-            feedback.innerHTML = "✨ Outstanding! ✨";
-            feedback.className = "feedback correct";
-            attempts = 0; 
-        } else {
-            attempts++;
-            if (attempts >= 3) {
-                feedback.innerHTML = `Let's learn this one! The correct answer is: <b>${rightAnswerText}</b>`;
-                feedback.className = "feedback incorrect";
+            questionCounter.innerText = `Q: ${currentQuestionIndex + 1}/${quizData.length}`;
+            progressBar.style.width = `${((currentQuestionIndex) / quizData.length) * 100}%`;
+
+            // Clone and shuffle options
+            let options = shuffle([...currentQ.options]);
+
+            options.forEach((option) => {
+                const button = document.createElement('button');
+                button.innerText = option.text;
+                button.className = 'option-btn w-full text-left p-4 rounded-xl border-2 border-green-100 bg-green-50 text-green-900 font-semibold text-lg';
+                
+                button.addEventListener('click', () => handleAnswer(button, option.correct, optionsContainer));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function handleAnswer(selectedButton, isCorrect, container) {
+            if (answered) return;
+            answered = true;
+
+            const allButtons = container.querySelectorAll('button');
+            
+            // Disable all buttons to prevent multiple clicks
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('cursor-not-allowed');
+            });
+
+            if (isCorrect) {
+                score++;
+                scoreDisplay.innerText = `Score: ${score} / ${quizData.length}`;
+                selectedButton.classList.add('correct-answer');
+                feedbackText.innerText = "✨ Brilliant! That's correct!";
+                feedbackText.className = "font-bold text-xl mb-4 text-green-600 animate-pop";
+                updatePlantVisual();
             } else {
-                const triesLeft = 3 - attempts;
-                feedback.innerHTML = `Not quite right! Double-check your spelling. (${triesLeft} attempt${triesLeft > 1 ? 's' : ''} left)`;
-                feedback.className = "feedback warning";
+                selectedButton.classList.add('wrong-answer', 'animate-shake');
+                feedbackText.innerText = "Not quite! Keep learning!";
+                feedbackText.className = "font-bold text-xl mb-4 text-red-500 animate-pop";
+                
+                // Highlight the correct answer for learning purposes
+                allButtons.forEach(btn => {
+                    const optionData = quizData[currentQuestionIndex].options.find(o => o.text === btn.innerText);
+                    if (optionData && optionData.correct) {
+                        btn.classList.remove('bg-green-50', 'border-green-100');
+                        btn.classList.add('border-green-500', 'bg-green-100', 'border-dashed');
+                        // visually tag it
+                        btn.innerHTML += ' <span class="float-right text-green-600">✓ Correct</span>';
+                    }
+                });
+            }
+
+            feedbackContainer.classList.remove('hidden');
+        }
+
+        function showEndScreen() {
+            quizSection.classList.add('hidden');
+            endScreen.classList.remove('hidden');
+            endScreen.classList.add('animate-pop');
+            
+            progressBar.style.width = '100%';
+            updatePlantVisual(); // Final visual form
+            
+            finalScore.innerText = `You scored ${score} out of ${quizData.length}!`;
+            
+            if (score === quizData.length) {
+                encouragingMessage.innerText = "Absolutely flawless, Orry! 🌟 You've mastered these concepts and your plant is fully bloomed! You are incredibly well-prepared for your test. Go show them what you know!";
+            } else if (score >= quizData.length * 0.7) {
+                encouragingMessage.innerText = "Great job, Orry! 🌱 You know your botany well! Review the couple you missed and you'll be completely unstoppable on your test. You've got this!";
+            } else {
+                encouragingMessage.innerText = "Good effort, Orry! 🌿 Every mistake is just a chance to learn something new. Keep practicing with this game, and you'll be a botany expert before your test. I believe in you!";
             }
         }
-    }
 
-    function nextQuestion() {
-        if (currentMode === 'future') {
-            currentIndex = (currentIndex + 1) % futureData.length;
-        } else if (currentMode === 'goingTo') {
-            currentIndex = (currentIndex + 1) % goingToData.length;
-        } else {
-            currentIndex = (currentIndex + 1) % adjectiveData.length;
-        }
+        // Event Listeners
+        nextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showEndScreen();
+            }
+        });
+
+        restartBtn.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreDisplay.innerText = `Score: ${score} / ${quizData.length}`;
+            quizSection.classList.remove('hidden');
+            endScreen.classList.add('hidden');
+            plantVisual.innerText = plantStages[0];
+            loadQuestion();
+        });
+
+        // Initialize game
         loadQuestion();
-    }
 
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-    }
-
-    window.onload = init;
-</script>
-
+    </script>
 </body>
 </html>
